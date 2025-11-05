@@ -1,5 +1,11 @@
+import LoginForm from "./_components/LoginForm";
+
 export default function page(){
     return (
-        <p>Page</p>
+        <div>
+           <h1 className="text-center font-bold">Login</h1>
+        <LoginForm/>
+        </div>
+      
     )
 }
