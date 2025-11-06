@@ -32,6 +32,7 @@ model User {
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  businessUnit BusinessUnit?
 
   @@unique([email])
   @@map("user")

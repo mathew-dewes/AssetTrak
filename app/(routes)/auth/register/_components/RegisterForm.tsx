@@ -1,51 +1,103 @@
-import { BusinessUnit } from "@/app/generated/prisma/client";
+"use client";
+
+import ErrorMessage from "@/components/ui/ErrorMessage";
+import { RegisterUser } from "@/lib/auth/autheniticate";
+import { registerUserSchema } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import z from "zod";
 
-export default function RegisterForm(){
+type FormFields = z.infer<typeof registerUserSchema>;
 
-  const businessUnits = Object.values(BusinessUnit)
+export default function RegisterForm({businessUnits}:
+  {businessUnits: string[]}
+){
   
+  const [serverError, setServerError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  
+  const {register, handleSubmit, formState:{errors, isSubmitting}} = 
+  useForm<FormFields>({resolver: zodResolver(registerUserSchema)});
+          const router = useRouter();
 
-return <form className="max-w-sm mx-auto mt-10">
+  const onSubmit = async (values: FormFields)=>{
+  const result = await RegisterUser(values);
+
+  if (result.status === "error"){
+    setServerError(result.message);
+    console.log(result.message);
+    
+  } else {
+    setSuccessMessage("Account created successfully!");
+    router.push("/");
+  }
+
+  }
+
+  
+return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mt-10">
   <div className="mb-5">
     <label  className="block mb-2 text-sm font-medium text-gray-900">First name</label>
-    <input type="text" id="email" className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="First name" required />
+    <input {...register("firstName")} 
+    type="text" 
+    className={`input-base ${errors.firstName ? "input-error" : "input-normal"} `} 
+    placeholder="First name"/>
+  {errors.firstName && <ErrorMessage message={errors.firstName.message}/>}
+
   </div>
   <div className="mb-5">
     <label  className="block mb-2 text-sm font-medium text-gray-900">Last name</label>
-    <input type="text" id="email" className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Last name" required />
+    <input {...register("lastName")} type="text" 
+    className={`input-base ${errors.lastName ? "input-error" : "input-normal"} `} 
+    placeholder="Last name"/>
+  {errors.lastName && <ErrorMessage message={errors.lastName.message}/>}
   </div>
   <div className="mb-5">
     <label  className="block mb-2 text-sm font-medium text-gray-900">Email address</label>
-    <input type="email" id="email" className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="name@flowbite.com" required />
+    <input {...register("email")} type="email" 
+    className={`input-base ${errors.firstName ? "input-error" : "input-normal"}`}  
+    placeholder="name@flowbite.com"/>
+      {errors.email && <ErrorMessage message={errors.email.message}/>}
   </div>
   <div className="mb-5">
   <label className="block mb-2 text-sm font-medium text-gray-900">Select your business unit</label>
-  <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+  <select {...register("businessUnit")} id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
   {businessUnits.map((unit, key)=>{
     return  <option key={key}>{unit}</option>
   })}
   </select>
+        {errors.businessUnit && <ErrorMessage message={errors.businessUnit.message}/>}
   </div>
 
   <div className="mb-5">
     <label className="block mb-2 text-sm font-medium text-gray-900">Create password</label>
-    <input type="password" id="password" className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
+    <input {...register("password")}
+    type="password" 
+    className={`input-base ${errors.firstName ? "input-error" : "input-normal"}`}  />
+          {errors.password && <ErrorMessage message={errors.password.message}/>}
   </div>
   <div className="mb-5">
     <label className="block mb-2 text-sm font-medium text-gray-900 ">Repeat password</label>
-    <input type="password" id="repeat-password" className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
+    <input {...register("password")}  
+    type="password"
+    className={`input-base ${errors.firstName ? "input-error" : "input-normal"}`}/>
+        {errors.password && <ErrorMessage message={errors.password.message}/>}
   </div>
   <div className="flex items-start mb-5">
     <div className="flex items-center h-5">
-      <input id="terms" type="checkbox" value="" className="w-4 h-4 border accent-violet-600 border-gray-300 rounded-sm bg-gray-50" required />
+      <input id="terms" type="checkbox" value="" className="w-4 h-4 border accent-violet-600 border-gray-300 rounded-sm bg-gray-50"/>
     </div>
     <label className="ms-2 text-sm font-medium text-gray-900 ">I agree with the <a href="#" className="text-violet-600 hover:underline ">terms and conditions</a></label>
    </div>
     <p id="helper-text-explanation" className="my-2 text-sm text-gray-500 dark:text-gray-400">Already have have an account? Click on Login to navigate to the login page</p>
-
+  {serverError && <ErrorMessage message={serverError}/>}
+  {successMessage && <p className="mt-2 text-sm text-green-600">{successMessage}</p>}
      <div className="flex gap-5 mt-5">
-      <button type="submit" className="text-white bg-acccent-500 hover:bg-emerald-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-emerald-300 font-medium rounded-lg text-sm w-full py-2.5 text-center">Register</button>
+      <button type="submit" className="text-white bg-acccent-500 hover:bg-emerald-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-emerald-300 font-medium rounded-lg text-sm w-full py-2.5 text-center">
+        {isSubmitting ? "Registering.." : "Register"}</button>
       <Link className="text-white bg-acccent-500 hover:bg-emerald-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-emerald-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center" href={'/auth/login'}>Login</Link>
 
     </div>
