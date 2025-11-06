@@ -23,7 +23,7 @@ export default function RootLayout({
         className={`${inter.className} antialiased`}
       >
         <Navbar/>
-        <main className="mx-10 mt-5">
+        <main className="mx-3 md:mx-5 xl:mx-10 mt-5">
           {children}
         </main>
 

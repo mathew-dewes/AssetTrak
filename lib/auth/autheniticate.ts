@@ -6,6 +6,7 @@ import { auth } from "../auth";
 import { APIError } from "better-auth/api";
 import prisma from "../prisma";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 
 export async function RegisterUser(values: z.infer<typeof registerUserSchema>) {
@@ -105,14 +106,23 @@ export async function loginInUser(values: z.infer<typeof loginUserSchema>){
     }
 }
 
-
-
-export async function LogoutOutUser(){
+export async function logoutOutUser(){
 const result = await auth.api.signOut({
         headers: await headers()
     });
 
     return result;
 
+
+}
+
+export async function authProtection(){
+ const session = await auth.api.getSession({
+        headers: await headers()
+    });
+
+    if (!session){
+        redirect('/auth/login')
+    }
 
 }

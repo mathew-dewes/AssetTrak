@@ -59,7 +59,7 @@ return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mt-10
     <label  className="block mb-2 text-sm font-medium text-gray-900">Email address</label>
     <input {...register("email")} type="email" 
     className={`input-base ${errors.firstName ? "input-error" : "input-normal"}`}  
-    placeholder="name@flowbite.com"/>
+    placeholder="name@email.com"/>
       {errors.email && <ErrorMessage message={errors.email.message}/>}
   </div>
   <div className="mb-5">
@@ -76,6 +76,7 @@ return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mt-10
     <label className="block mb-2 text-sm font-medium text-gray-900">Create password</label>
     <input {...register("password")}
     type="password" 
+    placeholder="6 or characters required"
     className={`input-base ${errors.firstName ? "input-error" : "input-normal"}`}  />
           {errors.password && <ErrorMessage message={errors.password.message}/>}
   </div>
@@ -83,15 +84,11 @@ return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mt-10
     <label className="block mb-2 text-sm font-medium text-gray-900 ">Repeat password</label>
     <input {...register("password")}  
     type="password"
+    placeholder="Password must match"
     className={`input-base ${errors.firstName ? "input-error" : "input-normal"}`}/>
         {errors.password && <ErrorMessage message={errors.password.message}/>}
   </div>
-  <div className="flex items-start mb-5">
-    <div className="flex items-center h-5">
-      <input id="terms" type="checkbox" value="" className="w-4 h-4 border accent-violet-600 border-gray-300 rounded-sm bg-gray-50"/>
-    </div>
-    <label className="ms-2 text-sm font-medium text-gray-900 ">I agree with the <a href="#" className="text-violet-600 hover:underline ">terms and conditions</a></label>
-   </div>
+
     <p id="helper-text-explanation" className="my-2 text-sm text-gray-500 dark:text-gray-400">Already have have an account? Click on Login to navigate to the login page</p>
   {serverError && <ErrorMessage message={serverError}/>}
   {successMessage && <p className="mt-2 text-sm text-green-600">{successMessage}</p>}

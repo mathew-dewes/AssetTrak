@@ -19,7 +19,7 @@ export default function LoginForm() {
   const [serverError, setServerError] = useState("");
 
 
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormFields>({ resolver: zodResolver(loginUserSchema) })
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormFields>({ resolver: zodResolver(loginUserSchema) })
   const router = useRouter();
 
   const onSubmit = async (values: FormFields) => {
@@ -29,11 +29,15 @@ export default function LoginForm() {
 
     if (result.status === "error") {
       setServerError(result.message);
+      reset({
+        password:""
+      })
       console.log(result.message);
 
     } else {
 
       router.push("/");
+      router.refresh()
     }
 
   }
@@ -45,7 +49,7 @@ export default function LoginForm() {
         {...register("email")}
         type="text"
         className={`input-base ${errors.email ? "input-error" : "input-normal"} `}
-        placeholder="name@flowbite.com" />
+        placeholder="name@email.com" />
       {errors.email && <ErrorMessage message={errors.email.message} />}
     </div>
 
@@ -54,6 +58,7 @@ export default function LoginForm() {
       <input
         {...register("password")}
         type="password"
+    
         className={`input-base ${errors.email ? "input-error" : "input-normal"} `} />
       {errors.password && <ErrorMessage message={errors.password.message} />}
     </div>
