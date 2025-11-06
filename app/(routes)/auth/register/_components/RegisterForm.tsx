@@ -1,7 +1,10 @@
+import { BusinessUnit } from "@/app/generated/prisma/client";
 import Link from "next/link";
 
 export default function RegisterForm(){
-    
+
+  const businessUnits = Object.values(BusinessUnit)
+  
 
 return <form className="max-w-sm mx-auto mt-10">
   <div className="mb-5">
@@ -19,11 +22,9 @@ return <form className="max-w-sm mx-auto mt-10">
   <div className="mb-5">
   <label className="block mb-2 text-sm font-medium text-gray-900">Select your business unit</label>
   <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-
-    <option>Mobile</option>
-    <option>Canada</option>
-    <option>France</option>
-    <option>Germany</option>
+  {businessUnits.map((unit, key)=>{
+    return  <option key={key}>{unit}</option>
+  })}
   </select>
   </div>
 
