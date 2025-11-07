@@ -36,7 +36,7 @@ export default function LoginForm() {
 
     } else {
 
-      router.push("/");
+      router.push("/assets");
       router.refresh()
     }
 
@@ -66,9 +66,9 @@ export default function LoginForm() {
     <p id="helper-text-explanation" className="my-2 text-sm text-gray-500 dark:text-gray-400">Don’t have an account? Click on Register to create one</p>
     {serverError && <ErrorMessage message={serverError} />}
     <div className="flex gap-5 mt-5">
-      <button type="submit" className="text-white bg-acccent-500 hover:bg-emerald-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-emerald-300 font-medium rounded-lg text-sm w-full py-2.5 text-center">
-        {isSubmitting ? <LoadingSpinner size={20} text="Loading"/> : "Login"}</button>
-      <Link className="text-white bg-acccent-500 hover:bg-emerald-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-emerald-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center" href={'/auth/register'}>Register</Link>
+      <button type="submit" className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full py-2.5 text-center">
+        {isSubmitting ? <LoadingSpinner size={20} text="Logging in"/> : "Login"}</button>
+      <Link className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center" href={'/auth/register'}>Register</Link>
 
     </div>
 

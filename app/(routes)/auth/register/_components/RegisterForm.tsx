@@ -93,9 +93,9 @@ return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mt-10
   {serverError && <ErrorMessage message={serverError}/>}
   {successMessage && <p className="mt-2 text-sm text-green-600">{successMessage}</p>}
      <div className="flex gap-5 mt-5">
-      <button type="submit" className="text-white bg-acccent-500 hover:bg-emerald-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-emerald-300 font-medium rounded-lg text-sm w-full py-2.5 text-center">
+      <button type="submit" className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full py-2.5 text-center">
         {isSubmitting ? "Registering.." : "Register"}</button>
-      <Link className="text-white bg-acccent-500 hover:bg-emerald-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-emerald-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center" href={'/auth/login'}>Login</Link>
+      <Link className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center" href={'/auth/login'}>Login</Link>
 
     </div>
  </form>

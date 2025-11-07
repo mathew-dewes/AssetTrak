@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/navigation/Navbar";
 import { inter } from "./fonts";
+import Footer from "@/components/ui/Footer";
 
 
 
@@ -23,9 +24,10 @@ export default function RootLayout({
         className={`${inter.className} antialiased`}
       >
         <Navbar/>
-        <main className="mx-3 md:mx-5 xl:mx-10 mt-5">
+        <main className="mx-3 md:mx-5 xl:mx-10 mt-5 min-h-screen">
           {children}
         </main>
+        <Footer/>
 
       </body>
     </html>
