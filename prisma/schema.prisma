@@ -21,6 +21,19 @@ model Asset {
   aisleLocation String
   assignee      String?
   status Status @default(available)
+  comments Comment[]
+}
+
+
+model Comment {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  content String
+  assetId String
+  asset Asset @relation(fields: [assetId], references: [id])
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
 }
 
 
@@ -35,6 +48,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
   businessUnit BusinessUnit?
+  comments Comment[]
 
   @@unique([email])
   @@map("user")

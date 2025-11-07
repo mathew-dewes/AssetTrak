@@ -1,14 +1,10 @@
-import prisma from "@/lib/prisma"
+
 import AssetCard from "./AssetCard"
+import { getAssets } from "@/lib/db/mutations/asset"
 
 export default async function AssetList() {
 
-    const assets = await prisma.asset.findMany({
-        take: 6,
-        orderBy: {
-            make: "asc"
-        }
-    });
+    const assets = await getAssets()
 
     
     return (

@@ -1,25 +1,11 @@
-import { AssetType, Category, Status } from "@/app/generated/prisma/enums";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import StatusDisplay from "./StatusDisplay";
+import { Asset } from "@/app/generated/prisma/client";
 
-
-
-type AssetProps =  {
-    model: string;
-    id: string;
-    make: string;
-    category: Category;
-    assetType: AssetType;
-    plantNumber: string;
-    serialNumber: string;
-    aisleLocation: string;
-    assignee: string | null;
-    status: Status;
-}
 
 export default function AssetCard({asset}:{
-    asset: AssetProps
+    asset: Asset
 }){
     return (
          <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">
@@ -38,7 +24,7 @@ export default function AssetCard({asset}:{
                 </div>}
                
                 <div className="mt-3">
-                    <Link href={'/assets/123'}><Button text="View asset"/></Link>
+                    <Link href={'/assets/' + asset.id}><Button text="View asset"/></Link>
            
                 </div>
             </div>

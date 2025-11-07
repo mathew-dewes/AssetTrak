@@ -18,3 +18,8 @@ export const loginUserSchema = z.object({
     password: z.string().min(2, "Password must be 8 or more characters"),
 
 });
+
+export const commentSchema = z.object({
+  comment: z.string().min(1, "Comment is required").max(200, "Comment must be less than 200 characters")
+});
+

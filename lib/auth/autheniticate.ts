@@ -126,3 +126,8 @@ export async function authProtection(){
     }
 
 }
+
+export async function getUserId(){
+    const user = await auth.api.getSession({headers: await headers()});
+    return user?.user.id
+}
