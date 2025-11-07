@@ -14,11 +14,13 @@ model Asset {
   id            String    @id @default(cuid())
   make          String
   model         String
-  assetType     AssetType
-  plantNumber   Int
+  category     Category
+  assetType    AssetType
+  plantNumber   String
   serialNumber  String
   aisleLocation String
-  assignee      String
+  assignee      String?
+  status Status @default(available)
 }
 
 
@@ -84,9 +86,8 @@ model Verification {
 }
 
 
-// Enums
 
-enum AssetType {
+enum Category {
   mobile_testing
   fibre_testing
   lifting_equipment
@@ -98,4 +99,24 @@ enum BusinessUnit {
   mobile
   civil
   platforms
+}
+
+enum AssetType {
+  sitemaster
+  pim_tester
+  fusion_splicer
+  chain
+  winch
+  lighting
+  tooling
+  generator
+  saw
+  plate_compactor
+}
+
+enum Status {
+  available
+  in_service
+  maintenance
+  tagged_out
 }
