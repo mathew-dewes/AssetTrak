@@ -5,9 +5,10 @@ import prisma from "@/lib/prisma";
 import { commentSchema } from "@/lib/validation";
 import { revalidatePath } from "next/cache";
 import z from "zod";
+import { delay } from "../utils";
 
 export async function postComment(values: z.infer<typeof commentSchema>, assetId: string) {
-    console.log(values, assetId);
+        await delay(500)
     const userId = await getUserId();
     if (!userId) return
     const { comment } = values;
@@ -32,5 +33,26 @@ export async function postComment(values: z.infer<typeof commentSchema>, assetId
     }
 
 
+}
+
+export async function deleteComment(id: string){
+    await delay(500)
+        const userId = await getUserId();
+        if (!userId) return;
+
+        try {
+        await prisma.comment.delete({
+        where:{ userId: userId, id}
+    });
+
+       return { status: "success"};
+        } catch (error) {
+            console.log(error);
+              return { status: "error", message: "Server Error - Please contact admin"}
+        } finally {
+
+            revalidatePath('/assets/' + id)
+        }
+  
 }
 

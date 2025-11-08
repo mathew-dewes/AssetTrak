@@ -9,7 +9,7 @@ export default async function CommentList({assetId}:{assetId: string}){
     
     return (
             <div className="mt-5">
-                       <div className="bg-gray-100 border-gray-200 shadow-xl border p-5 mt-2">
+                       <div className="bg-gray-100 border-gray-200 md:w-1/2 shadow-xl border p-5 mt-2">
    {comments.map((comment)=>{
     return <Comment key={comment.id} comment={comment}/>
    })}

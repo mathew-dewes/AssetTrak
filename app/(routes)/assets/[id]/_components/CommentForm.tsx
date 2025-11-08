@@ -2,6 +2,7 @@
 
 import Button from "@/components/ui/Button";
 import ErrorMessage from "@/components/ui/ErrorMessage";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { postComment } from "@/lib/db/mutations/comment";
 import { commentSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,15 +35,17 @@ export default function CommentForm({assetId}:{assetId: string}) {
 
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="p-5 rounded md:w-2/3 bg-gray-100 border-gray-200 shadow-xl border mt-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="p-5 rounded lg:w-1/2 bg-gray-100 border-gray-200 shadow-xl border mt-2">
             <textarea
                 {...register("comment")}
                 className="w-full border border-gray-300 p-2 rounded"
                 placeholder="Write a comment..."
                 rows={5}
             />
-            <div className="mt-3">
-                <Button text={isSubmitting ? "Posting..." : "Post"} />
+            <div className="mt-3 flex gap-3">
+                <Button disable={isSubmitting} text="Post" />
+                {isSubmitting && <LoadingSpinner size={25} text="Posting"/>}
+      
             </div>
             {errors.comment && <ErrorMessage message={errors.comment.message} />}
             <ErrorMessage message={serverError} />

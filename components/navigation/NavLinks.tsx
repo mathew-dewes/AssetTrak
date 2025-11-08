@@ -16,8 +16,8 @@ export default function NavLinks(){
         }
     return (
          <ul className="hidden md:flex gap-10 text-gray-200 mr-30">
-            <Link className={`${path === "/assets" ? "font-semibold text-light-500 scale-105" : ""}`}   href={'/assets'}>Assets</Link>
-            <Link className={`${path === "/profile" ? "font-semibold text-light-500 scale-105" : ""}`}  href={'/profile'}>Profile</Link>
+            <Link className={`${path.startsWith("/assets") ? "font-semibold text-light-500 scale-105" : ""}`}   href={'/assets'}>Assets</Link>
+            <Link className={`${path.startsWith("/profile") ? "font-semibold text-light-500 scale-105" : ""}`}  href={'/profile'}>Profile</Link>
                  <button onClick={handleSignOut}>Logout</button>
           
             </ul>

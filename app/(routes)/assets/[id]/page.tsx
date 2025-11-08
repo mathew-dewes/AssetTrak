@@ -1,25 +1,30 @@
-import { getAsset } from "@/lib/db/mutations/asset";
-import AssignmentHistoryTable from "./_components/AssignmentHistory";
+
 import CommentForm from "./_components/CommentForm";
 import CommentList from "./_components/CommentList";
 import SingleAsset from "./_components/SingleAsset";
-export default async function page({
-    params,
-}: {
+import { Suspense } from "react";
+import SkeletonLarge from "@/components/ui/SkeletonLarge";
+import AssignmentList from "./_components/AssignmentList";
+export default async function page({ params }: {
     params: Promise<{ id: string }>
 }) {
-
     const { id } = await params;
-    const asset = await getAsset(id);
-
-    if (!asset) return (
-        <p>Asset not found</p>
-    )
-
 
     return (
         <div>
-            <SingleAsset asset={asset} />
+            <div className="p-5 h-90 md:h-70 rounded bg-gray-100 border-gray-200 shadow-xl border">
+        <Suspense
+                fallback={
+                
+                        <SkeletonLarge />
+                  
+                }>
+
+                <SingleAsset assetId={id} />
+            </Suspense>
+            </div>
+    
+
 
             <div className="mt-5">
                 <p className="font-semibold">Write a comment:</p>
@@ -27,11 +32,8 @@ export default async function page({
             </div>
 
             <CommentList assetId={id} />
-
-            <div className="mt-5">
-                <p className="font-semibold">Assignment history:</p>
-                <AssignmentHistoryTable />
-            </div>
+            <AssignmentList assetId={id} />
+            
 
         </div>
     )
