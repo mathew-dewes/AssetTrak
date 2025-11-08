@@ -7,29 +7,8 @@ import { revalidatePath } from "next/cache";
 import updateAssignment from "./assignment";
 
 
-export async function getAssets(){
-       await delay(500)
-    return await prisma.asset.findMany({
-        take: 9,
-        orderBy: {
-            make: "asc"
-        }
-    });
-}
 
-export async function assetCount(){
-    return prisma.asset.count();
-}
 
-export async function getAsset(id: string){
-           await delay(500)
-    return await prisma.asset.findUnique({
-  where: {id},
-  include:{
-    assignee: true
-  }
-    });
-}
 
 export async function checkoutAsset(id: string){
            await delay(500)

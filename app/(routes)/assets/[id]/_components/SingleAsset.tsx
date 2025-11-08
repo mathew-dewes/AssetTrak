@@ -1,9 +1,10 @@
 import Avatar from "@/components/ui/Avatar";
 import StatusDisplay from "../../_components/StatusDisplay";
-import { getAsset } from "@/lib/db/mutations/asset";
+
 import CheckOutButton from "./CheckOutButton";
 import { getUserId } from "@/lib/auth/autheniticate";
 import CheckInButton from "./CheckinButton";
+import { getAsset } from "@/lib/db/queries/assets";
 
 export default async function SingleAsset({assetId}:
     {assetId: string}

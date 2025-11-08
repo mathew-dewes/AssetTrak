@@ -1,11 +1,10 @@
-import CategoryDropDown from "./dropDowns/CategoryDropDown";
-import StatusDropDown from "./dropDowns/StatusDropDown";
+
 import { getCategoryCounts, getStatusCounts } from "@/lib/db/queries/assets";
 import StatusDropDownMobile from "./dropDowns/StatusDropDownMobile";
 import CategoryDropDownMobile from "./dropDowns/CategoryDropDownMobile";
 
 
-export default async function AssetFilters(){
+export default async function AssetFiltersMobile(){
 
     const statusCounts = await getStatusCounts();
     const categoryCounts = await getCategoryCounts();
@@ -17,8 +16,6 @@ export default async function AssetFilters(){
     
     return (
         <div className="my-5 flex gap-5">
-            <StatusDropDown statusCounts={statusCounts}/>
-            <CategoryDropDown categoryCounts={categoryCounts}  />
             <StatusDropDownMobile statusCounts={statusCounts}/>
             <CategoryDropDownMobile categoryCounts={categoryCounts}  />
         </div>

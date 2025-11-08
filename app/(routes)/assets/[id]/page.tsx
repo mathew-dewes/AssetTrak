@@ -12,7 +12,7 @@ export default async function page({ params }: {
 
     return (
         <div>
-            <div className="p-5 h-90 md:h-70 rounded bg-gray-100 border-gray-200 shadow-xl border">
+            <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">
         <Suspense
                 fallback={
                 

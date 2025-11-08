@@ -1,5 +1,6 @@
 import Skeleton from "@/components/ui/Skeleton";
-import { assetCount } from "@/lib/db/mutations/asset";
+import { assetCount } from "@/lib/db/queries/assets";
+
 
 export default async function AssetsLoadingSkeleton(){
 

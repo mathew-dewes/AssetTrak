@@ -4,8 +4,19 @@ import AssetFilters from "./_components/AssetFilters";
 import SearchBar from "./_components/SearchBar";
 import { Suspense } from "react";
 import AssetsLoadingSkeleton from "./_components/AssetsLoadingSkeleton";
+import { Category, Status } from "@/app/generated/prisma/enums";
 
-export default async function page(){
+export default async function page({ searchParams }:
+    { searchParams: Promise<{ status: Status, category?: Category, page?: string }> }
+){
+
+    
+    const params = await searchParams;
+    const status =  (params.status) as Status
+    const category = (params.category) as Category
+
+
+    
 
 await authProtection()
     
@@ -16,7 +27,7 @@ await authProtection()
               
                 <AssetFilters/>
                 <Suspense fallback={<AssetsLoadingSkeleton/>}>
-            <AssetList/>
+            <AssetList status={status} category={category}/>
                 </Suspense>
             
             </div>

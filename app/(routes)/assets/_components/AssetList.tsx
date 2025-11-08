@@ -1,10 +1,15 @@
 
+import {Category, Status } from "@/app/generated/prisma/enums";
 import AssetCard from "./AssetCard"
-import { getAssets } from "@/lib/db/mutations/asset"
+import { getAssets } from "@/lib/db/queries/assets";
 
-export default async function AssetList() {
 
-    const assets = await getAssets()
+export default async function AssetList({status, category}:
+    {status: Status, category: Category}
+) {
+
+    const assets = await getAssets(status, category);
+    
 
     
     return (
