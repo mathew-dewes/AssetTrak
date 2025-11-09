@@ -7,18 +7,20 @@ import AssetsLoadingSkeleton from "./_components/AssetsLoadingSkeleton";
 import { Category, Status } from "@/app/generated/prisma/enums";
 
 export default async function page({ searchParams }:
-    { searchParams: Promise<{ status: Status, category?: Category, page?: string }> }
+    { searchParams: Promise<{ status: Status, category?: Category, page?: string, query?: string }> }
 ){
-
+await authProtection()
     
     const params = await searchParams;
-    const status =  (params.status) as Status
-    const category = (params.category) as Category
+        const query = (params.query ?? "").trim();
+    const status =  (params.status) as Status | null
+    const category = (params.category) as Category | null
+
 
 
     
 
-await authProtection()
+
     
     return (
     
@@ -27,7 +29,7 @@ await authProtection()
               
                 <AssetFilters/>
                 <Suspense fallback={<AssetsLoadingSkeleton/>}>
-            <AssetList status={status} category={category}/>
+            <AssetList status={status || undefined} category={category || undefined} query={query || undefined} />
                 </Suspense>
             
             </div>

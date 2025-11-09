@@ -22,11 +22,12 @@ export async function getAssignments(assetId: string) {
         },
         orderBy: {
             createdAt: "desc"
-        }
+        },
+        take: 5
     })
 }
 
-export async function getUserAssignments() {
+export async function getLoggedInUserAssignments() {
     const userId = await getUserId();
     if (!userId) return
 
@@ -54,6 +55,39 @@ export async function getUserAssignments() {
         },
         orderBy: {
             createdAt: "desc"
-        }
+        },
+         take: 5
+    })
+}
+
+export async function getUserAssignments(userId: string) {
+    if (!userId) return
+
+    return await prisma.assignment.findMany({
+        where: {
+            assigneeId: userId
+        },
+        select: {
+            id: true,
+            createdAt: true,
+            status: true,
+            assignee: {
+                select: {
+                    name: true,
+                    businessUnit: true
+                }
+            },
+            asset:{
+                select:{
+                    make: true,
+                    model: true,
+                    plantNumber: true
+                }
+            }
+        },
+        orderBy: {
+            createdAt: "desc"
+        },
+         take: 5
     })
 }

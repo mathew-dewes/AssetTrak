@@ -5,7 +5,10 @@ import { delay } from "../utils";
 import { Category, Status } from "@/app/generated/prisma/enums";
 import { getUserId } from "@/lib/auth/autheniticate";
 
-export async function getAssets(status: Status | null, category: Category | null){
+export async function getAssets(status: Status | undefined, category: Category | undefined, query: string | undefined){
+
+  console.log(query);
+  
        await delay(500)
     return await prisma.asset.findMany({
         take: 9,
@@ -21,18 +24,31 @@ export async function getAssets(status: Status | null, category: Category | null
         assetType:true,
         aisleLocation:true,
         serialNumber:true,
+        assigneeId: true,
         status:true,
         assignee:{
             select:{
-                name: true
+                name: true,
+          
             },
         
         }
        },
        where:{
         ...(status && {status:{equals: status}}),
-        ...(category && {category:{equals: category}})
-       }
+        ...(category && {category:{equals: category}}),
+          ...(query && {
+        OR: [
+          { make: { contains: query } },
+          { model: { contains: query } },
+          { plantNumber: { contains: query } },
+          { serialNumber: { contains: query } },
+     
+        ],
+      }),
+        
+       },
+       
     
     });
 }

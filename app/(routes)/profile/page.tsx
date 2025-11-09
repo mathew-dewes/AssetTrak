@@ -3,7 +3,7 @@ import Profile from "./_components/Profile";
 import AssignedAssets from "./_components/AssigneedAssets";
 import { Suspense } from "react";
 import SkeletonLarge from "@/components/ui/SkeletonLarge";
-import UserAssignments from "./_components/UserAssignment";
+import Assignments from "./_components/Assignment";
 
 
 
@@ -22,7 +22,7 @@ export default async function page() {
 
             <AssignedAssets />
 
-            <UserAssignments />
+            <Assignments />
 
         </div>
 

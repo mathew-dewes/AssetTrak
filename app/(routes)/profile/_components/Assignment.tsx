@@ -1,8 +1,8 @@
-import {getUserAssignments } from "@/lib/db/queries/assignments";
+import {getLoggedInUserAssignments } from "@/lib/db/queries/assignments";
 
-export default async function UserAssignments() {
+export default async function Assignments() {
 
-    const assignments = await getUserAssignments();
+    const assignments = await getLoggedInUserAssignments();
     if (!assignments || assignments.length === 0) return 
 
 

@@ -24,3 +24,20 @@ return await prisma.user.findUnique({
     }
 })
 }
+
+export async function getUserDetails(userId: string){
+    return await prisma.user.findUnique({
+    where:{id: userId},
+    select:{
+        id: true,
+        name: true,
+        email: true,
+        businessUnit: true,
+        asset:{
+            select:{
+                id: true
+            }
+        }
+    }
+})
+}
