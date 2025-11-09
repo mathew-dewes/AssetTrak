@@ -43,3 +43,6 @@ next-env.d.ts
 # prisma
 /prisma/seed.ts
 /app/generated/prisma
+
+# scripts
+/lib/scripts
