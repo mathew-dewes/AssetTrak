@@ -19,7 +19,7 @@ export default function RegisterForm({businessUnits}:
   const [serverError, setServerError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   
-  const {register, handleSubmit, formState:{errors, isSubmitting}} = 
+  const {register, handleSubmit, formState:{errors, isSubmitting}, reset} = 
   useForm<FormFields>({resolver: zodResolver(registerUserSchema)});
           const router = useRouter();
 
@@ -29,10 +29,14 @@ export default function RegisterForm({businessUnits}:
   if (result.status === "error"){
     setServerError(result.message);
     console.log(result.message);
+        reset({
+        password:""
+      });
     
   } else {
     setSuccessMessage("Account created successfully!");
     router.push("/");
+    router.refresh();
   }
 
   }

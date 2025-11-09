@@ -54,7 +54,7 @@ model User {
   updatedAt     DateTime      @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
-  businessUnit  BusinessUnit
+  businessUnit  BusinessUnit?
   comments      Comment[]
   asset         Asset[]
   assignment    Assignment[]

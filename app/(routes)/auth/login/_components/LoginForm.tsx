@@ -3,6 +3,7 @@
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { loginInUser } from "@/lib/auth/autheniticate";
+
 import { loginUserSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -15,7 +16,9 @@ import z from "zod";
 
 type FormFields = z.infer<typeof loginUserSchema>;
 
-export default function LoginForm() {
+export default function LoginForm({assetId}:
+  {assetId: string | null}
+) {
   const [serverError, setServerError] = useState("");
 
 
@@ -24,19 +27,19 @@ export default function LoginForm() {
 
   const onSubmit = async (values: FormFields) => {
     setServerError("");
-    const result = await loginInUser(values)
-
-
+    const result = await loginInUser(values, assetId)
     if (result.status === "error") {
       setServerError(result.message);
       reset({
         password:""
-      })
-      console.log(result.message);
+      });
 
+} else if (assetId) {
+
+      router.push("/assets/" + assetId);
+      router.refresh()
     } else {
-
-      router.push("/assets");
+            router.push("/assets");
       router.refresh()
     }
 

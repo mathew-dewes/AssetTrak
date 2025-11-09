@@ -12,5 +12,5 @@ if (!sessionCookie){
 }
  
 export const config = {
-  matcher: ["/", "/assets", "/profile", "/assets/:path*"]
+  matcher: ["/", "/assets", "/profile", "/assets"]
 }

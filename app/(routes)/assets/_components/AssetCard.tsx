@@ -28,7 +28,7 @@ export default function AssetCard({ asset }: {
             <h2 className="uppercase">{asset.make} - <span className="font-normal text-gray-600">{asset.model}</span> </h2>
    {asset.assignee && 
     <div className="flex items-center gap-2">
-                <Avatar name="Mathew Dewes" />
+                <Avatar name={asset.assignee.name} />
         
           
             </div>}

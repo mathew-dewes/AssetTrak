@@ -22,7 +22,7 @@ export async function RegisterUser(values: z.infer<typeof registerUserSchema>) {
     const name = firstName + " " + lastName
 
     try {
-       await auth.api.signUpEmail({
+       const user = await auth.api.signUpEmail({
             body: {
                 name,
                 email,
@@ -31,13 +31,13 @@ export async function RegisterUser(values: z.infer<typeof registerUserSchema>) {
             }
         });
 
-        const user = await prisma.user.update({
-            where:{email},
+       await prisma.user.update({
+            where:{id: user.user.id},
             data:{
-                businessUnit
+                businessUnit 
             }
         });
-        console.log(user);
+  
         
 
          return { status: "success", message: "Account created succesfully!"};
@@ -62,7 +62,7 @@ export async function RegisterUser(values: z.infer<typeof registerUserSchema>) {
 
 }
 
-export async function loginInUser(values: z.infer<typeof loginUserSchema>){
+export async function loginInUser(values: z.infer<typeof loginUserSchema>, assetId: string | null){
 
      const validate = loginUserSchema.safeParse(values);
 
@@ -73,14 +73,38 @@ export async function loginInUser(values: z.infer<typeof loginUserSchema>){
     }
      const { email, password } = values;
         try {
-         await auth.api.signInEmail({
+         const user = await auth.api.signInEmail({
         body: {
             email, password, callbackURL: "/"
         }
 
         
     });
+
+        const userId = user.user?.id;    
    
+    
+    if (assetId && userId){
+      await prisma.asset.update({
+                data:{
+                    assignee:{connect:{id: userId}},
+                    status:"in_service"
+                
+                },
+                where:{id: assetId}
+            });
+
+    await prisma.assignment.create({
+        data:{
+            status:"checkOut",
+            assignee:{connect:{id: userId}},
+            asset: {connect:{id: assetId}}
+        },
+    })
+
+
+    }
+
     
 
         return {
