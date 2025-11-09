@@ -24,6 +24,14 @@ export default function LoginForm({assetId}:
 
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormFields>({ resolver: zodResolver(loginUserSchema) })
   const router = useRouter();
+  
+  const registerLink = () =>{
+    if (assetId){
+      return "/auth/register?asset=" + assetId
+    } else {
+      return "/auth/register"
+    }
+  }
 
   const onSubmit = async (values: FormFields) => {
     setServerError("");
@@ -71,7 +79,9 @@ export default function LoginForm({assetId}:
     <div className="flex gap-5 mt-5">
       <button type="submit" className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full py-2.5 text-center">
         {isSubmitting ? <LoadingSpinner size={20} text="Logging in"/> : "Login"}</button>
-      <Link className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center" href={'/auth/register'}>Register</Link>
+      <Link 
+      className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center" 
+      href={registerLink()}>Register</Link>
 
     </div>
 

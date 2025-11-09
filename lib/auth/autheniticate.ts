@@ -9,7 +9,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 
-export async function RegisterUser(values: z.infer<typeof registerUserSchema>) {
+export async function RegisterUser(values: z.infer<typeof registerUserSchema>, assetId: string | null) {
     const validate = registerUserSchema.safeParse(values);
 
     if (!validate.success) {
@@ -22,7 +22,7 @@ export async function RegisterUser(values: z.infer<typeof registerUserSchema>) {
     const name = firstName + " " + lastName
 
     try {
-       const user = await auth.api.signUpEmail({
+        const user = await auth.api.signUpEmail({
             body: {
                 name,
                 email,
@@ -31,17 +31,43 @@ export async function RegisterUser(values: z.infer<typeof registerUserSchema>) {
             }
         });
 
-       await prisma.user.update({
-            where:{id: user.user.id},
-            data:{
-                businessUnit 
+        const userId = user.user?.id;
+
+        await prisma.user.update({
+            where: { id: userId },
+            data: {
+                businessUnit
             }
         });
-  
-        
 
-         return { status: "success", message: "Account created succesfully!"};
-        
+
+
+
+        if (assetId && userId) {
+            await prisma.asset.update({
+                data: {
+                    assignee: { connect: { id: userId } },
+                    status: "in_service"
+
+                },
+                where: { id: assetId }
+            });
+
+            await prisma.assignment.create({
+                data: {
+                    status: "checkOut",
+                    assignee: { connect: { id: userId } },
+                    asset: { connect: { id: assetId } }
+                },
+            })
+
+
+        }
+
+
+
+        return { status: "success", message: "Account created succesfully!" };
+
     } catch (error) {
         if (error instanceof APIError) {
             console.log(error.message, error.status)
@@ -62,76 +88,76 @@ export async function RegisterUser(values: z.infer<typeof registerUserSchema>) {
 
 }
 
-export async function loginInUser(values: z.infer<typeof loginUserSchema>, assetId: string | null){
+export async function loginInUser(values: z.infer<typeof loginUserSchema>, assetId: string | null) {
 
-     const validate = loginUserSchema.safeParse(values);
+    const validate = loginUserSchema.safeParse(values);
 
-     if (!validate.success) {
+    if (!validate.success) {
         return {
             status: "error", message: validate.error.message
         }
     }
-     const { email, password } = values;
-        try {
-         const user = await auth.api.signInEmail({
-        body: {
-            email, password, callbackURL: "/"
-        }
+    const { email, password } = values;
+    try {
+        const user = await auth.api.signInEmail({
+            body: {
+                email, password, callbackURL: "/"
+            }
 
-        
-    });
 
-        const userId = user.user?.id;    
-   
-    
-    if (assetId && userId){
-      await prisma.asset.update({
-                data:{
-                    assignee:{connect:{id: userId}},
-                    status:"in_service"
-                
+        });
+
+        const userId = user.user?.id;
+
+
+        if (assetId && userId) {
+            await prisma.asset.update({
+                data: {
+                    assignee: { connect: { id: userId } },
+                    status: "in_service"
+
                 },
-                where:{id: assetId}
+                where: { id: assetId }
             });
 
-    await prisma.assignment.create({
-        data:{
-            status:"checkOut",
-            assignee:{connect:{id: userId}},
-            asset: {connect:{id: assetId}}
-        },
-    })
+            await prisma.assignment.create({
+                data: {
+                    status: "checkOut",
+                    assignee: { connect: { id: userId } },
+                    asset: { connect: { id: assetId } }
+                },
+            })
 
 
-    }
+        }
 
-    
+
 
         return {
-        status: "success", message: "User created successfully"
-    }
+            status: "success", message: "User created successfully"
+        }
     } catch (error) {
-          if (error instanceof APIError) {
-        console.log(error.message, error.status)
+        if (error instanceof APIError) {
+            console.log(error.message, error.status)
             return {
-        status: "error", message: error.message
-    }
+                status: "error", message: error.message
+            }
 
-    } else {
-        console.log(error);
-        
-        return {
-        status: "error", message: "There was an error"
-    }
-    }
-           
-        
-        
+        } else {
+            console.log(error);
+
+            return {
+                status: "error", message: "There was an error"
+            }
+        }
+
+
+
     }
 }
 
-export async function logoutOutUser(){
-const result = await auth.api.signOut({
+export async function logoutOutUser() {
+    const result = await auth.api.signOut({
         headers: await headers()
     });
 
@@ -140,18 +166,18 @@ const result = await auth.api.signOut({
 
 }
 
-export async function authProtection(){
- const session = await auth.api.getSession({
+export async function authProtection() {
+    const session = await auth.api.getSession({
         headers: await headers()
     });
 
-    if (!session){
+    if (!session) {
         redirect('/auth/login')
     }
 
 }
 
-export async function getUserId(){
-    const user = await auth.api.getSession({headers: await headers()});
+export async function getUserId() {
+    const user = await auth.api.getSession({ headers: await headers() });
     return user?.user.id
 }

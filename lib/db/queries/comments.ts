@@ -1,8 +1,9 @@
 "use server"
 
+import { getUserId } from "@/lib/auth/autheniticate";
 import prisma from "@/lib/prisma"
 
-export default async function getComments(id: string){
+export async function getComments(id: string){
     return await prisma.comment.findMany({
         where: {
             assetId: id
@@ -22,4 +23,12 @@ export default async function getComments(id: string){
             createdAt:"desc"
         }
     })
+}
+
+export async function checkCommentAuthor(id: string){
+        const userId = await getUserId();
+    return await prisma.comment.findFirst(
+      {where:{id, userId}}
+    );
+
 }

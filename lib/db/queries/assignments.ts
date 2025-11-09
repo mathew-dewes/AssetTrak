@@ -1,26 +1,59 @@
 "use server";
 
+import { getUserId } from "@/lib/auth/autheniticate";
 import prisma from "@/lib/prisma";
 
 
-export async function getAssignments(assetId: string){
+export async function getAssignments(assetId: string) {
     return await prisma.assignment.findMany({
-        where:{
+        where: {
             assetId
         },
-        select:{
+        select: {
             id: true,
             createdAt: true,
             status: true,
-            assignee:{
-                select:{
+            assignee: {
+                select: {
                     name: true,
                     businessUnit: true
                 }
             }
         },
-        orderBy:{
-            createdAt:"desc"
+        orderBy: {
+            createdAt: "desc"
+        }
+    })
+}
+
+export async function getUserAssignments() {
+    const userId = await getUserId();
+    if (!userId) return
+
+    return await prisma.assignment.findMany({
+        where: {
+            assigneeId: userId
+        },
+        select: {
+            id: true,
+            createdAt: true,
+            status: true,
+            assignee: {
+                select: {
+                    name: true,
+                    businessUnit: true
+                }
+            },
+            asset:{
+                select:{
+                    make: true,
+                    model: true,
+                    plantNumber: true
+                }
+            }
+        },
+        orderBy: {
+            createdAt: "desc"
         }
     })
 }

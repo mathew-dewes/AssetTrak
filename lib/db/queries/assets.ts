@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { delay } from "../utils";
 import { Category, Status } from "@/app/generated/prisma/enums";
+import { getUserId } from "@/lib/auth/autheniticate";
 
 export async function getAssets(status: Status | null, category: Category | null){
        await delay(500)
@@ -36,8 +37,29 @@ export async function getAssets(status: Status | null, category: Category | null
     });
 }
 
-export async function assetCount(){
-    return prisma.asset.count();
+export async function getLoggedInUserAssets(){
+  const userId = await getUserId();
+  if (!userId) return
+  return await prisma.asset.findMany(
+    {where:{assigneeId: userId},
+         select:{
+        id:true,
+        make: true,
+        model: true,
+        plantNumber: true,
+        category: true,
+        assetType:true,
+        aisleLocation:true,
+        serialNumber:true,
+        status:true,
+        assignee:{
+            select:{
+                name: true
+            },
+        
+        }
+       }}
+  )
 }
 
 export async function getAsset(id: string){
@@ -49,6 +71,24 @@ export async function getAsset(id: string){
   }
     });
 }
+
+export async function getAssetNameAndPlant(id: string){
+  return await prisma.asset.findUnique({
+    where: {id},
+    select:{
+      make:true,
+      model: true,
+      plantNumber: true
+    }
+
+  })
+}
+
+export async function assetCount(){
+    return prisma.asset.count();
+}
+
+
 
 
 export async function getStatusCounts(){

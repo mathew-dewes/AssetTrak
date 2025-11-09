@@ -1,4 +1,5 @@
-import getComments from "@/lib/db/queries/comments";
+
+import { getComments } from "@/lib/db/queries/comments";
 import Comment from "./Comment";
 
 export default async function CommentList({assetId}:{assetId: string}){

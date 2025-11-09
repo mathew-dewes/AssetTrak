@@ -1,10 +1,10 @@
 import Button from "@/components/ui/Button";
 import Link from "next/link";
-import StatusDisplay from "./StatusDisplay";
 
-import Avatar from "@/components/ui/Avatar";
+
 import { AssetType, Category, Status } from "@/app/generated/prisma/client";
 import { formatCasing } from "@/lib/helper";
+
 
 
 type Asset = {
@@ -21,22 +21,13 @@ type Asset = {
 }
 
 
-export default function AssetCard({ asset }: {
+export default function UserAssetCard({ asset }: {
     asset: Asset
 }) {
     return (
         <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">
             <h2 className="uppercase">{asset.make} - <span className="font-normal text-gray-600">{asset.model}</span> </h2>
-   {asset.assignee && 
-    <div className="flex items-center gap-2">
-                <Avatar name={asset.assignee.name} />
-        
-          
-            </div>}
-             <StatusDisplay status={asset.status} />
 
-           
-         
             <p>Plant: {asset.plantNumber}</p>
             <div className="flex lg:gap-10 my-2 flex-col lg:flex-row">
                 <p>Category: {formatCasing(asset.category)}</p>

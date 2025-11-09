@@ -1,6 +1,7 @@
 "use client"
 
 import { Status } from "@/app/generated/prisma/enums";
+import { formatCasing } from "@/lib/helper";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -59,6 +60,15 @@ type="button">Status <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns=
 
 {isOpen && <div id="dropdownHover" className="z-10 bg-white divide-y absolute  divide-gray-100 rounded-lg shadow-sm w-44 ">
     <ul className="py-2 text-sm text-gray-700 " aria-labelledby="dropdownHoverButton">
+      <li onClick={()=> router.push('/assets')}>
+        <div className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
+               <div className="my-1 flex items-center gap-2">
+                    <div className={`w-3 h-3 rounded-full`}/>
+                    <p>View all</p>
+      
+                </div>
+        </div>
+      </li>
       {statusCounts.map((item, key)=>{
         return  <li key={key} onClick={()=> {
           if (item.count === 0) return
@@ -66,7 +76,7 @@ type="button">Status <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns=
         <div className={`block px-4 py-2 hover:bg-gray-100 ${item.count === 0 ? "pointer-events-none" : "cursor-pointer"}`}>
                <div className="my-1 flex items-center gap-2">
                     <div className={`${statusColors(item.status)} w-3 h-3 rounded-full`}/>
-                    <p>{item.status} ({item.count})</p>
+                    <p>{formatCasing(item.status)} ({item.count})</p>
       
                 </div>
         </div>

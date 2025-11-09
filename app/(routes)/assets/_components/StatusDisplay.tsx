@@ -1,6 +1,6 @@
-import { Status } from "@/app/generated/prisma/enums";
+import { formatCasing } from "@/lib/helper";
 
-export default function StatusDisplay({status}:{status: Status}){
+export default function StatusDisplay({status}:{status: string}){
 
     let style;
 
@@ -21,7 +21,7 @@ export default function StatusDisplay({status}:{status: Status}){
     }
     return  <div className="my-1 flex items-center gap-2">
                     <div className={`w-3 h-3 rounded-full ${style}`}/>
-                    <p>{status}</p>
+                    <p>{formatCasing(status)}</p>
       
                 </div>
 }

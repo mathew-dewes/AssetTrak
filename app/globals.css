@@ -25,6 +25,10 @@
     @apply font-semibold text-xl
   }
 
+  b {
+    @apply font-semibold
+  }
+
   .input-base {
   @apply  text-sm rounded-lg block w-full p-2.5 shadow-xs
   }
