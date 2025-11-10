@@ -2,12 +2,23 @@
 
 import prisma from "@/lib/prisma";
 import { delay } from "../utils";
-import { Category, Status } from "@/app/generated/prisma/enums";
+import { AssetType, Category, Status } from "@/app/generated/prisma/enums";
 import { getUserId } from "@/lib/auth/autheniticate";
 
-export async function getAssets(status: Status | undefined, category: Category | undefined, query: string | undefined){
 
-  console.log(query);
+export async function getAssets(status: Status | null, category: Category | null, query: string | null){
+
+    let matchedAssetType: AssetType | undefined = undefined;
+  if (query) {
+      const assetTypes = Object.values(AssetType);
+        const cleanedQuery = query.toLowerCase();
+
+    matchedAssetType = assetTypes.find(type => type.includes(cleanedQuery));
+      console.log(matchedAssetType);
+  }
+
+
+
   
        await delay(500)
     return await prisma.asset.findMany({
@@ -37,15 +48,28 @@ export async function getAssets(status: Status | undefined, category: Category |
        where:{
         ...(status && {status:{equals: status}}),
         ...(category && {category:{equals: category}}),
+        
+
           ...(query && {
         OR: [
-          { make: { contains: query } },
-          { model: { contains: query } },
-          { plantNumber: { contains: query } },
-          { serialNumber: { contains: query } },
+          { make: { contains: query, mode: "insensitive" } },
+          { model: { contains: query , mode: "insensitive" } },
+          { plantNumber: { contains: query , mode: "insensitive" } },
+          { serialNumber: { contains: query , mode: "insensitive" } },
+
+          
      
         ],
       }),
+          ...(matchedAssetType && {
+        OR: [
+           { assetType: { equals: matchedAssetType } }
+
+          
+     
+        ],
+      }),
+
         
        },
        

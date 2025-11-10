@@ -5,10 +5,9 @@ import { getAssets } from "@/lib/db/queries/assets";
 
 
 export default async function AssetList({status, category, query}:
-    {status?: Status | undefined, category?: Category | undefined, query?: string | undefined}
+    {status: Status | null, category: Category | null, query: string | null}
 ) {
 
-    
 
     const assets = await getAssets(status, category, query);
     if (!assets || assets.length === 0) return

@@ -181,3 +181,14 @@ export async function getUserId() {
     const user = await auth.api.getSession({ headers: await headers() });
     return user?.user.id
 }
+
+export async function isUserAdmin(userId: string){
+    const count = await prisma.user.count({
+        where:{
+            id: userId,
+            role: "admin"
+        }
+    });
+
+    return count > 0
+}

@@ -2,11 +2,12 @@ import Avatar from "@/components/ui/Avatar";
 import StatusDisplay from "../../_components/StatusDisplay";
 
 import CheckOutButton from "./CheckOutButton";
-import { getUserId } from "@/lib/auth/autheniticate";
+import { getUserId, isUserAdmin } from "@/lib/auth/autheniticate";
 import CheckInButton from "./CheckinButton";
 import { getAsset } from "@/lib/db/queries/assets";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
+import StatusDropDown from "./StatusDropDown";
 
 export default async function SingleAsset({ assetId }:
     { assetId: string }
@@ -14,7 +15,11 @@ export default async function SingleAsset({ assetId }:
     const asset = await getAsset(assetId);
     const userId = await getUserId();
 
-    if (!asset) return
+        if (!asset || !userId) return
+    const admin = await isUserAdmin(userId);
+    
+
+
 
     return (
 
@@ -60,6 +65,12 @@ export default async function SingleAsset({ assetId }:
                     </div>
                     : asset.assigneeId === userId ? <CheckInButton assetId={assetId} /> : <CheckOutButton assetId={assetId} />):
                     ""}
+                    {admin && <div className="mt-5">
+                    <p className="text-sm uppercase font-semibold">Asset Status:</p>
+                    <StatusDropDown assetId={assetId} initialStatus={asset.status}/>
+                    </div>}
+               
+           
 
            
 

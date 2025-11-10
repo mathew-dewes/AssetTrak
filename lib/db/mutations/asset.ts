@@ -5,6 +5,9 @@ import { delay } from "../utils";
 import { getUserId } from "@/lib/auth/autheniticate";
 import { revalidatePath } from "next/cache";
 import updateAssignment from "./assignment";
+import z from "zod";
+import { statusChangerSchema } from "@/lib/validation";
+import { APIError } from "better-auth/api";
 
 
 
@@ -62,5 +65,47 @@ export async function checkinAsset(id: string){
         
                     revalidatePath('/assets/' + id)
                 }
+
+}
+
+export async function changeAssetStatus(values: z.infer<typeof statusChangerSchema>, assetId: string){
+    await delay(1000)
+    const validate = statusChangerSchema.safeParse(values);
+    if (!validate.success) {
+        return {
+            status: "error", message: validate.error.message
+        }
+    }
+
+    const {status} = values;
+
+    try {
+        await prisma.asset.update({
+            data:{
+                status
+            },
+            where:{id: assetId}
+        });
+
+   
+
+        revalidatePath('/assets/' + assetId);
+    return { status: "success", message: "Account created succesfully!" };
+    } catch (error) {
+                if (error instanceof APIError) {
+            console.log(error.message, error.status)
+            return {
+                status: "error", message: error.message
+            }
+
+        } else {
+            console.log(error);
+
+            return {
+                status: "error", message: "There was an error"
+            }
+        }
+    }
+
 
 }

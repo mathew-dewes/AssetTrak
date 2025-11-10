@@ -13,8 +13,10 @@ await authProtection()
     
     const params = await searchParams;
         const query = (params.query ?? "").trim();
-    const status =  (params.status) as Status | null
-    const category = (params.category) as Category | null
+    const status =  (params.status)
+    const category = (params.category)
+
+    
 
 
 
@@ -29,7 +31,7 @@ await authProtection()
               
                 <AssetFilters/>
                 <Suspense fallback={<AssetsLoadingSkeleton/>}>
-            <AssetList status={status || undefined} category={category || undefined} query={query || undefined} />
+            <AssetList status={status || null} category={category || null} query={query || null} />
                 </Suspense>
             
             </div>

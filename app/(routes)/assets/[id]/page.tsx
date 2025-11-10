@@ -13,18 +13,10 @@ export default async function page({ params }: {
     return (
         <div>
             <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">
-        <Suspense
-                fallback={
-                
-                        <SkeletonLarge />
-                  
-                }>
-
-                <SingleAsset assetId={id} />
-            </Suspense>
+        <Suspense fallback={<SkeletonLarge />}>
+            <SingleAsset assetId={id} />
+        </Suspense>
             </div>
-    
-
 
             <div className="mt-5">
                 <p className="font-semibold">Write a comment:</p>
