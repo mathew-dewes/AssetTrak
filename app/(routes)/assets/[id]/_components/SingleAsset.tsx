@@ -8,6 +8,7 @@ import { getAsset } from "@/lib/db/queries/assets";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import StatusDropDown from "./StatusDropDown";
+import UnassignAssetButton from "./UnassignAssetButton";
 
 export default async function SingleAsset({ assetId }:
     { assetId: string }
@@ -53,9 +54,10 @@ export default async function SingleAsset({ assetId }:
 
             </div>
 
-            <div className="mt-5">
+            <div className="mt-2">
     
-                {!asset.assignee || asset.assigneeId === userId ?  (!userId ?
+                {asset.assigneeId === userId || asset.status == "available" ? 
+                (!userId ?
                     <div>
                         <p>You must login or register to check out this asset</p>
                         <div className="flex gap-3 mt-3">
@@ -65,7 +67,14 @@ export default async function SingleAsset({ assetId }:
                     </div>
                     : asset.assigneeId === userId ? <CheckInButton assetId={assetId} /> : <CheckOutButton assetId={assetId} />):
                     ""}
-                    {admin && <div className="mt-5">
+                    {asset.status === "maintenance" && <p className="mt-3 text-sm text-orange-600">This asset is under repairs and cannot be checked out</p>}
+                    {asset.status === "tagged_out" &&  <p className="mt-3 text-sm text-red-600">This asset has been tagged out. Use of this asset is stritly permited</p>}
+                    {asset.status === "in_service" && asset.assigneeId != userId && <p className="mt-3 text-sm text-green-600">This asset has been checked out by {asset.assignee?.name} from {asset.assignee?.businessUnit}</p>}
+                    {admin && asset.status === "in_service" && asset.assigneeId !== userId && <div className="mt-5"><UnassignAssetButton assetId={assetId}/></div>}
+
+              
+
+                    {admin && asset.status !=="in_service"  && <div className="mt-5">
                     <p className="text-sm uppercase font-semibold">Asset Status:</p>
                     <StatusDropDown assetId={assetId} initialStatus={asset.status}/>
                     </div>}

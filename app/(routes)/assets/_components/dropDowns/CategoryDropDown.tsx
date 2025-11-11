@@ -38,7 +38,7 @@ type="button">Category <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmln
     <ul className="py-2 text-sm text-gray-700 " aria-labelledby="dropdownHoverButton">
       {categoryCounts.map((item, key)=>{
         return  <li key={key} onClick={()=>updateParam(item.category)}>
-       <div className={`block px-4 py-2 hover:bg-gray-100 ${item.count === 0 ? "pointer-events-none" : "cursor-pointer"}`}>
+       <div className={`block px-4 py-2 hover:bg-gray-100 ${item.count === 0 ? "pointer-events-none" : "cursor-pointer hover:font-semibold"}`}>
            
                     <p>{formatCasing(item.category)} ({item.count})</p>
       

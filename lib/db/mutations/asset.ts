@@ -4,13 +4,11 @@ import prisma from "@/lib/prisma";
 import { delay } from "../utils";
 import { getUserId } from "@/lib/auth/autheniticate";
 import { revalidatePath } from "next/cache";
-import updateAssignment from "./assignment";
+
 import z from "zod";
 import { statusChangerSchema } from "@/lib/validation";
 import { APIError } from "better-auth/api";
-
-
-
+import { updateAssignment } from "./assignment";
 
 
 export async function checkoutAsset(id: string){

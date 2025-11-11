@@ -62,7 +62,7 @@ type="button">Status <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns=
     <ul className="py-2 text-sm text-gray-700 " aria-labelledby="dropdownHoverButton">
       <li onClick={()=> router.push('/assets')}>
         <div className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
-               <div className="my-1 flex items-center gap-2">
+               <div className="my-1 flex items-center gap-2 hover:font-semibold">
                     <div className={`w-3 h-3 rounded-full`}/>
                     <p>View all</p>
       
@@ -73,7 +73,7 @@ type="button">Status <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns=
         return  <li key={key} onClick={()=> {
           if (item.count === 0) return
           updateParam(item.status)}}>
-        <div className={`block px-4 py-2 hover:bg-gray-100 ${item.count === 0 ? "pointer-events-none" : "cursor-pointer"}`}>
+        <div className={`block px-4 py-2 hover:bg-gray-100 ${item.count === 0 ? "pointer-events-none" : "cursor-pointer hover:font-semibold"}`}>
                <div className="my-1 flex items-center gap-2">
                     <div className={`${statusColors(item.status)} w-3 h-3 rounded-full`}/>
                     <p>{formatCasing(item.status)} ({item.count})</p>

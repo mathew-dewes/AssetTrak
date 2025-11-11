@@ -6,7 +6,8 @@ import { AssetType, Category, Status } from "@/app/generated/prisma/enums";
 import { getUserId } from "@/lib/auth/autheniticate";
 
 
-export async function getAssets(status: Status | null, category: Category | null, query: string | null){
+export async function getAssets(status: Status | null, category: Category | null, query: string | null, user: string | null){
+
 
     let matchedAssetType: AssetType | undefined = undefined;
   if (query) {
@@ -14,7 +15,6 @@ export async function getAssets(status: Status | null, category: Category | null
         const cleanedQuery = query.toLowerCase();
 
     matchedAssetType = assetTypes.find(type => type.includes(cleanedQuery));
-      console.log(matchedAssetType);
   }
 
 
@@ -48,6 +48,7 @@ export async function getAssets(status: Status | null, category: Category | null
        where:{
         ...(status && {status:{equals: status}}),
         ...(category && {category:{equals: category}}),
+        ...(user && {assignee:{name:{equals: user, mode: "insensitive"}}}),
         
 
           ...(query && {
@@ -56,6 +57,8 @@ export async function getAssets(status: Status | null, category: Category | null
           { model: { contains: query , mode: "insensitive" } },
           { plantNumber: { contains: query , mode: "insensitive" } },
           { serialNumber: { contains: query , mode: "insensitive" } },
+          { serialNumber: { contains: query , mode: "insensitive" } },
+          { assignee:{name: {contains: query, mode: "insensitive"}} },
 
           
      
@@ -149,6 +152,7 @@ return statuses.map(status => {
 });
 
 }
+
 
 
 export async function getCategoryCounts(){

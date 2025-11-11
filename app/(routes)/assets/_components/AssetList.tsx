@@ -4,12 +4,12 @@ import AssetCard from "./AssetCard"
 import { getAssets } from "@/lib/db/queries/assets";
 
 
-export default async function AssetList({status, category, query}:
-    {status: Status | null, category: Category | null, query: string | null}
+export default async function AssetList({status, category, query, user}:
+    {status: Status | null, category: Category | null, query: string | null, user: string | null}
 ) {
 
 
-    const assets = await getAssets(status, category, query);
+    const assets = await getAssets(status, category, query, user);
     if (!assets || assets.length === 0) return
     
 

@@ -4,6 +4,25 @@ import { getUserId } from "@/lib/auth/autheniticate";
 import prisma from "@/lib/prisma";
 import { delay } from "../utils";
 
+
+export async function getUserNamesAndAssetCounts(){
+    return await prisma.user.findMany({
+        select:{
+            name: true,
+            _count:{
+                select:{
+                    asset: true
+                }
+            }
+        },
+        where:{
+            assignment: {some: {}}
+        }
+    })
+}
+
+
+
 export async function getLoggedinUserDetails(){
     await delay(500)
 const userId = await getUserId();
