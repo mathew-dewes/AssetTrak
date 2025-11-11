@@ -35,7 +35,7 @@ export default function CommentForm({assetId}:{assetId: string}) {
 
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="p-5 rounded lg:w-1/2 bg-gray-100 border-gray-200 shadow-xl border mt-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="p-5 rounded lg:w-1/2 bg-gray-100 border-gray-200 shadow-xl border mt-3">
             <textarea
                 {...register("comment")}
                 className="w-full border border-gray-300 p-2 rounded"

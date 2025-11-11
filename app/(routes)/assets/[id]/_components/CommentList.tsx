@@ -1,10 +1,16 @@
 
-import { getComments } from "@/lib/db/queries/comments";
+import { getCommentCount, getComments } from "@/lib/db/queries/comments";
 import Comment from "./Comment";
+import Button from "@/components/ui/Button";
+import Link from "next/link";
+
 
 export default async function CommentList({assetId}:{assetId: string}){
 
     const comments = await getComments(assetId);
+    const commentCount = await getCommentCount(assetId);
+
+    
     
     if (!comments || comments.length === 0) return
     
@@ -16,9 +22,12 @@ export default async function CommentList({assetId}:{assetId: string}){
    })}
 
 
- 
-
         </div>
+          {commentCount > 3 && 
+                    <div className="mt-4">
+                        <Link href={`/assets/${assetId}/comments`}><Button text="View All"/></Link>
+ 
+                </div>}
             </div>
 
     )

@@ -1,14 +1,11 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { delay } from "../utils";
 import { AssetType, Category, Status } from "@/app/generated/prisma/enums";
 import { getUserId } from "@/lib/auth/autheniticate";
 
 
 export async function getAssets(status: Status | null, category: Category | null, query: string | null, user: string | null){
-
-
     let matchedAssetType: AssetType | undefined = undefined;
   if (query) {
       const assetTypes = Object.values(AssetType);
@@ -17,10 +14,6 @@ export async function getAssets(status: Status | null, category: Category | null
     matchedAssetType = assetTypes.find(type => type.includes(cleanedQuery));
   }
 
-
-
-  
-       await delay(500)
     return await prisma.asset.findMany({
         take: 9,
         orderBy: {
@@ -40,10 +33,15 @@ export async function getAssets(status: Status | null, category: Category | null
         assignee:{
             select:{
                 name: true,
-          
             },
-        
+            },
+       _count:{
+        select:{
+          comments: true,
+          assignment: true
         }
+       }
+            
        },
        where:{
         ...(status && {status:{equals: status}}),
@@ -106,7 +104,6 @@ export async function getLoggedInUserAssets(){
 }
 
 export async function getAsset(id: string){
-           await delay(500)
     return await prisma.asset.findUnique({
   where: {id},
   include:{

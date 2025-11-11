@@ -1,23 +1,23 @@
 import Avatar from "@/components/ui/Avatar";
-import Button from "@/components/ui/Button";
-import { getAssignmentCount, getAssignments } from "@/lib/db/queries/assignments";
-import Link from "next/link";
-import AssignmentCount from "../../_components/AssignmentCount";
+import { getAssignmentCount, getAssignmentsAll } from "@/lib/db/queries/assignments";
+import AssignmentCount from "../../../_components/AssignmentCount";
+import Pagination from "@/components/ui/Pagination";
 
-export default async function AssignmentList({ assetId }:
-    { assetId: string }
+
+export default async function AssignmentListAll({ assetId, currentPage }:
+    { assetId: string, currentPage: number }
 ) {
 
-    const assignments = await getAssignments(assetId);
+    const assignments = await getAssignmentsAll(assetId, currentPage);
     const assignmentCount = await getAssignmentCount(assetId);
+    const totalPages = Math.ceil(assignmentCount / 5)
+
     
     if (assignments.length === 0) return 
-
-
     return (
             <div className="mt-10">
                 <p className="font-semibold">Assignment history:</p>
-                <AssignmentCount count={assignmentCount}/>
+                         <AssignmentCount count={assignmentCount}/>
             <table className="w-full mt-5 hidden md:table">
             <thead className="bg-gray-100 border-gray-200 shadow-xl border">
                 <tr>
@@ -62,12 +62,8 @@ export default async function AssignmentList({ assetId }:
             </tbody>
 
         </table>
+        {assignmentCount > 5 && <Pagination type="assignments" id={assetId} currentPage={currentPage} totalPages={totalPages}/>}
 
-        {assignmentCount > 5 && 
-            <div className="mt-4">
-                <Link href={`/assets/${assetId}/assignments`}><Button text="View All"/></Link>
-    
-        </div>}
         
     
 

@@ -1,30 +1,20 @@
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import StatusDisplay from "./StatusDisplay";
-
 import Avatar from "@/components/ui/Avatar";
-import { AssetType, Category, Status } from "@/app/generated/prisma/client";
 import { formatCasing } from "@/lib/helper";
+import { Asset } from "@/lib/db/types";
+import CommentCount from "./CommentCount";
+import AssignmentCount from "./AssignmentCount";
 
 
-type Asset = {
-    id: string;
-    make: string;
-    model: string;
-    category: Category;
-    assetType: AssetType;
-    plantNumber: string;
-    serialNumber: string;
-    aisleLocation: string;
-    assigneeId: string | null;
-    assignee: {name: string} | null
-    status: Status;
-}
+
 
 
 export default function AssetCard({ asset }: {
     asset: Asset
 }) {
+
     return (
         <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">
             <h2 className="uppercase">{asset.make} - <span className="font-normal text-gray-600">{asset.model}</span> </h2>
@@ -39,13 +29,23 @@ export default function AssetCard({ asset }: {
 
            
          
-            <p>Plant: {asset.plantNumber}</p>
-            <div className="flex lg:gap-10 my-2 flex-col lg:flex-row">
-                <p>Category: {formatCasing(asset.category)}</p>
-                <p>Type: {formatCasing(asset.assetType)}</p>
+            <div className="mt-2">
+      <p><b>Plant:</b> {asset.plantNumber}</p>
+            <div className="flex lg:gap-10 mb-2 flex-col lg:flex-row">
+                <p><b>Category:</b> {formatCasing(asset.category)}</p>
+                <p><b>Type:</b> {formatCasing(asset.assetType)}</p>
             </div>
-            <p>Aisle: {asset.aisleLocation}</p>
-            <p>Serial number: {asset.serialNumber}</p>
+            <p><b>Aisle:</b> {asset.aisleLocation}</p>
+            <p><b>Serial number:</b> {asset.serialNumber}</p>
+            <div className="flex gap-3">
+      {asset._count.comments != 0 &&  <CommentCount assetId={asset.id}/>}
+      {asset._count.assignment != 0 &&  <AssignmentCount count={asset._count.assignment}/>}
+            </div>
+      
+  
+          
+            </div>
+      
 
             <div className="mt-3">
                 <Link href={'/assets/' + asset.id}><Button text="View asset" /></Link>

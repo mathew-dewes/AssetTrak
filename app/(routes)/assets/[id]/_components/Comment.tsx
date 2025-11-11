@@ -19,7 +19,7 @@ export default async function Comment({comment}:
                     });
 
     return (
-           <div className="pb-3 md:w-1/3">
+           <div className="pb-3 md:w-3/4">
           <Avatar name={comment.user.name}/>
         
             <p className="mt-2">{comment.createdAt.toLocaleDateString("en-NZ")} - {nzTime}</p>

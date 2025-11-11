@@ -10,6 +10,8 @@ export default async function AssetList({status, category, query, user}:
 
 
     const assets = await getAssets(status, category, query, user);
+
+    
     if (!assets || assets.length === 0) return
     
 

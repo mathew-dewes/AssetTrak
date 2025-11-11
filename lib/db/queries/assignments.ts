@@ -27,6 +27,40 @@ export async function getAssignments(assetId: string) {
     })
 }
 
+export async function getAssignmentsAll(assetId: string, page: number){
+        const pageSize = 5
+        return await prisma.assignment.findMany({
+        where: {
+            assetId
+        },
+        select: {
+            id: true,
+            createdAt: true,
+            status: true,
+            assignee: {
+                select: {
+                    name: true,
+                    businessUnit: true
+                }
+            },
+            
+        },
+        
+        orderBy: {
+            createdAt: "desc"
+        },
+        skip: (page - 1) * pageSize,
+        take: 5
+     
+    })
+}
+
+export async function getAssignmentCount(assetId: string){
+    return await prisma.assignment.count({
+        where:{assetId}
+    })
+}
+
 export async function getLoggedInUserAssignments() {
     const userId = await getUserId();
     if (!userId) return
