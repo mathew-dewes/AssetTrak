@@ -19,7 +19,7 @@ export default function NavLinks(){
              <Link className={`${path === "/" ? "font-semibold text-light-500 scale-105" : ""}`}   href={'/'}>Home</Link>
             <Link className={`${path.startsWith("/assets") ? "font-semibold text-light-500 scale-105" : ""}`}   href={'/assets'}>Assets</Link>
             <Link className={`${path.startsWith("/profile") ? "font-semibold text-light-500 scale-105" : ""}`}  href={'/profile'}>Profile</Link>
-                 <button onClick={handleSignOut}>Logout</button>
+                 <button className="cursor-pointer" onClick={handleSignOut}>Logout</button>
           
             </ul>
     )

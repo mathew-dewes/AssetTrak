@@ -116,9 +116,9 @@ export async function getAsset(plantNumber: string){
     });
 }
 
-export async function getAssetNameAndPlant(id: string){
+export async function getAssetNameAndPlant(plantNumber: string){
   return await prisma.asset.findUnique({
-    where: {id},
+    where: {plantNumber},
     select:{
       make:true,
       model: true,

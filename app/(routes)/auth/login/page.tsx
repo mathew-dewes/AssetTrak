@@ -6,17 +6,17 @@ export default async function page({searchParams}:
 ) {
 
     const params = await searchParams;
-    const assetId = (params.asset);
+    const plantNumber = (params.asset);
 
 
     
     return (
         <div>
-{assetId && <AssetDetails assetId={assetId}/>}
+{plantNumber && <AssetDetails plantNumber={plantNumber}/>}
        
-            <div className="mt-5">
+            <div className="mt-15">
      <h1 className="text-center font-bold">Login</h1>
-            <LoginForm assetId={assetId} />
+            <LoginForm plantNumber={plantNumber} />
             </div>
        
         </div>

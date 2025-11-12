@@ -88,7 +88,7 @@ export async function RegisterUser(values: z.infer<typeof registerUserSchema>, a
 
 }
 
-export async function loginInUser(values: z.infer<typeof loginUserSchema>, assetId: string | null) {
+export async function loginInUser(values: z.infer<typeof loginUserSchema>, plantNumber: string | null) {
 
     const validate = loginUserSchema.safeParse(values);
 
@@ -110,21 +110,21 @@ export async function loginInUser(values: z.infer<typeof loginUserSchema>, asset
         const userId = user.user?.id;
 
 
-        if (assetId && userId) {
+        if (plantNumber && userId) {
             await prisma.asset.update({
                 data: {
                     assignee: { connect: { id: userId } },
                     status: "in_service"
 
                 },
-                where: { id: assetId }
+                where: { plantNumber }
             });
 
             await prisma.assignment.create({
                 data: {
                     status: "checkOut",
                     assignee: { connect: { id: userId } },
-                    asset: { connect: { id: assetId } }
+                    asset: { connect: { plantNumber } }
                 },
             })
 

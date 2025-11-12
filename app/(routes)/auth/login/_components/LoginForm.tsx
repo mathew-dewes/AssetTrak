@@ -16,8 +16,8 @@ import z from "zod";
 
 type FormFields = z.infer<typeof loginUserSchema>;
 
-export default function LoginForm({assetId}:
-  {assetId: string | null}
+export default function LoginForm({plantNumber}:
+  {plantNumber: string | null}
 ) {
   const [serverError, setServerError] = useState("");
 
@@ -26,8 +26,8 @@ export default function LoginForm({assetId}:
   const router = useRouter();
   
   const registerLink = () =>{
-    if (assetId){
-      return "/auth/register?asset=" + assetId
+    if (plantNumber){
+      return "/auth/register?asset=" + plantNumber
     } else {
       return "/auth/register"
     }
@@ -35,16 +35,16 @@ export default function LoginForm({assetId}:
 
   const onSubmit = async (values: FormFields) => {
     setServerError("");
-    const result = await loginInUser(values, assetId)
+    const result = await loginInUser(values, plantNumber)
     if (result.status === "error") {
       setServerError(result.message);
       reset({
         password:""
       });
 
-} else if (assetId) {
+} else if (plantNumber) {
 
-      router.push("/assets/" + assetId);
+      router.push("/assets/" + plantNumber);
       router.refresh()
     } else {
             router.push("/assets");
