@@ -1,13 +1,15 @@
 import prisma from "@/lib/prisma";
 import { MessageSquareText } from "lucide-react";
 
-export default async function CommentCount({assetId}:
-    {assetId: string}
+export default async function CommentCount({plantNumber}:
+    {plantNumber: string}
 ){
 
               const commentCount = await prisma.comment.count({
         where:{
-            assetId
+            asset:{
+                plantNumber
+            }
         }
     });
     return (

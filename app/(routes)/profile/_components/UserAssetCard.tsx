@@ -37,7 +37,7 @@ export default function UserAssetCard({ asset }: {
             <p>Serial number: {asset.serialNumber}</p>
 
             <div className="mt-3">
-                <Link href={'/assets/' + asset.id}><Button text="View asset" /></Link>
+                <Link href={'/assets/' + asset.plantNumber}><Button text="View asset" /></Link>
 
             </div>
         </div>

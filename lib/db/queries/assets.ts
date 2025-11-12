@@ -103,9 +103,9 @@ export async function getLoggedInUserAssets(){
   )
 }
 
-export async function getAsset(id: string){
+export async function getAsset(plantNumber: string){
     return await prisma.asset.findUnique({
-  where: {id},
+  where: {plantNumber},
   include:{
     assignee: true
   }

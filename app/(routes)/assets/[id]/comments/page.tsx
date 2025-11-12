@@ -12,10 +12,10 @@ export default async function page({ params, searchParams }: {
     searchParams:Promise<{page?: string}>
 }){
 
-        const { id } = await params;
+        const { id: plantNumber } = await params;
         const paramValues = await searchParams;
         const page = Math.max(1, Number(paramValues.page ?? 1))
-        const commentCount = await getCommentCount(id)
+        const commentCount = await getCommentCount(plantNumber)
 
 
     
@@ -23,7 +23,7 @@ export default async function page({ params, searchParams }: {
         <div>
                   <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">
                     <Suspense fallback={<SkeletonLarge />}>
-                        <AssetPreview assetId={id} />
+                        <AssetPreview plantNumber={plantNumber} />
                     </Suspense>
                         </div>
                             <div className="mt-5">
@@ -31,17 +31,17 @@ export default async function page({ params, searchParams }: {
                                                 
                           
                                    
-                                        <CommentForm assetId={id} />
+                                        <CommentForm plantNumber={plantNumber} />
                                          {commentCount !== 0 &&
                             <div className="mt-5">
                                    
-                             <CommentCount assetId={id}/>
+                             <CommentCount plantNumber={plantNumber}/>
                                         </div>}
                                     </div>
                                     <Suspense fallback={
                                         <div className="flex mt-5"><LoadingSpinner size={30} text="Loading comments..."/></div>
               }>
-           <CommentListAll assetId={id} currentPage={page}/>
+           <CommentListAll plantNumber={plantNumber} currentPage={page}/>
                                     </Suspense>
  
         </div>

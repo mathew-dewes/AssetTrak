@@ -4,12 +4,12 @@ import { getAssignmentCount, getAssignments } from "@/lib/db/queries/assignments
 import Link from "next/link";
 import AssignmentCount from "../../_components/AssignmentCount";
 
-export default async function AssignmentList({ assetId }:
-    { assetId: string }
+export default async function AssignmentList({ plantNumber }:
+    { plantNumber: string }
 ) {
 
-    const assignments = await getAssignments(assetId);
-    const assignmentCount = await getAssignmentCount(assetId);
+    const assignments = await getAssignments(plantNumber);
+    const assignmentCount = await getAssignmentCount(plantNumber);
     
     if (assignments.length === 0) return 
 
@@ -65,7 +65,7 @@ export default async function AssignmentList({ assetId }:
 
         {assignmentCount > 5 && 
             <div className="mt-4">
-                <Link href={`/assets/${assetId}/assignments`}><Button text="View All"/></Link>
+                <Link href={`/assets/${plantNumber}/assignments`}><Button text="View All"/></Link>
     
         </div>}
         

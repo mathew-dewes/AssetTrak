@@ -14,7 +14,7 @@ model Asset {
   model         String
   category      Category
   assetType     AssetType
-  plantNumber   String
+  plantNumber   String @unique
   serialNumber  String
   aisleLocation String
   assigneeId    String?

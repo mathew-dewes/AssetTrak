@@ -14,8 +14,8 @@ const statuses = Object.values(Status);
 type FormFields = z.infer<typeof statusChangerSchema>;
 
 
-export default function StatusDropDown({ assetId, initialStatus }:
-    { assetId: string, initialStatus: Status }
+export default function StatusDropDown({ plantNumber, initialStatus }:
+    { plantNumber: string, initialStatus: Status }
 ) {
 
     const [serverError, setServerError] = useState("");
@@ -31,7 +31,7 @@ export default function StatusDropDown({ assetId, initialStatus }:
 
     const onSubmit = async (values: FormFields) => {
         console.log(values);
-        const result = await changeAssetStatus(values, assetId);
+        const result = await changeAssetStatus(values, plantNumber);
         if (!result) return
         if (result.status === "error") {
             setServerError(result.message);

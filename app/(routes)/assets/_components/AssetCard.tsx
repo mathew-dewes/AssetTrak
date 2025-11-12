@@ -38,7 +38,7 @@ export default function AssetCard({ asset }: {
             <p><b>Aisle:</b> {asset.aisleLocation}</p>
             <p><b>Serial number:</b> {asset.serialNumber}</p>
             <div className="flex gap-3">
-      {asset._count.comments != 0 &&  <CommentCount assetId={asset.id}/>}
+      {asset._count.comments != 0 &&  <CommentCount plantNumber={asset.plantNumber}/>}
       {asset._count.assignment != 0 &&  <AssignmentCount count={asset._count.assignment}/>}
             </div>
       
@@ -48,7 +48,7 @@ export default function AssetCard({ asset }: {
       
 
             <div className="mt-3">
-                <Link href={'/assets/' + asset.id}><Button text="View asset" /></Link>
+                <Link href={'/assets/' + asset.plantNumber}><Button text="View asset" /></Link>
 
             </div>
         </div>

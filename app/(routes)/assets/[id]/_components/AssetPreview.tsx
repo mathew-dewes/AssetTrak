@@ -3,10 +3,10 @@ import StatusDisplay from "../../_components/StatusDisplay";
 import { getAsset } from "@/lib/db/queries/assets";
 
 
-export default async function AssetPreview({ assetId }:
-    { assetId: string }
+export default async function AssetPreview({ plantNumber }:
+    { plantNumber: string }
 ) {
-    const asset = await getAsset(assetId);
+    const asset = await getAsset(plantNumber);
 
     if (!asset) return
 

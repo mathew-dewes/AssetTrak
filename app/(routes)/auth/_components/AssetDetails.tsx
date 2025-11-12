@@ -1,11 +1,11 @@
 import { getAssetNameAndPlant } from "@/lib/db/queries/assets"
 
-export default async function AssetDetails({assetId}:
-    {assetId: string | null}
+export default async function AssetDetails({plantNumber}:
+    {plantNumber: string | null}
 ){
 
-    if (!assetId) return
-     const assetDetails = await getAssetNameAndPlant(assetId);
+    if (!plantNumber) return
+     const assetDetails = await getAssetNameAndPlant(plantNumber);
 
 
     return (

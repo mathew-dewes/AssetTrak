@@ -25,5 +25,10 @@ export const commentSchema = z.object({
 
 export const statusChangerSchema = z.object({
   status: z.enum(statuses, "Asset status must be valid")
+});
+
+
+export const changeAssigneeSchema = z.object({
+  user: z.string("Assignee must be saved within the system")
 })
 

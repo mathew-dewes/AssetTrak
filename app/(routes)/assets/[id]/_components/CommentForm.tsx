@@ -13,7 +13,7 @@ import z from "zod";
 
 type FormFields = z.infer<typeof commentSchema>;
 
-export default function CommentForm({assetId}:{assetId: string}) {
+export default function CommentForm({plantNumber}:{plantNumber: string}) {
 
     const [serverError, setServerError] = useState("");
 
@@ -23,7 +23,7 @@ export default function CommentForm({assetId}:{assetId: string}) {
 
 
     const onSubmit = async (values: FormFields) => {
-         const result = await postComment(values, assetId);
+         const result = await postComment(values, plantNumber);
 
          if (result?.status === "error"){
             setServerError(result.message);

@@ -4,10 +4,11 @@ import { getUserId } from "@/lib/auth/autheniticate";
 import prisma from "@/lib/prisma"
 
 
-export async function getComments(id: string){
+export async function getComments(plantNumber: string){
     return await prisma.comment.findMany({
         where: {
-            assetId: id
+            asset:
+            {plantNumber}
         },
         select:{
             id: true,
@@ -27,12 +28,14 @@ export async function getComments(id: string){
     })
 }
 
-export async function getCommentsAll(id: string, page: number){
+export async function getCommentsAll(plantNumber: string, page: number){
 
     const pageSize = 5
         return await prisma.comment.findMany({
         where: {
-            assetId: id
+            asset:{
+                plantNumber
+            }
         },
         select:{
             id: true,
@@ -53,9 +56,11 @@ export async function getCommentsAll(id: string, page: number){
     })
 }
 
-export async function getCommentCount(assetId: string){
+export async function getCommentCount(plantNumber: string){
     return await prisma.comment.count({
-        where:{assetId}
+        where:{asset:{
+            plantNumber
+        }}
     })
 }
 

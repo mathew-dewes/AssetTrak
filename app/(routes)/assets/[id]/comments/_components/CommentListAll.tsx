@@ -2,11 +2,11 @@ import { getCommentCount, getCommentsAll } from "@/lib/db/queries/comments";
 import Comment from "../../_components/Comment";
 import Pagination from "@/components/ui/Pagination";
 
-export default async function CommentListAll({assetId, currentPage}:
-    {assetId: string, currentPage: number}
+export default async function CommentListAll({plantNumber, currentPage}:
+    {plantNumber: string, currentPage: number}
 ){
-    const comments = await getCommentsAll(assetId, currentPage);
-    const commentCount = await getCommentCount(assetId);
+    const comments = await getCommentsAll(plantNumber, currentPage);
+    const commentCount = await getCommentCount(plantNumber);
     const totalPages = Math.ceil(commentCount / 5);
     
     
@@ -18,7 +18,7 @@ export default async function CommentListAll({assetId, currentPage}:
    {comments.map((comment)=>{
     return <Comment key={comment.id} comment={comment}/>
    })}
-   {commentCount > 5 && <Pagination type="comments" id={assetId} currentPage={currentPage} totalPages={totalPages}/>}
+   {commentCount > 5 && <Pagination type="comments" id={plantNumber} currentPage={currentPage} totalPages={totalPages}/>}
 
         </div>
      

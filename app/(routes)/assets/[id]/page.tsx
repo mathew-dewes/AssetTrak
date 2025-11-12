@@ -6,23 +6,19 @@ import { Suspense } from "react";
 import SkeletonLarge from "@/components/ui/SkeletonLarge";
 import AssignmentList from "./_components/AssignmentList";
 import CommentCount from "../_components/CommentCount";
-import prisma from "@/lib/prisma";
+import { getCommentCount } from "@/lib/db/queries/comments";
 export default async function page({ params }: {
     params: Promise<{ id: string }>
 }) {
-    const { id } = await params;
-    const commentCount = await prisma.comment.count({
-        where:{
-            assetId: id
-        }
-    });
+    const { id: plantNumber } = await params;
+    const commentCount = await getCommentCount(plantNumber)
 
 
     return (
         <div>
             <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">
         <Suspense fallback={<SkeletonLarge />}>
-            <SingleAsset assetId={id} />
+            <SingleAsset plantNumber={plantNumber} />
         </Suspense>
             </div>
 
@@ -31,16 +27,16 @@ export default async function page({ params }: {
                          {commentCount !== 0 &&
     <div className="my-2">
            
-     <CommentCount assetId={id}/>
+     <CommentCount plantNumber={plantNumber}/>
                 </div>}
   
            
-                <CommentForm assetId={id} />
+                <CommentForm plantNumber={plantNumber} />
             </div>
 
-            <CommentList assetId={id} />
+            <CommentList plantNumber={plantNumber} />
         
-            <AssignmentList assetId={id} />
+            <AssignmentList plantNumber={plantNumber} />
             
             
 

@@ -5,10 +5,10 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 
 
-export default async function CommentList({assetId}:{assetId: string}){
+export default async function CommentList({plantNumber}:{plantNumber: string}){
 
-    const comments = await getComments(assetId);
-    const commentCount = await getCommentCount(assetId);
+    const comments = await getComments(plantNumber);
+    const commentCount = await getCommentCount(plantNumber);
 
     
     
@@ -25,7 +25,7 @@ export default async function CommentList({assetId}:{assetId: string}){
         </div>
           {commentCount > 3 && 
                     <div className="mt-4">
-                        <Link href={`/assets/${assetId}/comments`}><Button text="View All"/></Link>
+                        <Link href={`/assets/${plantNumber}/comments`}><Button text="View All"/></Link>
  
                 </div>}
             </div>

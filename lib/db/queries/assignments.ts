@@ -4,10 +4,12 @@ import { getUserId } from "@/lib/auth/autheniticate";
 import prisma from "@/lib/prisma";
 
 
-export async function getAssignments(assetId: string) {
+export async function getAssignments(plantNumber: string) {
     return await prisma.assignment.findMany({
         where: {
-            assetId
+            asset:{
+                plantNumber
+            }
         },
         select: {
             id: true,
@@ -27,11 +29,13 @@ export async function getAssignments(assetId: string) {
     })
 }
 
-export async function getAssignmentsAll(assetId: string, page: number){
+export async function getAssignmentsAll(plantNumber: string, page: number){
         const pageSize = 5
         return await prisma.assignment.findMany({
         where: {
-            assetId
+            asset:{
+                plantNumber
+            }
         },
         select: {
             id: true,
@@ -55,9 +59,11 @@ export async function getAssignmentsAll(assetId: string, page: number){
     })
 }
 
-export async function getAssignmentCount(assetId: string){
+export async function getAssignmentCount(plantNumber: string){
     return await prisma.assignment.count({
-        where:{assetId}
+        where:{asset:{
+            plantNumber
+        }}
     })
 }
 

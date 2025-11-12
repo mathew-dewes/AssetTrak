@@ -9,15 +9,19 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 import StatusDropDown from "./StatusDropDown";
 import UnassignAssetButton from "./UnassignAssetButton";
+import AssignUserDropDown from "./AssignUserDropDown";
+import { getUserNames } from "@/lib/db/queries/user";
 
-export default async function SingleAsset({ assetId }:
-    { assetId: string }
+export default async function SingleAsset({ plantNumber }:
+    { plantNumber: string }
 ) {
-    const asset = await getAsset(assetId);
+    const asset = await getAsset(plantNumber);
     const userId = await getUserId();
+    if (!asset || !userId) return
 
-        if (!asset || !userId) return
     const admin = await isUserAdmin(userId);
+    const users = await getUserNames();
+    
     
 
 
@@ -65,19 +69,29 @@ export default async function SingleAsset({ assetId }:
                             <Link href={'/auth/register?asset=' + asset.id}><Button text="Register" /></Link>
                         </div>
                     </div>
-                    : asset.assigneeId === userId ? <CheckInButton assetId={assetId} /> : <CheckOutButton assetId={assetId} />):
+                    : asset.assigneeId === userId ? <CheckInButton plantNumber={plantNumber} /> : <CheckOutButton plantNumber={plantNumber} />):
                     ""}
                     {asset.status === "maintenance" && <p className="mt-3 text-sm text-orange-600">This asset is under repairs and cannot be checked out</p>}
                     {asset.status === "tagged_out" &&  <p className="mt-3 text-sm text-red-600">This asset has been tagged out. Use of this asset is stritly permited</p>}
                     {asset.status === "in_service" && asset.assigneeId != userId && <p className="mt-3 text-sm text-green-600">This asset has been checked out by {asset.assignee?.name} from {asset.assignee?.businessUnit}</p>}
-                    {admin && asset.status === "in_service" && asset.assigneeId !== userId && <div className="mt-5"><UnassignAssetButton assetId={assetId}/></div>}
+                    {admin && asset.status === "in_service" && asset.assigneeId !== userId && <div className="mt-5"><UnassignAssetButton plantNumber={plantNumber}/></div>}
 
               
 
-                    {admin && asset.status !=="in_service"  && <div className="mt-5">
-                    <p className="text-sm uppercase font-semibold">Asset Status:</p>
-                    <StatusDropDown assetId={assetId} initialStatus={asset.status}/>
+                    {admin && asset.status !=="in_service"  && <div className="mt-5 flex gap-5">
+                        <div>
+         <p className="text-sm uppercase font-semibold">Asset Status:</p>
+                    <StatusDropDown plantNumber={plantNumber} initialStatus={asset.status}/>
+                        </div>
+                        <div>
+         <p className="text-sm uppercase font-semibold">Assign asset to:</p>
+                    <AssignUserDropDown users={users} plantNumber={plantNumber}/>
+                        </div>
+           
                     </div>}
+                    <div>
+                  
+                    </div>
                
            
 

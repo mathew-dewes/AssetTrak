@@ -4,12 +4,12 @@ import AssignmentCount from "../../../_components/AssignmentCount";
 import Pagination from "@/components/ui/Pagination";
 
 
-export default async function AssignmentListAll({ assetId, currentPage }:
-    { assetId: string, currentPage: number }
+export default async function AssignmentListAll({ plantNumber, currentPage }:
+    { plantNumber: string, currentPage: number }
 ) {
 
-    const assignments = await getAssignmentsAll(assetId, currentPage);
-    const assignmentCount = await getAssignmentCount(assetId);
+    const assignments = await getAssignmentsAll(plantNumber, currentPage);
+    const assignmentCount = await getAssignmentCount(plantNumber);
     const totalPages = Math.ceil(assignmentCount / 5)
 
     
@@ -62,7 +62,7 @@ export default async function AssignmentListAll({ assetId, currentPage }:
             </tbody>
 
         </table>
-        {assignmentCount > 5 && <Pagination type="assignments" id={assetId} currentPage={currentPage} totalPages={totalPages}/>}
+        {assignmentCount > 5 && <Pagination type="assignments" id={plantNumber} currentPage={currentPage} totalPages={totalPages}/>}
 
         
     

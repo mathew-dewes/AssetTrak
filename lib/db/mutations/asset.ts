@@ -11,7 +11,7 @@ import { APIError } from "better-auth/api";
 import { updateAssignment } from "./assignment";
 
 
-export async function checkoutAsset(id: string){
+export async function checkoutAsset(plantNumber: string){
            await delay(500)
               const userId = await getUserId();
         if (!userId) return;
@@ -23,10 +23,10 @@ export async function checkoutAsset(id: string){
                     status:"in_service"
                 
                 },
-                where:{id}
+                where:{plantNumber}
             });
         
-await updateAssignment(id ,"checkOut")
+await updateAssignment(plantNumber ,"checkOut")
             
     return { status: "success"};
         } catch (error) {
@@ -34,12 +34,12 @@ await updateAssignment(id ,"checkOut")
               return { status: "error", message: "Server Error - Please contact admin"}
         } finally {
         
-                    revalidatePath('/assets/' + id)
+                    revalidatePath('/assets/' + plantNumber)
                 }
 
 }
 
-export async function checkinAsset(id: string){
+export async function checkinAsset(plantNumber: string){
            await delay(500)
               const userId = await getUserId();
         if (!userId) return;
@@ -51,22 +51,22 @@ export async function checkinAsset(id: string){
                     status:"available"
                 
                 },
-                where:{id, assigneeId: userId}
+                where:{plantNumber, assigneeId: userId}
             });
 
-            await updateAssignment(id ,"checkIn")
+            await updateAssignment(plantNumber ,"checkIn")
                    return { status: "success"};
         } catch (error) {
             console.log(error);
               return { status: "error", message: "Server Error - Please contact admin"}
         } finally {
         
-                    revalidatePath('/assets/' + id)
+                    revalidatePath('/assets/' + plantNumber)
                 }
 
 }
 
-export async function changeAssetStatus(values: z.infer<typeof statusChangerSchema>, assetId: string){
+export async function changeAssetStatus(values: z.infer<typeof statusChangerSchema>, plantNumber: string){
     await delay(1000)
     const validate = statusChangerSchema.safeParse(values);
     if (!validate.success) {
@@ -82,12 +82,12 @@ export async function changeAssetStatus(values: z.infer<typeof statusChangerSche
             data:{
                 status
             },
-            where:{id: assetId}
+            where:{plantNumber}
         });
 
    
 
-        revalidatePath('/assets/' + assetId);
+        revalidatePath('/assets/' + plantNumber);
     return { status: "success", message: "Account created succesfully!" };
     } catch (error) {
                 if (error instanceof APIError) {

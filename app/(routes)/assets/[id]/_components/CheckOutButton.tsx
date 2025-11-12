@@ -5,8 +5,8 @@ import { checkoutAsset } from "@/lib/db/mutations/asset";
 import { useState } from "react";
 
 
-export default function CheckOutButton({assetId}:
-    {assetId: string}
+export default function CheckOutButton({plantNumber}:
+    {plantNumber: string}
 ){
     const [loading, setLoading] = useState(false);
       const [error, setError] = useState<string | null>(null);
@@ -14,7 +14,7 @@ export default function CheckOutButton({assetId}:
     async function handleCheckout():Promise<void>{
         setLoading(true);
         try {
-            const result = await checkoutAsset(assetId);
+            const result = await checkoutAsset(plantNumber);
                       if (result?.status === "error"){
               setError(result.message || "Failed to delete comment.");
               return;

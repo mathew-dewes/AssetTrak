@@ -22,6 +22,15 @@ export async function getUserNamesAndAssetCounts(){
 }
 
 
+export async function getUserNames(){
+    return await prisma.user.findMany({
+        select:{
+            name:true,
+            id: true
+        }
+    })
+}
+
 
 export async function getLoggedinUserDetails(){
     await delay(500)

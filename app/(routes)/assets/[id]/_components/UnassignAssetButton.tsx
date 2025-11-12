@@ -5,8 +5,8 @@ import { removeAssignment } from "@/lib/db/mutations/assignment";
 import { useState } from "react";
 
 
-export default function UnassignAssetButton({assetId}:
-    {assetId: string}
+export default function UnassignAssetButton({plantNumber}:
+    {plantNumber: string}
 ){
     const [loading, setLoading] = useState(false);
       const [error, setError] = useState<string | null>(null);
@@ -14,7 +14,7 @@ export default function UnassignAssetButton({assetId}:
     async function handleCheckout():Promise<void>{
         setLoading(true);
         try {
-            const result = await removeAssignment(assetId);
+            const result = await removeAssignment(plantNumber);
                       if (result?.status === "error"){
               setError(result.message || "Failed to delete comment.");
               return;
