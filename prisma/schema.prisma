@@ -46,7 +46,7 @@ model Assignment {
 
 model User {
   id            String        @id
-  name          String
+  name          String @unique
   email         String
   emailVerified Boolean       @default(false)
   image         String?

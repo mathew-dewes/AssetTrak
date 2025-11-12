@@ -14,17 +14,18 @@ export default async function page({ params }: {
 }) {
     await authProtection();
     const { id } = await params;
+      const userName = decodeURIComponent(id);
 
 
     return (
         <div>
             <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">
               <Suspense fallback={<SkeletonLarge/>}>
-                <SingleProfile userId={id} />
+                <SingleProfile userName={userName} />
               </Suspense>
             </div>
             <UserAssignedAssets/>
-            <UserAssignments userId={id}/>
+            <UserAssignments userName={userName}/>
 
      
 

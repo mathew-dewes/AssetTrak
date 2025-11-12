@@ -33,7 +33,7 @@ currentPage?: number | null, totalPages: number
     return pageItems;
   }
   return (
-    <nav className="mt-5">
+    <nav className="mt-5 flex justify-center sm:block sm:justify-start">
       <ul className="flex items-center -space-x-px h-8 text-sm">
         <li>
           <button onClick={() => changePage(Number(currentPage) - 1)}

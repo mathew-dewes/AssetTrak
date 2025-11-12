@@ -14,14 +14,9 @@ await authProtection()
     
     const params = await searchParams;
     const query = (params.query ?? "").trim();
-    const status =  (params.status)
-    const category = (params.category);
-    const user = (params.user);  
     const page = Math.max(1, Number(params.page ?? 1));
-
-
+    const {status, category, user} = params;
     
-
     return (
     
             <div className="mt-5">

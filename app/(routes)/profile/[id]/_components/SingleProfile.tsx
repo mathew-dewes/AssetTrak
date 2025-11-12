@@ -2,11 +2,13 @@
 import Avatar from "@/components/ui/Avatar";
 import { getUserDetails } from "@/lib/db/queries/user";
 
-export default async function SingleProfile({userId}:
-    {userId: string}
+export default async function SingleProfile({userName}:
+    {userName: string}
 ){
 
-      const userInfo = await getUserDetails(userId);
+      const userInfo = await getUserDetails(userName);
+
+      
     if (!userInfo) return
     return (
         <div>

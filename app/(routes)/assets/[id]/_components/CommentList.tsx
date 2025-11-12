@@ -7,8 +7,10 @@ import Link from "next/link";
 
 export default async function CommentList({plantNumber}:{plantNumber: string}){
 
-    const comments = await getComments(plantNumber);
-    const commentCount = await getCommentCount(plantNumber);
+    
+    const [comments, commentCount] = await Promise.all([
+        getComments(plantNumber), 
+        getCommentCount(plantNumber)])
 
     
     

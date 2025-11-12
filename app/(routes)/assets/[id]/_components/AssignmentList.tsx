@@ -8,8 +8,10 @@ export default async function AssignmentList({ plantNumber }:
     { plantNumber: string }
 ) {
 
-    const assignments = await getAssignments(plantNumber);
-    const assignmentCount = await getAssignmentCount(plantNumber);
+
+    const [assignments, assignmentCount] = await Promise.all([
+        getAssignments(plantNumber), 
+        getAssignmentCount(plantNumber)])
     
     if (assignments.length === 0) return 
 

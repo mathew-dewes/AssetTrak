@@ -10,11 +10,13 @@ export default async function AssetList({status, category, query, user, currentP
 ) {
 
 
-    const assets = await getAssets(status, category, query, user, currentPage);
-    const numberOfAssets = await assetCount(status, category, query, user)
+
+    const [assets, numberOfAssets] = await Promise.all([
+        getAssets(status, category, query, user, currentPage),
+        assetCount(status, category, query, user)
+    ])
+
     const totalPages = Math.ceil(numberOfAssets / 6);
-    
-    
     if (!assets || assets.length === 0) return
     
 

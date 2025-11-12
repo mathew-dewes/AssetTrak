@@ -1,8 +1,8 @@
 import {getUserAssignments } from "@/lib/db/queries/assignments";
 
-export default async function UserAssignments({userId}:{userId: string}) {
+export default async function UserAssignments({userName}:{userName: string}) {
 
-    const assignments = await getUserAssignments(userId);
+    const assignments = await getUserAssignments(userName);
     if (!assignments || assignments.length === 0) return 
 
 

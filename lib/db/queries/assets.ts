@@ -36,6 +36,7 @@ export async function getAssets(status: Status | null, category: Category | null
         assignee:{
             select:{
                 name: true,
+      
             },
             },
        _count:{

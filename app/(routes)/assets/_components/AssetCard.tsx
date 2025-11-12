@@ -19,7 +19,7 @@ export default function AssetCard({ asset }: {
         <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">
             <h2 className="uppercase">{asset.make} - <span className="font-normal text-gray-600">{asset.model}</span> </h2>
    {asset.assignee && 
-   <Link href={'/profile/' + asset.assigneeId}><div className="flex items-center gap-2">
+   <Link href={'/profile/' + asset.assignee.name}><div className="flex items-center gap-2">
                 <Avatar name={asset.assignee.name} />
         
           

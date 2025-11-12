@@ -53,9 +53,12 @@ return await prisma.user.findUnique({
 })
 }
 
-export async function getUserDetails(userId: string){
+export async function getUserDetails(userName: string){
+
+ console.log(userName);
+    
     return await prisma.user.findUnique({
-    where:{id: userId},
+    where:{name: userName},
     select:{
         id: true,
         name: true,
