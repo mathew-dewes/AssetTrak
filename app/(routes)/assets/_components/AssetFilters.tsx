@@ -21,7 +21,8 @@ const [statusCounts, categoryCounts, userData] = await Promise.all([
             <CategoryDropDown categoryCounts={categoryCounts}  />
             <StatusDropDownMobile statusCounts={statusCounts}/>
             <CategoryDropDownMobile categoryCounts={categoryCounts}  />
-            <UserSelectDropDown users={userData} />
+            {userData.length !== 0 &&  <UserSelectDropDown users={userData} />}
+   
           
         </div>
     )

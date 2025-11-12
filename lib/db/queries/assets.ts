@@ -5,7 +5,8 @@ import { AssetType, Category, Status } from "@/app/generated/prisma/enums";
 import { getUserId } from "@/lib/auth/autheniticate";
 
 
-export async function getAssets(status: Status | null, category: Category | null, query: string | null, user: string | null){
+export async function getAssets(status: Status | null, category: Category | null, query: string | null, user: string | null, page: number){
+        const pageSize = 6
     let matchedAssetType: AssetType | undefined = undefined;
   if (query) {
       const assetTypes = Object.values(AssetType);
@@ -15,10 +16,12 @@ export async function getAssets(status: Status | null, category: Category | null
   }
 
     return await prisma.asset.findMany({
-        take: 9,
+  
         orderBy: {
             make: "asc"
         },
+        skip: (page - 1) * pageSize,
+        take: 6,
        select:{
         id:true,
         make: true,
@@ -124,8 +127,47 @@ export async function getAssetNameAndPlant(id: string){
   })
 }
 
-export async function assetCount(){
-    return prisma.asset.count();
+export async function assetCount(status: Status | null, category: Category | null, query: string | null, user: string | null){
+   let matchedAssetType: AssetType | undefined = undefined;
+  if (query) {
+      const assetTypes = Object.values(AssetType);
+        const cleanedQuery = query.toLowerCase();
+
+    matchedAssetType = assetTypes.find(type => type.includes(cleanedQuery));
+  }
+    return prisma.asset.count({
+      
+       where:{
+        ...(status && {status:{equals: status}}),
+        ...(category && {category:{equals: category}}),
+        ...(user && {assignee:{name:{equals: user, mode: "insensitive"}}}),
+        
+
+          ...(query && {
+        OR: [
+          { make: { contains: query, mode: "insensitive" } },
+          { model: { contains: query , mode: "insensitive" } },
+          { plantNumber: { contains: query , mode: "insensitive" } },
+          { serialNumber: { contains: query , mode: "insensitive" } },
+          { serialNumber: { contains: query , mode: "insensitive" } },
+          { assignee:{name: {contains: query, mode: "insensitive"}} },
+
+          
+     
+        ],
+      }),
+          ...(matchedAssetType && {
+        OR: [
+           { assetType: { equals: matchedAssetType } }
+
+          
+     
+        ],
+      }),
+
+        
+       },
+    });
 }
 
 

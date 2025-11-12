@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import z from "zod";
 import { delay } from "../utils";
 
-export async function postComment(values: z.infer<typeof commentSchema>, assetId: string) {
+export async function postComment(values: z.infer<typeof commentSchema>, plantNumber: string) {
         await delay(500)
     const userId = await getUserId();
     if (!userId) return
@@ -15,7 +15,9 @@ export async function postComment(values: z.infer<typeof commentSchema>, assetId
     try {
         await prisma.comment.create({
             data: {
-                content: comment, userId, assetId
+                content: comment, 
+                user: { connect: { id: userId } }, 
+                asset: { connect: { plantNumber } },
             }
         });
         return {
@@ -29,7 +31,7 @@ export async function postComment(values: z.infer<typeof commentSchema>, assetId
             status: "error", message: "There was an error"
         }
     } finally {
-         revalidatePath(`/assets/${assetId}`)
+         revalidatePath(`/assets/${plantNumber}`)
     }
 
 

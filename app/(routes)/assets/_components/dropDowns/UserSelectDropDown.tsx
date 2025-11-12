@@ -31,7 +31,7 @@ type="button">User <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="h
                 {isOpen && <div id="dropdownHover" className="z-10 bg-white divide-y absolute  divide-gray-100 rounded-lg shadow-sm w-44 ">
         <ul className="py-2 text-sm text-gray-700">
           {users.map((user, key)=>{
-            return  <li key={key} onClick={()=> {updateParam(user.name)}}>
+            return  <li className={`${user._count.asset === 0 ? "pointer-events-none" : ""}`} key={key} onClick={()=> {updateParam(user.name)}}>
             <div className={`block px-4 py-2 hover:bg-gray-100 cursor-pointer hover:font-semibold`}>
                    <div className="my-1 flex items-center gap-2">
                         <div className={`w-3 h-3 rounded-full`}/>

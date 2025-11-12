@@ -16,7 +16,11 @@ await authProtection()
     const query = (params.query ?? "").trim();
     const status =  (params.status)
     const category = (params.category);
-    const user = (params.user);    
+    const user = (params.user);  
+    const page = Math.max(1, Number(params.page ?? 1));
+
+
+    
 
     return (
     
@@ -24,8 +28,10 @@ await authProtection()
                 <SearchBar/>
                 <AssetFilters/>
                 <Suspense fallback={<AssetsLoadingSkeleton/>}>
-            <AssetList status={status || null} category={category || null} query={query || null} user={user || null} />
+            <AssetList status={status || null} category={category || null} query={query || null} user={user || null} currentPage={page}/>
                 </Suspense>
+          
+                
             
             </div>
       

@@ -16,7 +16,7 @@ export async function getUserNamesAndAssetCounts(){
             }
         },
         where:{
-            assignment: {some: {}}
+            asset: {some: {}}
         }
     })
 }
