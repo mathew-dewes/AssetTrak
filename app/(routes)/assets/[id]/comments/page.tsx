@@ -1,11 +1,11 @@
 import SkeletonLarge from "@/components/ui/SkeletonLarge";
-import CommentListAll from "./_components/CommentListAll";
 import { Suspense } from "react";
 import AssetPreview from "../_components/AssetPreview";
 import CommentCount from "../../_components/CommentCount";
 import CommentForm from "../_components/CommentForm";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
-import { getCommentCount } from "@/lib/db/queries/comments";
+import { getAssetCommentCount } from "@/lib/db/queries/comments";
+import AssetCommentListAll from "./_components/AssetCommentListAll";
 
 export default async function page({ params, searchParams }: {
     params: Promise<{ id: string, page?: string }>, 
@@ -15,7 +15,7 @@ export default async function page({ params, searchParams }: {
         const { id: plantNumber } = await params;
         const paramValues = await searchParams;
         const page = Math.max(1, Number(paramValues.page ?? 1))
-        const commentCount = await getCommentCount(plantNumber)
+        const commentCount = await getAssetCommentCount(plantNumber)
 
 
     
@@ -41,7 +41,7 @@ export default async function page({ params, searchParams }: {
                                     <Suspense fallback={
                                         <div className="flex mt-5"><LoadingSpinner size={30} text="Loading comments..."/></div>
               }>
-           <CommentListAll plantNumber={plantNumber} currentPage={page}/>
+           <AssetCommentListAll plantNumber={plantNumber} currentPage={page}/>
                                     </Suspense>
  
         </div>

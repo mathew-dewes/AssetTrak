@@ -1,25 +1,26 @@
 import Avatar from "@/components/ui/Avatar";
-import Button from "@/components/ui/Button";
-import { getAssignmentCount, getAssignments } from "@/lib/db/queries/assignments";
-import Link from "next/link";
-import AssignmentCount from "../../_components/AssignmentCount";
+import { getAssignments } from "@/lib/db/queries/assignments";
+import prisma from "@/lib/prisma";
+import AssignmentPagination from "./AssignmentPagination";
 
-export default async function AssignmentList({ plantNumber }:
-    { plantNumber: string }
+
+
+export default async function AssignmentList({currentPage}:
+    {currentPage: number}
 ) {
+    const assignments = await getAssignments(currentPage)
+    const assignmentCount = await prisma.assignment.count()
+     const totalPages = Math.ceil(assignmentCount / 6);
 
 
-    const [assignments, assignmentCount] = await Promise.all([
-        getAssignments(plantNumber), 
-        getAssignmentCount(plantNumber)])
+
     
     if (assignments.length === 0) return 
 
 
     return (
             <div className="mt-10">
-                <p className="font-semibold">Assignment history:</p>
-                <AssignmentCount count={assignmentCount}/>
+                <p className="font-semibold">All assignments:</p>
             <table className="w-full mt-5 hidden md:table">
             <thead className="bg-gray-100 border-gray-200 shadow-xl border">
                 <tr>
@@ -65,11 +66,9 @@ export default async function AssignmentList({ plantNumber }:
 
         </table>
 
-        {assignmentCount > 5 && 
-            <div className="mt-4">
-                <Link href={`/assets/${plantNumber}/assignments`}><Button text="View All"/></Link>
+        {assignmentCount > 6 && <AssignmentPagination currentPage={currentPage} totalPages={totalPages}/>}
+
     
-        </div>}
         
     
 

@@ -1,12 +1,12 @@
-import { getCommentCount, getCommentsAll } from "@/lib/db/queries/comments";
+import { getAssetCommentCount, getAssetCommentsAll } from "@/lib/db/queries/comments";
 import Comment from "../../_components/Comment";
 import Pagination from "@/components/ui/Pagination";
 
-export default async function CommentListAll({plantNumber, currentPage}:
+export default async function AssetCommentListAll({plantNumber, currentPage}:
     {plantNumber: string, currentPage: number}
 ){
-    const comments = await getCommentsAll(plantNumber, currentPage);
-    const commentCount = await getCommentCount(plantNumber);
+    const comments = await getAssetCommentsAll(plantNumber, currentPage);
+    const commentCount = await getAssetCommentCount(plantNumber);
     const totalPages = Math.ceil(commentCount / 5);
     
     

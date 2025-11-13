@@ -6,7 +6,7 @@ export default function Avatar({name}:
     return (
            <div className="flex items-center gap-1.5">
                         <Image src={'/avatar.png'} height={30} width={30} alt="Avatar image"/>
-                        <p className="font-semibold mt-1">{name}</p>
+                        <p className="font-semibold mt-1S">{name}</p>
                     </div>
     )
 }

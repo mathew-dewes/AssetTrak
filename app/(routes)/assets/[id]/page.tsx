@@ -4,14 +4,14 @@ import CommentList from "./_components/CommentList";
 import SingleAsset from "./_components/SingleAsset";
 import { Suspense } from "react";
 import SkeletonLarge from "@/components/ui/SkeletonLarge";
-import AssignmentList from "./_components/AssignmentList";
+import AssetAssignmentList from "./_components/AssetAssignmentList";
 import CommentCount from "../_components/CommentCount";
-import { getCommentCount } from "@/lib/db/queries/comments";
+import { getAssetCommentCount } from "@/lib/db/queries/comments";
 export default async function page({ params }: {
     params: Promise<{ id: string }>
 }) {
     const { id: plantNumber } = await params;
-    const commentCount = await getCommentCount(plantNumber)
+    const commentCount = await getAssetCommentCount(plantNumber)
 
 
     return (
@@ -36,7 +36,7 @@ export default async function page({ params }: {
 
             <CommentList plantNumber={plantNumber} />
         
-            <AssignmentList plantNumber={plantNumber} />
+            <AssetAssignmentList plantNumber={plantNumber} />
             
             
 

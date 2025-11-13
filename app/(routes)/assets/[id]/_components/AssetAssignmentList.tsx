@@ -1,23 +1,25 @@
 import Avatar from "@/components/ui/Avatar";
-import { getAssignmentCount, getAssetAssignmentsAll } from "@/lib/db/queries/assignments";
-import AssignmentCount from "../../../_components/AssignmentCount";
-import Pagination from "@/components/ui/Pagination";
+import Button from "@/components/ui/Button";
+import { getAssignmentCount, getAssetAssignments } from "@/lib/db/queries/assignments";
+import Link from "next/link";
+import AssignmentCount from "../../_components/AssignmentCount";
 
-
-export default async function AssignmentListAll({ plantNumber, currentPage }:
-    { plantNumber: string, currentPage: number }
+export default async function AssetAssignmentList({ plantNumber }:
+    { plantNumber: string }
 ) {
 
-    const assignments = await getAssetAssignmentsAll(plantNumber, currentPage);
-    const assignmentCount = await getAssignmentCount(plantNumber);
-    const totalPages = Math.ceil(assignmentCount / 5)
 
+    const [assignments, assignmentCount] = await Promise.all([
+        getAssetAssignments(plantNumber), 
+        getAssignmentCount(plantNumber)])
     
     if (assignments.length === 0) return 
+
+
     return (
             <div className="mt-10">
                 <p className="font-semibold">Assignment history:</p>
-                         <AssignmentCount count={assignmentCount}/>
+                <AssignmentCount count={assignmentCount}/>
             <table className="w-full mt-5 hidden md:table">
             <thead className="bg-gray-100 border-gray-200 shadow-xl border">
                 <tr>
@@ -62,8 +64,12 @@ export default async function AssignmentListAll({ plantNumber, currentPage }:
             </tbody>
 
         </table>
-        {assignmentCount > 5 && <Pagination type="assignments" id={plantNumber} currentPage={currentPage} totalPages={totalPages}/>}
 
+        {assignmentCount > 5 && 
+            <div className="mt-4">
+                <Link href={`/assets/${plantNumber}/assignments`}><Button text="View All"/></Link>
+    
+        </div>}
         
     
 

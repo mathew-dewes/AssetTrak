@@ -4,7 +4,46 @@ import { getUserId } from "@/lib/auth/autheniticate";
 import prisma from "@/lib/prisma";
 
 
-export async function getAssignments(plantNumber: string) {
+export async function getAssignments(page: number){
+    const pageSize = 6
+    return await prisma.assignment.findMany({
+        select:{
+            createdAt: true,
+            status: true,
+            id: true,
+            assignee:{
+                select:{
+                    name: true,
+                    businessUnit: true
+                }
+            }
+        },
+        orderBy:{
+            createdAt:"desc"
+        },
+              skip: (page -1) * pageSize,
+        take: 6
+    });
+}
+
+export async function getRecentAssignments(){
+    return await prisma.assignment.findMany({
+        select:{
+            createdAt: true,
+            status: true,
+            id: true,
+            assignee:{
+                select:{
+                    name: true,
+                    businessUnit: true
+                }
+            }
+        },
+        take: 3
+    });
+}
+
+export async function getAssetAssignments(plantNumber: string) {
     return await prisma.assignment.findMany({
         where: {
             asset:{
@@ -29,7 +68,7 @@ export async function getAssignments(plantNumber: string) {
     })
 }
 
-export async function getAssignmentsAll(plantNumber: string, page: number){
+export async function getAssetAssignmentsAll(plantNumber: string, page: number){
         const pageSize = 5
         return await prisma.assignment.findMany({
         where: {

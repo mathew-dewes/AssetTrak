@@ -1,21 +1,21 @@
 import Avatar from "@/components/ui/Avatar";
-import Button from "@/components/ui/Button";
-import { getRecentComments } from "@/lib/db/queries/comments";
+import { getAllComments } from "@/lib/db/queries/comments"
 import prisma from "@/lib/prisma";
-import Link from "next/link";
+import CommentPagination from "./CommentPagination";
 
-export default async function HomeCommentsTable(){
 
-    const comments = await getRecentComments();
-    const commentCount = await prisma.assignment.count();
+export default async function CommentListAll({currentPage}:
+    {currentPage: number}
+){
 
+    const comments = await getAllComments(currentPage);
+    const commentCount = await prisma.comment.count();
+    const totalPages = Math.ceil(commentCount / 6);
+    
     if (!comments) return
-
-    
     return (
-    
-        <div className="mt-5 w-full">
-            <p className="font-semibold">Recent comments:</p>
+           <div className="mt-5 w-full">
+            <p className="font-semibold">All comments:</p>
     <table className="w-full mt-3 hidden md:table">
                           <thead className="bg-gray-100 border-gray-200 shadow-xl border">
                               <tr>
@@ -37,7 +37,7 @@ export default async function HomeCommentsTable(){
               
                                           </td>
                                           <td className="px-6 py-4 text-sm text-dark-500 max-w-100">
-                                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis deleniti placeat dignissimos esse assumenda quae, quo suscipit. Dolores, placeat alias?
+                                             {comment.content}
               
                                           </td>
               
@@ -48,13 +48,9 @@ export default async function HomeCommentsTable(){
                           </tbody>
               
                       </table>
-                      {commentCount > 3 &&
-                        <div className="mt-3">
-                            <Link href={'/assets/comments'}><Button text="View All"/></Link>
-                    
-                          </div>
-                      }
-                        
+
+                      {commentCount > 6 &&  <CommentPagination currentPage={currentPage} totalPages={totalPages}/>}
+                 
         </div>
-)
+    )
 }

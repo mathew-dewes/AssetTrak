@@ -1,5 +1,5 @@
 
-import { getCommentCount, getComments } from "@/lib/db/queries/comments";
+import { getAssetCommentCount, getAssetComments } from "@/lib/db/queries/comments";
 import Comment from "./Comment";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
@@ -9,8 +9,8 @@ export default async function CommentList({plantNumber}:{plantNumber: string}){
 
     
     const [comments, commentCount] = await Promise.all([
-        getComments(plantNumber), 
-        getCommentCount(plantNumber)])
+        getAssetComments(plantNumber), 
+        getAssetCommentCount(plantNumber)])
 
     
     
