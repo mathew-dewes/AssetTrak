@@ -48,7 +48,7 @@ export default async function OutOfService({assetCount}:
             </div>
             </div>
              <div className="mt-5">
-              <Link href={'/assets?status=maintenance'}><Button text="View"/></Link>
+              <Link href={'/assets?status=tagged_out'}><Button text="View"/></Link>
                               
                                   </div>
 

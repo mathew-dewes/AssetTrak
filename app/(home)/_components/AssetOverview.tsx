@@ -16,16 +16,19 @@ export default async function AssetOverview(){
 if (occupiedAssets === 0) return
 
 return   <div>
-    <div className="mt-2">
-    <p>Total Assets: {totalAssetCount}</p>
-    <p>Assets available: {availableAssets}</p>
+    <div className="mt-3">
+    <p><b>Total Assets:</b> {totalAssetCount}</p>
+    <p><b>Assets available:</b> {availableAssets}</p>
     </div>
 
 
-  <div className="md:grid-cols-2 grid xl:grid-cols-3 gap-5 mt-3">
+  <div className="md:grid-cols-2 grid  gap-5 mt-5">
         <InService assetCount={assetCount["in_service"]}/>
+        <div className="flex flex-col gap-3">
         <Maintenance assetCount={assetCount["maintenance"]}/>
         <OutOfService assetCount={assetCount["tagged_out"]}/>
+        </div>
+  
       </div>
       </div>
 }
