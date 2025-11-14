@@ -1,9 +1,11 @@
-import { getLoggedInUserAssets } from "@/lib/db/queries/assets";
+import { getUserAssignedAssets } from "@/lib/db/queries/assets";
 import UserAssetCard from "../../_components/UserAssetCard";
 
 
-export default async function UserAssignedAssets(){
-    const assets = await getLoggedInUserAssets();
+export default async function UserAssignedAssets({userName}:
+    {userName: string}
+){
+    const assets = await getUserAssignedAssets(userName);
 
         if (!assets || assets.length === 0) return <p className="mt-5">This user has no assigned assets at this time</p>
 

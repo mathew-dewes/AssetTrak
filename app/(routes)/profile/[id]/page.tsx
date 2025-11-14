@@ -24,7 +24,7 @@ export default async function page({ params }: {
                 <SingleProfile userName={userName} />
               </Suspense>
             </div>
-            <UserAssignedAssets/>
+            <UserAssignedAssets userName={userName}/>
             <UserAssignments userName={userName}/>
 
      

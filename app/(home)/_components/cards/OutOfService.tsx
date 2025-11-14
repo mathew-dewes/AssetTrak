@@ -1,16 +1,11 @@
 import Button from "@/components/ui/Button";
+import { getAssetCountByStatus } from "@/lib/db/queries/assets";
 import { formatCasing } from "@/lib/helper";
-import prisma from "@/lib/prisma";
 import Link from "next/link";
 
 export default async function OutOfService(){
 
-      const assets = await prisma.asset.findMany({
-        where:{status: "tagged_out"},
-        select:{
-            assetType: true
-        }
-    });
+      const assets = await getAssetCountByStatus("tagged_out")
 
     if (assets.length === 0) return
     

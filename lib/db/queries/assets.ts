@@ -107,6 +107,31 @@ export async function getLoggedInUserAssets(){
   )
 }
 
+export async function getUserAssignedAssets(userName: string){
+    return await prisma.asset.findMany(
+    {where:{assignee:{
+      name: userName
+    }},
+         select:{
+        id:true,
+        make: true,
+        model: true,
+        plantNumber: true,
+        category: true,
+        assetType:true,
+        aisleLocation:true,
+        serialNumber:true,
+        status:true,
+        assignee:{
+            select:{
+                name: true
+            },
+        
+        }
+       }}
+  )
+}
+
 export async function getAsset(plantNumber: string){
     return await prisma.asset.findUnique({
   where: {plantNumber},
@@ -171,8 +196,14 @@ export async function assetCount(status: Status | null, category: Category | nul
     });
 }
 
-
-
+export async function getAssetCountByStatus(status:Status){
+  return await prisma.asset.findMany({
+        where:{status},
+        select:{
+            assetType: true
+        }
+    });
+}
 
 export async function getStatusCounts(){
     const statuses = Object.values(Status)
@@ -193,8 +224,6 @@ return statuses.map(status => {
 
 }
 
-
-
 export async function getCategoryCounts(){
         const statuses = Object.values(Category)
 
@@ -213,4 +242,18 @@ return statuses.map(category => {
 });
 }
 
+export async function getAvaiableAssetNamesByType(type: AssetType){
+  return await prisma.asset.findMany({
+    where: {
+      assetType: type,
+      status: "available"
+    },
+    select: {
+      id: true,
+      make: true,
+      model: true
+    }
+  });
+
+}
 

@@ -12,8 +12,8 @@ import z from "zod";
 
 type FormFields = z.infer<typeof registerUserSchema>;
 
-export default function RegisterForm({businessUnits, assetId}:
-  {businessUnits: string[], assetId: string | null}
+export default function RegisterForm({businessUnits, plantNumber}:
+  {businessUnits: string[], plantNumber: string | null}
 ){
   
   const [serverError, setServerError] = useState("");
@@ -24,7 +24,7 @@ export default function RegisterForm({businessUnits, assetId}:
           const router = useRouter();
 
   const onSubmit = async (values: FormFields)=>{
-  const result = await RegisterUser(values, assetId);
+  const result = await RegisterUser(values, plantNumber);
 
   if (result.status === "error"){
     setServerError(result.message);

@@ -1,18 +1,13 @@
+
 import Button from "@/components/ui/Button";
+import { getAssetCountByStatus } from "@/lib/db/queries/assets";
 import { formatCasing } from "@/lib/helper";
-import prisma from "@/lib/prisma";
 import Link from "next/link";
 
 export default async function InService(){
 
-        const assets = await prisma.asset.findMany({
-        where:{status: "in_service"},
-        select:{
-            assetType: true
-        }
-    });
-
-    const assetTypes = assets.reduce((acc, { assetType }) => {
+  const assets = await getAssetCountByStatus("in_service")
+  const assetTypes = assets.reduce((acc, { assetType }) => {
   acc[assetType] = (acc[assetType] || 0) + 1;
   return acc;
 }, {} as Record<string, number>);
@@ -21,12 +16,17 @@ export default async function InService(){
   assetType,
   count
 }));
+
+    if (assets.length === 0) return
     return (
      <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">
             <div className="flex flex-col h-full justify-between">
               <div>
         <div className="flex gap-2 items-center">
-                     <h2>In service</h2>
+          <div>
+         <h2>In service</h2>
+          </div>
+            
                   <div className="h-3 w-3 rounded-full bg-green-300"/>
                  
               </div>
@@ -37,12 +37,20 @@ export default async function InService(){
               {assetArray.map((type, key)=>{
                   return  <p key={key}><span className="font-semibold text-gray-700">{formatCasing(type.assetType)}</span>:  {type.count}</p>
               })}
+    
   
             </div>}
+            <div className="mt-3">
+       <p>P2.133 - Generator</p>
+            </div>
+   
+               
               </div>
               </div>
+  
                <div className="mt-5">
                 <Link href={'/assets?status=in_service'}><Button text="View"/></Link>
+         
                           
                                     </div>
   

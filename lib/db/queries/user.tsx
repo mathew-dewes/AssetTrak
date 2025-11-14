@@ -55,7 +55,6 @@ return await prisma.user.findUnique({
 
 export async function getUserDetails(userName: string){
 
- console.log(userName);
     
     return await prisma.user.findUnique({
     where:{name: userName},

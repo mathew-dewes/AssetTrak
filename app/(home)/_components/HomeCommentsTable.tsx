@@ -37,8 +37,7 @@ export default async function HomeCommentsTable(){
               
                                           </td>
                                           <td className="px-6 py-4 text-sm text-dark-500 max-w-100">
-                                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis deleniti placeat dignissimos esse assumenda quae, quo suscipit. Dolores, placeat alias?
-              
+                                            {comment.content}
                                           </td>
               
                                       </tr>
