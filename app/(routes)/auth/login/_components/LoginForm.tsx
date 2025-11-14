@@ -3,7 +3,6 @@
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { loginInUser } from "@/lib/auth/autheniticate";
-
 import { loginUserSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -47,7 +46,7 @@ export default function LoginForm({plantNumber}:
       router.push("/assets/" + plantNumber);
       router.refresh()
     } else {
-            router.push("/assets");
+            router.push("/");
       router.refresh()
     }
 

@@ -1,19 +1,19 @@
 
-import {Category, Status } from "@/app/generated/prisma/enums";
+import {AssetType, Category, Status } from "@/app/generated/prisma/enums";
 import AssetCard from "./AssetCard"
 import { assetCount, getAssets } from "@/lib/db/queries/assets";
 import AssetPagination from "./AssetPagination";
 
 
-export default async function AssetList({status, category, query, user, currentPage}:
-    {status: Status | null, category: Category | null, query: string | null, user: string | null, currentPage: number}
+export default async function AssetList({status, category, query, user, type, currentPage}:
+    {status: Status | null, category: Category | null, query: string | null, user: string | null, type: AssetType | null, currentPage: number}
 ) {
 
 
 
     const [assets, numberOfAssets] = await Promise.all([
-        getAssets(status, category, query, user, currentPage),
-        assetCount(status, category, query, user)
+        getAssets(status, category, query, user, type, currentPage),
+        assetCount(status, category, query, type, user)
     ])
 
     const totalPages = Math.ceil(numberOfAssets / 6);

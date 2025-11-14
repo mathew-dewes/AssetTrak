@@ -1,68 +1,69 @@
-
 import Button from "@/components/ui/Button";
-import { getAssetCountByStatus } from "@/lib/db/queries/assets";
-import { formatCasing } from "@/lib/helper";
+import prisma from "@/lib/prisma";
 import Link from "next/link";
 
-export default async function InService(){
+export default async function InService({assetCount}:
+  {assetCount: number}
+){
 
-  const assets = await getAssetCountByStatus("in_service")
-  const assetTypes = assets.reduce((acc, { assetType }) => {
-  acc[assetType] = (acc[assetType] || 0) + 1;
-  return acc;
-}, {} as Record<string, number>);
 
-   const assetArray = Object.entries(assetTypes).map(([assetType, count]) => ({
-  assetType,
-  count
-}));
+       const assets = await prisma.asset.findMany({
+        where:{
+          status:"in_service"
+        },
+        select:{
+          id: true,
+          plantNumber: true,
+          make: true,
+          model: true,
+          assetType: true
+        }, take: 5
+       });
 
-    if (assets.length === 0) return
+       
+       if (assets.length === 0) return
+
+
     return (
-     <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">
-            <div className="flex flex-col h-full justify-between">
-              <div>
-        <div className="flex gap-2 items-center">
-          <div>
-         <h2>In service</h2>
-          </div>
-            
-                  <div className="h-3 w-3 rounded-full bg-green-300"/>
-                 
-              </div>
-              <div>
-   {assetArray.length === 0 ? <p className="mt-1">No assets, well done</p> :
-              
-              <div className="mt-1 grid grid-cols-2 gap-2">
-              {assetArray.map((type, key)=>{
-                  return  <p key={key}><span className="font-semibold text-gray-700">{formatCasing(type.assetType)}</span>:  {type.count}</p>
-              })}
-    
-  
-            </div>}
-            <div className="mt-3">
-       <p>P2.133 - Generator</p>
-            </div>
-   
+        <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">
+          <div className="flex flex-col h-full justify-between">
+            <div>
+      <div className="flex gap-2 items-center">
+                   <h2>In service</h2>
+                <div className="h-3 w-3 rounded-full bg-green-300"/>
                
-              </div>
-              </div>
-  
-               <div className="mt-5">
-                <Link href={'/assets?status=in_service'}><Button text="View"/></Link>
+            </div>
+                      <p>{assetCount} units</p>
+            <div>
+
+          <div className="mt-3">
+            {assets.map((asset)=>{
+              return (
+                 <div key={asset.id} className="bg-white border rounded border-gray-200 shadow-lg p-2" >
+            <p><b>{asset.plantNumber}</b> - {asset.make} - {asset.model} ({asset.assetType})</p>
+          </div>
+              )
+            })}
+
+
+          </div>
          
-                          
-                                    </div>
-  
             </div>
-             
-  
-             
-               
-  
-            
-      
-  
+            </div>
+             <div className="mt-5">
+              <Link href={'/assets?status=maintenance'}><Button text="View"/></Link>
+                              
+                                  </div>
+
           </div>
+           
+
+           
+             
+
+          
+    
+
+        </div>
     )
 }

@@ -1,36 +1,61 @@
-import Button from "@/components/ui/Button";
 import { authProtection } from "@/lib/auth/autheniticate"
 import HomeAssignmentTable from "./(home)/_components/HomeAssignmentTable";
 import HomeCommentsTable from "./(home)/_components/HomeCommentsTable";
-import Link from "next/link";
 import AvailableAssets from "./(home)/_components/AvailableAssets";
 import AssetOverview from "./(home)/_components/AssetOverview";
+import { Suspense } from "react";
+import AvaiableAssetsSkeleton from "./(home)/_components/AvaiableAssetsSkeleton";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import LoadingRecentAssignments from "./(home)/_components/LoadingRecentAssignments";
+import LoadingRecentComments from "./(home)/_components/LoadingRecentComments";
 
-export default async function page(){
+export default async function page() {
   await authProtection();
   return (
     <div>
-      <div className="mt-20 max-w-200 mx-auto text-center">
- <h1 className="text-2xl font-bold">Welcome to the Asset track App</h1>
- <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis dolores quas tenetur asperiores, assumenda vel repellat provident amet deleniti dignissimos.</p>
+<div className="mt-10">
+        <h2 className="text-center md:text-left">Asset Overview</h2>
+        <Suspense fallback={<div className="flex h-10 mt-5">
+          <LoadingSpinner size={30} text="Loading data..." />
+        </div>}>
+          <AssetOverview />
+        </Suspense>
+
       </div>
 
-    
-      <div className="flex justify-center gap-10 mt-10">
-        <Link href={'/assets'}><Button text="View Assets"/></Link>
-        <Link href={'/profile'}><Button text="View Profile"/></Link>
+         <div className="mt-10">
+        <h2 className="text-center md:text-left">Avaiable assets</h2>
+        <p className="text-gray-500 text-center md:text-left capitalize font-medium">By type</p>
+        <Suspense fallback={<AvaiableAssetsSkeleton />}>
+          <AvailableAssets />
+        </Suspense>
       </div>
 
-    <AssetOverview/>
-              <AvailableAssets/>
-      
-    
-<div className="flex gap-5 mt-20">
-    <HomeAssignmentTable/>
-    <HomeCommentsTable/>
-</div>
+      <div className="flex flex-col md:flex-row gap-5 mt-20">
+             <div className="mt-5 w-full">
+                 <p className="font-semibold">Recent Assignments:</p>
+          <Suspense fallback={<LoadingRecentAssignments/>}>
+          <HomeAssignmentTable />
+          </Suspense>
+                   </div>
+             <div className="mt-5 w-full">
+                 <p className="font-semibold">Recent Assignments:</p>
+          <Suspense fallback={<LoadingRecentComments/>}>
+          <HomeCommentsTable />
+          </Suspense>
+                   </div>
+
    
-     
+
+   
+      </div>
+
+
+
+
+
+
+
     </div>
   )
 }

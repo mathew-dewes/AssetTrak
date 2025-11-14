@@ -172,7 +172,7 @@ export async function authProtection() {
     });
 
     if (!session) {
-        redirect('/auth/login')
+        redirect('/welcome')
     }
 
 }

@@ -4,8 +4,7 @@ import prisma from "@/lib/prisma";
 import { AssetType, Category, Status } from "@/app/generated/prisma/enums";
 import { getUserId } from "@/lib/auth/autheniticate";
 
-
-export async function getAssets(status: Status | null, category: Category | null, query: string | null, user: string | null, page: number){
+export async function getAssets(status: Status | null, category: Category | null, query: string | null, user: string |  null, type: AssetType | null, page: number){
         const pageSize = 6
     let matchedAssetType: AssetType | undefined = undefined;
   if (query) {
@@ -51,6 +50,7 @@ export async function getAssets(status: Status | null, category: Category | null
         ...(status && {status:{equals: status}}),
         ...(category && {category:{equals: category}}),
         ...(user && {assignee:{name:{equals: user, mode: "insensitive"}}}),
+        ...(type && {assetType:{equals: type}}),
         
 
           ...(query && {
@@ -153,7 +153,23 @@ export async function getAssetNameAndPlant(plantNumber: string){
   })
 }
 
-export async function assetCount(status: Status | null, category: Category | null, query: string | null, user: string | null){
+export async function getAssetTotalsByStatus(){
+const result = await prisma.asset.groupBy({
+    by: ["status"],
+    _count: true,
+
+});
+  return Object.fromEntries(
+    result.map(r => [r.status, r._count])
+  );
+}
+
+
+export async function getTotalAssetCount(){
+return await prisma.asset.count();
+}
+
+export async function assetCount(status: Status | null, category: Category | null, query: string | null, type: AssetType | null , user: string | null){
    let matchedAssetType: AssetType | undefined = undefined;
   if (query) {
       const assetTypes = Object.values(AssetType);
@@ -167,6 +183,7 @@ export async function assetCount(status: Status | null, category: Category | nul
         ...(status && {status:{equals: status}}),
         ...(category && {category:{equals: category}}),
         ...(user && {assignee:{name:{equals: user, mode: "insensitive"}}}),
+        ...(type && {assetType:{equals: type}}),
         
 
           ...(query && {
@@ -196,13 +213,24 @@ export async function assetCount(status: Status | null, category: Category | nul
     });
 }
 
-export async function getAssetCountByStatus(status:Status){
-  return await prisma.asset.findMany({
-        where:{status},
-        select:{
-            assetType: true
+export async function getOccupiedAssetCount(){
+  return await prisma.asset.count({
+    where:{
+        NOT:{
+            status:"available"
         }
-    });
+    }
+});
+} 
+
+
+
+export async function getAssetCountByStatus(status:Status){
+  return await prisma.asset.count({
+    where:{
+      status
+    }
+  })
 }
 
 export async function getStatusCounts(){
@@ -218,6 +246,25 @@ return statuses.map(status => {
   const found = statusData.find(item => item.status === status);
   return {
     status,
+    count: found ? found._count._all : 0,
+  };
+});
+
+}
+
+export async function getAssetTypeCounts(){
+    const assetTypes = Object.values(AssetType)
+
+    const statusData = await prisma.asset.groupBy({
+        by:["assetType"],
+        _count:{_all: true}
+    });
+
+
+return assetTypes.map(type => {
+  const found = statusData.find(item => item.assetType === type);
+  return {
+    type,
     count: found ? found._count._all : 0,
   };
 });
@@ -242,18 +289,16 @@ return statuses.map(category => {
 });
 }
 
-export async function getAvaiableAssetNamesByType(type: AssetType){
-  return await prisma.asset.findMany({
-    where: {
-      assetType: type,
-      status: "available"
-    },
-    select: {
-      id: true,
-      make: true,
-      model: true
-    }
+export async function getAvaiableAssetsByType() {
+  const assets = await prisma.asset.findMany({
+    where: { status: "available" },
+    select: { id: true, make: true, model: true, assetType: true }
   });
 
+  return assets.reduce((acc, asset) => {
+    (acc[asset.assetType] ??= []).push(asset);
+    return acc;
+  }, {} as Record<string, typeof assets>);
 }
+
 

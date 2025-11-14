@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 export default function BreadCrumbs(){
       const pathname = usePathname();
-      if ( pathname.startsWith('/auth')) return
+      if ( pathname.startsWith('/auth') || pathname === "/welcome") return
   const segments = pathname.split("/").filter(Boolean);
     const crumbs = segments.map((segment, index) => {
     const href = "/" + segments.slice(0, index + 1).join("/");

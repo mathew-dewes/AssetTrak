@@ -9,11 +9,12 @@ export default async function HomeAssignmentTable(){
 
     const assignments = await getRecentAssignments();
     const assignmentCount = await prisma.assignment.count();
+
     if (!assignments) return
 
+
     return    (
-    <div className="mt-5 w-full">
-                  <p className="font-semibold">Recent Assignments:</p>
+    <div className="w-full">
   <table className="w-full mt-3 hidden md:table">
                       <thead className="bg-gray-100 border-gray-200 shadow-xl border">
                           <tr>

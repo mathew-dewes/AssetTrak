@@ -35,7 +35,7 @@ export default function RegisterForm({businessUnits, plantNumber}:
     
   } else {
     setSuccessMessage("Account created successfully!");
-    router.push("/assets");
+    router.push("/");
     router.refresh();
   }
 

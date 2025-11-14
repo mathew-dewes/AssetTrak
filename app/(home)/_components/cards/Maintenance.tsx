@@ -1,9 +1,10 @@
 import Button from "@/components/ui/Button";
 import prisma from "@/lib/prisma";
-import { Wrench } from "lucide-react";
 import Link from "next/link";
 
-export default async function Maintenance(){
+export default async function Maintenance({assetCount}:
+  {assetCount: number}
+){
 
 
        const assets = await prisma.asset.findMany({
@@ -16,7 +17,7 @@ export default async function Maintenance(){
           make: true,
           model: true,
           assetType: true
-        }
+        }, take: 5
        });
 
        
@@ -35,13 +36,13 @@ export default async function Maintenance(){
                 <div className="h-3 w-3 rounded-full bg-orange-300"/>
                
             </div>
+                     <p>{assetCount} units</p>
             <div>
 
-          <div className="flex flex-col gap-2 mt-3">
+          <div className="mt-3">
             {assets.map((asset)=>{
               return (
-                 <div key={asset.id} className="rounded-xl flex items-center gap-1">
-  <Wrench size={20}/>
+                 <div key={asset.id} className="bg-white border rounded border-gray-200 shadow-lg p-2" >
             <p><b>{asset.plantNumber}</b> - {asset.make} - {asset.model} ({asset.assetType})</p>
           </div>
               )
