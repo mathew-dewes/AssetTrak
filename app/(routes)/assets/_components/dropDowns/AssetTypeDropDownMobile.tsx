@@ -31,7 +31,7 @@ type="button">Type <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="h
 </svg>
 </button>
 
-{isOpen && <div id="dropdownHover" className="z-10 bg-white divide-y absolute  divide-gray-100 rounded-lg shadow-sm w-44">
+{isOpen && <div id="dropdownHover" className=" bg-white divide-y absolute  divide-gray-100 rounded-lg shadow-sm w-44">
     <ul className="py-2 text-sm text-gray-700">
       {typeCounts.map((item, key)=>{
         return  <li key={key} onClick={()=>updateParam(item.type)}>

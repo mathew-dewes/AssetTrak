@@ -1,9 +1,11 @@
 import Skeleton from "@/components/ui/Skeleton";
-import { assetCount } from "@/lib/db/mutations/asset";
+import { getTotalAssetCount } from "@/lib/db/queries/assets";
+
+
 
 export default async function AssetLoadingSkeleton(){
 
-    const count = await assetCount();
+    const count = await getTotalAssetCount()
     let skeletonCount;
 
     if (count > 9){

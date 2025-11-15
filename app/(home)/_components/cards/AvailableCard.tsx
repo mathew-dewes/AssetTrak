@@ -12,6 +12,9 @@ export default async function AvailableCard({
   assets: { id: string; make: string; model: string }[]
 }) {
 
+if (assets.length === 0) return
+
+
 
   return (
     <div className="rounded bg-white border-gray-200 border shadow-xl p-6 text-center md:text-left">

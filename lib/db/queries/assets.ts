@@ -169,6 +169,8 @@ export async function getTotalAssetCount(){
 return await prisma.asset.count();
 }
 
+
+
 export async function assetCount(status: Status | null, category: Category | null, query: string | null, type: AssetType | null , user: string | null){
    let matchedAssetType: AssetType | undefined = undefined;
   if (query) {

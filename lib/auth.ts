@@ -12,9 +12,7 @@ export const auth = betterAuth({
     emailAndPassword:{
         enabled: true,
         minPasswordLength:6,
-        sendResetPassword: async({user, url, token}, request) => {
-            
-        }
+
     },
     
     plugins:[nextCookies()]

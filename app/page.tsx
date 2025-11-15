@@ -31,7 +31,7 @@ export default async function page() {
         </Suspense>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-5 mt-20">
+      <div className="flex flex-col xl:flex-row gap-5 mt-20">
              <div className="mt-5 w-full">
                  <p className="font-semibold">Recent Assignments:</p>
           <Suspense fallback={<LoadingRecentAssignments/>}>

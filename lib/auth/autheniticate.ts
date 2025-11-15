@@ -192,3 +192,9 @@ export async function isUserAdmin(userId: string){
 
     return count > 0
 }
+
+export async function getSession(){
+        return await auth.api.getSession({
+        headers: await headers()
+    });
+}
