@@ -1,16 +1,43 @@
-import { getAssignmentStatusCounts, getAssignmentBusinessUnitCounts } from "@/lib/db/queries/assignments";
+import { getAssignmentBusinessUnitCounts } from "@/lib/db/queries/assignments";
 import BusinessUnitDropDown from "./dropdowns/BusinessUnitDropDown";
-import StatusDropDown from "./dropdowns/StatusDropDown";
+
+import UserDropDown from "./dropdowns/UserDropDown";
+import { getUserNamesAndAssignmentCounts } from "@/lib/db/queries/user";
+import DatePicker from "./DatePicker";
+import BusinessUnitDropDownMobile from "./dropdowns/BusinessUnitDropDownMobile";
+import UserDropDownMobile from "./dropdowns/UserDropDownMobile";
+import DatePickerMobile from "./DatePickerMobile";
 
 export default async function AssignmentFilters(){
 
     const businessUnits = await getAssignmentBusinessUnitCounts();
-    const statuses = await getAssignmentStatusCounts();
+    const userData = await getUserNamesAndAssignmentCounts();
+
+    console.log(userData);
+    
 
     return (
-        <div className="my-5 flex gap-5">
-  <BusinessUnitDropDown results={businessUnits}/>
-  <StatusDropDown results={statuses}/>
+        <div >
+            <div className="my-5 md:flex gap-5 hidden ">
+ <BusinessUnitDropDown results={businessUnits}/>
+  <UserDropDown users={userData}/>
+  <DatePicker/>
+            </div>
+ 
+
+  <div className="md:hidden">
+    <div className="flex gap-2">
+    <BusinessUnitDropDownMobile results={businessUnits}/>
+    <UserDropDownMobile users={userData}/>
+    </div>
+
+<DatePickerMobile/>
+  
+
+    {/* Mobile */}
+
+  </div>
+  
 
 
         </div>

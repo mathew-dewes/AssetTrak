@@ -5,56 +5,95 @@ import { getUserId } from "@/lib/auth/autheniticate";
 import prisma from "@/lib/prisma";
 
 
-export async function getAssignments(businessUnit: BusinessUnit | null, action: AssignmentStatus | null ,page: number){
+
+export async function getAssignments(businessUnit: BusinessUnit | null, action: AssignmentStatus | null, user: string | null, date: Date | null , page: number) {
     const pageSize = 6
     return await prisma.assignment.findMany({
-        select:{
+      select: {
             createdAt: true,
             status: true,
             id: true,
-            assignee:{
+            asset:{
                 select:{
+                    plantNumber: true,
+                    make: true,
+                    model: true,
+                    status: true
+                }
+            },
+            assignee: {
+                select: {
                     name: true,
                     businessUnit: true
                 }
             }
         },
-where:{
-    ...businessUnit && {assignee:{
-        businessUnit:{equals: businessUnit}
-    }},
-    ...action && {status:{equals: action}}
-}
+        where: {
+            ...businessUnit && {
+                assignee: {
+                    businessUnit: { equals: businessUnit }
+                }
+            },
+            ...action && { status: { equals: action } },
+            ...user && { assignee: { name: { equals: user } } },
+            ...date && {createdAt:{lt: new Date(date)}}
+        }
         ,
-        orderBy:{
-            createdAt:"desc"
+        orderBy: {
+            createdAt: "desc"
         },
-              skip: (page -1) * pageSize,
+        skip: (page - 1) * pageSize,
         take: 6
     });
 }
 
-export async function getRecentAssignments(){
+export async function getFilteredAssignmentCount(businessUnit: BusinessUnit | null, action: AssignmentStatus | null, user: string | null, date: Date | null){
+    return await prisma.assignment.count({
+        where: {
+            ...businessUnit && {
+                assignee: {
+                    businessUnit: { equals: businessUnit }
+                }
+            },
+            ...action && { status: { equals: action } },
+            ...user && { assignee: { name: { equals: user } } },
+            ...date && {createdAt:{lt: new Date(date)}}
+        }
+    })
+}
+
+export async function getRecentAssignments() {
     return await prisma.assignment.findMany({
-        select:{
+        select: {
             createdAt: true,
             status: true,
             id: true,
-            assignee:{
+            asset:{
                 select:{
+                    plantNumber: true,
+                    make: true,
+                    model: true,
+                    status: true
+                }
+            },
+            assignee: {
+                select: {
                     name: true,
                     businessUnit: true
                 }
             }
         },
-        take: 3
+        take: 3,
+        orderBy:{
+            createdAt:"desc"
+        }
     });
 }
 
 export async function getAssetAssignments(plantNumber: string) {
     return await prisma.assignment.findMany({
         where: {
-            asset:{
+            asset: {
                 plantNumber
             }
         },
@@ -76,11 +115,11 @@ export async function getAssetAssignments(plantNumber: string) {
     })
 }
 
-export async function getAssetAssignmentsAll(plantNumber: string, page: number){
-        const pageSize = 5
-        return await prisma.assignment.findMany({
+export async function getAssetAssignmentsAll(plantNumber: string, page: number) {
+    const pageSize = 5
+    return await prisma.assignment.findMany({
         where: {
-            asset:{
+            asset: {
                 plantNumber
             }
         },
@@ -94,23 +133,25 @@ export async function getAssetAssignmentsAll(plantNumber: string, page: number){
                     businessUnit: true
                 }
             },
-            
+
         },
-        
+
         orderBy: {
             createdAt: "desc"
         },
         skip: (page - 1) * pageSize,
         take: 5
-     
+
     })
 }
 
-export async function getAssignmentCount(plantNumber: string){
+export async function getAssignmentCount(plantNumber: string) {
     return await prisma.assignment.count({
-        where:{asset:{
-            plantNumber
-        }}
+        where: {
+            asset: {
+                plantNumber
+            }
+        }
     })
 }
 
@@ -132,8 +173,8 @@ export async function getLoggedInUserAssignments() {
                     businessUnit: true
                 }
             },
-            asset:{
-                select:{
+            asset: {
+                select: {
                     make: true,
                     model: true,
                     plantNumber: true
@@ -143,7 +184,7 @@ export async function getLoggedInUserAssignments() {
         orderBy: {
             createdAt: "desc"
         },
-         take: 5
+        take: 5
     })
 }
 
@@ -164,8 +205,8 @@ export async function getUserAssignments(userId: string) {
                     businessUnit: true
                 }
             },
-            asset:{
-                select:{
+            asset: {
+                select: {
                     make: true,
                     model: true,
                     plantNumber: true
@@ -175,62 +216,62 @@ export async function getUserAssignments(userId: string) {
         orderBy: {
             createdAt: "desc"
         },
-         take: 5
+        take: 5
     })
 }
 
-export async function getAssignmentBusinessUnitCounts(){
+export async function getAssignmentBusinessUnitCounts() {
 
     const businessUnits = Object.values(BusinessUnit);
 
-  const assignments = await prisma.assignment.findMany({
-    select: {
-      id: true,
-      assignee: {
-        select: { businessUnit: true }
-      }
+    const assignments = await prisma.assignment.findMany({
+        select: {
+            id: true,
+            assignee: {
+                select: { businessUnit: true }
+            }
+        }
+    });
+
+
+    const counts: Record<BusinessUnit, number> = {
+        mobile: 0,
+        civil: 0,
+        platforms: 0,
+    };
+
+
+    for (const a of assignments) {
+        const bu = a.assignee?.businessUnit;
+        if (bu) counts[bu] += 1;
     }
-  });
 
-
-  const counts: Record<BusinessUnit, number> = {
-    mobile: 0,
-    civil: 0,
-    platforms: 0,
-  };
-
-
-  for (const a of assignments) {
-    const bu = a.assignee?.businessUnit;
-    if (bu) counts[bu] += 1;
-  }
-
-  return businessUnits.map(unit => ({
-    unit,
-    count: counts[unit] ?? 0
-  }));
+    return businessUnits.map(unit => ({
+        unit,
+        count: counts[unit] ?? 0
+    }));
 
 }
 
 
 
 
-export async function getAssignmentStatusCounts(){
+export async function getAssignmentStatusCounts() {
     const statues = Object.values(AssignmentStatus);
 
     const data = await prisma.assignment.groupBy({
-        by:["status"],
- 
-        _count:{_all: true},
-        
+        by: ["status"],
+
+        _count: { _all: true },
+
     });
 
     return statues.map(status => {
-  const found = data.find(item => item.status === status);
-  return {
-    status,
-    count: found ? found._count._all : 0,
-  };
-});
+        const found = data.find(item => item.status === status);
+        return {
+            status,
+            count: found ? found._count._all : 0,
+        };
+    });
 }
 

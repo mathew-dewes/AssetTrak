@@ -1,0 +1,53 @@
+"use client"
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+
+export default function UserDropDownMobile({ users }:
+  {users: { name: string, _count: {assignment: number}}[]}
+){
+      const [isOpen, setIsOpen] = useState(false);
+              const router = useRouter();
+  
+                const updateParam = (name: string) =>{
+                router.push(`/assets/assignments?user=${name}`);
+                   setIsOpen(false)
+              }
+
+
+    return (
+        <div className="relative">
+            
+<button
+onClick={()=> setIsOpen(!isOpen)}
+className="text-white bg-violet-500 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-violet-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mb-1" 
+type="button">User <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+<path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
+</svg>
+</button>
+
+{isOpen && <div id="dropdownHover" className="z-10 bg-white divide-y absolute  divide-gray-100 rounded-lg shadow-sm w-44">
+    <ul className="py-2 text-sm text-gray-700">
+      {users.map((user, key)=>{
+        return  <li key={key} onClick={()=>updateParam(user.name)}>
+       <div className={`block px-4 py-2 hover:bg-gray-100 ${user._count.assignment === 0 ? "pointer-events-none" : "cursor-pointer"}`}>
+           
+                    <p>{user.name} ({user._count.assignment})</p>
+      
+               
+        </div>
+      </li>
+      })}
+     
+
+  
+ 
+     
+    </ul>
+</div>}
+
+
+        </div>
+    )
+}

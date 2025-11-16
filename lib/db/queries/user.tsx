@@ -21,6 +21,23 @@ export async function getUserNamesAndAssetCounts(){
     })
 }
 
+export async function getUserNamesAndAssignmentCounts(){
+    return await prisma.user.findMany({
+        select:{
+            name: true,
+            _count:{
+                select:{
+                    assignment:true
+                }
+            }
+        },
+     
+    })
+}
+
+
+
+
 
 export async function getUserNames(){
     return await prisma.user.findMany({

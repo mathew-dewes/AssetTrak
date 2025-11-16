@@ -17,9 +17,6 @@ const [statusCounts, categoryCounts, assetTypeCounts ,userData] = await Promise.
     ]);
 
 
-    
-
-    
     return (
         <div className="my-5 flex gap-5">
             <StatusDropDown statusCounts={statusCounts}/>

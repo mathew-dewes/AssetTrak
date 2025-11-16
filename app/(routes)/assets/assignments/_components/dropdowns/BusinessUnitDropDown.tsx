@@ -24,7 +24,7 @@ export default function BusinessUnitDropDown({ results }:
 
 
   return (
-    <div className="relative md:inline-block hidden"
+    <div className="relative inline-block"
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
       onClick={() => setIsOpen(false)}>

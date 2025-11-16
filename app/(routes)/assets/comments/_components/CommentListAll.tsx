@@ -2,6 +2,7 @@ import Avatar from "@/components/ui/Avatar";
 import { getAllComments } from "@/lib/db/queries/comments"
 import prisma from "@/lib/prisma";
 import CommentPagination from "./CommentPagination";
+import StatusCircle from "@/components/ui/StatusCircle";
 
 
 export default async function CommentListAll({currentPage}:
@@ -16,6 +17,37 @@ export default async function CommentListAll({currentPage}:
     return (
            <div className="mt-5 w-full">
             <p className="font-semibold">All comments:</p>
+                     <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border mt-3 flex flex-col gap-5 md:hidden">
+                                             {/* Mobile */}
+                                        {comments.map((comment)=>{
+                                            return <div key={comment.id} className="bg-white border rounded border-gray-200 shadow-lg p-3 text-sm">
+                                    
+                                                <p className="text-sm"><b>Date:</b> {comment.createdAt.toLocaleDateString("en-NZ")}</p>
+            
+                                                <div className="flex items-center mt-2 gap-1.5">
+                                                  <StatusCircle status={comment.asset.status}/>
+                <p><b>{comment.asset.make} {comment.asset.model}</b> - {comment.asset.plantNumber}</p>
+                                                </div>
+                                        
+                                    
+                                        {comment.user &&
+                                         <div className="flex items-center gap-2 my-2">
+                                                <Avatar name={comment.user?.name} />
+                                                <p className="text-sm capitalize">- {comment.user?.businessUnit}</p>
+                                            </div>}
+                                            <p>{comment.content}</p>
+                                    
+                        
+                                       
+                        
+                        
+                                        </div>
+                                        })}
+                              
+                              
+                                   
+                        
+                                    </div>
     <table className="w-full mt-3 hidden md:table">
                           <thead className="bg-gray-100 border-gray-200 shadow-xl border">
                               <tr>

@@ -12,16 +12,24 @@ export async function getRecentComments(){
             content: true,
             user:{
                 select:{
-                    name: true
+                    name: true,
+                    businessUnit: true
                 }
             },
             asset:{
                 select:{
-                    plantNumber: true
+                    plantNumber: true,
+                    make: true,
+                    model: true,
+                    status:true
+        
                 }
             }
         },
-        take: 3
+        take: 3,
+        orderBy:{
+            createdAt:"desc"
+        }
     })
 }
 
@@ -34,12 +42,17 @@ export async function getAllComments(page: number){
             content: true,
             user:{
                 select:{
-                    name: true
+                    name: true,
+                    businessUnit: true
                 }
             },
             asset:{
                 select:{
-                    plantNumber: true
+                    plantNumber: true,
+                    make: true,
+                    model: true,
+                    status:true
+        
                 }
             }
         },
