@@ -9,6 +9,7 @@ import z from "zod";
 import { statusChangerSchema } from "@/lib/validation";
 import { APIError } from "better-auth/api";
 import { updateAssignment } from "./assignment";
+import { Status } from "@/app/generated/prisma/enums";
 
 
 export async function checkoutAsset(plantNumber: string){
@@ -104,6 +105,31 @@ export async function changeAssetStatus(values: z.infer<typeof statusChangerSche
             }
         }
     }
+
+
+}
+
+export async function markAllAvaiable(status: Status){
+
+
+    try {
+        await prisma.asset.updateMany({
+        where:{status},
+        data:{
+            status: "available"
+        }
+    });
+
+    return { status: "success"};
+
+    } catch (error) {
+                    console.log(error);
+              return { status: "error", message: "Server Error - Please contact admin"}
+        
+    } finally{
+                            revalidatePath('/')
+    }
+
 
 
 }

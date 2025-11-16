@@ -1,28 +1,14 @@
 import Button from "@/components/ui/Button";
-import prisma from "@/lib/prisma";
 import Link from "next/link";
+import MarkAllAvaiableButton from "../MarkAllAvaiableButton";
+import { getAssetOverviewByStatus } from "@/lib/db/queries/assets";
 
 export default async function Maintenance({assetCount}:
   {assetCount: number}
 ){
 
 
-       const assets = await prisma.asset.findMany({
-        where:{
-          status:"maintenance"
-        },
-        select:{
-          id: true,
-          plantNumber: true,
-          make: true,
-          model: true,
-          assetType: true
-        }, take: 5
-       });
-
-       
-       
-       
+    const assets = await getAssetOverviewByStatus("maintenance")
 
      if (assets.length === 0) return
 
@@ -53,8 +39,9 @@ export default async function Maintenance({assetCount}:
          
             </div>
             </div>
-             <div className="mt-5">
+             <div className="mt-5 flex justify-between">
               <Link href={'/assets?status=maintenance'}><Button text="View"/></Link>
+           <MarkAllAvaiableButton status={assets[0].status}/>
                               
                                   </div>
 

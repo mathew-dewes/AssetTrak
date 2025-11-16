@@ -1,10 +1,11 @@
 "use server";
 
+import { AssignmentStatus, BusinessUnit } from "@/app/generated/prisma/enums";
 import { getUserId } from "@/lib/auth/autheniticate";
 import prisma from "@/lib/prisma";
 
 
-export async function getAssignments(page: number){
+export async function getAssignments(businessUnit: BusinessUnit | null, action: AssignmentStatus | null ,page: number){
     const pageSize = 6
     return await prisma.assignment.findMany({
         select:{
@@ -18,6 +19,13 @@ export async function getAssignments(page: number){
                 }
             }
         },
+where:{
+    ...businessUnit && {assignee:{
+        businessUnit:{equals: businessUnit}
+    }},
+    ...action && {status:{equals: action}}
+}
+        ,
         orderBy:{
             createdAt:"desc"
         },
@@ -170,3 +178,59 @@ export async function getUserAssignments(userId: string) {
          take: 5
     })
 }
+
+export async function getAssignmentBusinessUnitCounts(){
+
+    const businessUnits = Object.values(BusinessUnit);
+
+  const assignments = await prisma.assignment.findMany({
+    select: {
+      id: true,
+      assignee: {
+        select: { businessUnit: true }
+      }
+    }
+  });
+
+
+  const counts: Record<BusinessUnit, number> = {
+    mobile: 0,
+    civil: 0,
+    platforms: 0,
+  };
+
+
+  for (const a of assignments) {
+    const bu = a.assignee?.businessUnit;
+    if (bu) counts[bu] += 1;
+  }
+
+  return businessUnits.map(unit => ({
+    unit,
+    count: counts[unit] ?? 0
+  }));
+
+}
+
+
+
+
+export async function getAssignmentStatusCounts(){
+    const statues = Object.values(AssignmentStatus);
+
+    const data = await prisma.assignment.groupBy({
+        by:["status"],
+ 
+        _count:{_all: true},
+        
+    });
+
+    return statues.map(status => {
+  const found = data.find(item => item.status === status);
+  return {
+    status,
+    count: found ? found._count._all : 0,
+  };
+});
+}
+

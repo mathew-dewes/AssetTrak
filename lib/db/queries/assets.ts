@@ -303,4 +303,19 @@ export async function getAvaiableAssetsByType() {
   }, {} as Record<string, typeof assets>);
 }
 
+export async function getAssetOverviewByStatus(status: Status){
+    return await prisma.asset.findMany({
+    where: {
+      status
+    },
+    select: {
+      id: true,
+      plantNumber: true,
+      make: true,
+      model: true,
+      assetType: true,
+      status: true
 
+    }, take: 5
+  });
+}

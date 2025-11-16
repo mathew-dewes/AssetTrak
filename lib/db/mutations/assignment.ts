@@ -85,6 +85,16 @@ const validate = changeAssigneeSchema.safeParse(values);
             where: {plantNumber}
         });
 
+       await prisma.assignment.create(
+        {
+            data: {
+                status: "checkOut",
+                assignee: { connect: { id: user } },
+                asset: { connect: { plantNumber} }
+            }
+        }
+    )
+
     revalidatePath('/assets/' + plantNumber);
        return { status: "success", message: "Assignment successful" };
     } catch (error) {

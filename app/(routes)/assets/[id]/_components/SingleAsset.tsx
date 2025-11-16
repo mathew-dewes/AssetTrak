@@ -22,12 +22,6 @@ export default async function SingleAsset({ plantNumber }:
     ])
     if (!asset || !userId) return
     const [admin, users] = await Promise.all([isUserAdmin(userId), getUserNames()])
-
-
-
-
-
-
     return (
 
         <div>

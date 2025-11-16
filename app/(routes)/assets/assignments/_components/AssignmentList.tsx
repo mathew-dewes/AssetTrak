@@ -2,13 +2,14 @@ import Avatar from "@/components/ui/Avatar";
 import { getAssignments } from "@/lib/db/queries/assignments";
 import prisma from "@/lib/prisma";
 import AssignmentPagination from "./AssignmentPagination";
+import { AssignmentStatus, BusinessUnit } from "@/app/generated/prisma/enums";
 
 
 
-export default async function AssignmentList({currentPage}:
-    {currentPage: number}
+export default async function AssignmentList({businessUnit, action, currentPage}:
+    {businessUnit: BusinessUnit | null, action: AssignmentStatus | null,currentPage: number}
 ) {
-    const assignments = await getAssignments(currentPage)
+    const assignments = await getAssignments(businessUnit, action ,currentPage)
     const assignmentCount = await prisma.assignment.count()
      const totalPages = Math.ceil(assignmentCount / 6);
 

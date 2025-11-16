@@ -28,7 +28,7 @@ export default function NavbarClient({session}: {
         }
     return (
               <nav className="h-20 bg-primary-500 text-light-500 flex items-center px-10 justify-between">
-                <Link href={'/assets'}><h1 className={`font-medium text-xl ${montserrat.className}`}>Asset<span className="font-bold">Trak</span></h1></Link>
+                <Link href={'/'}><h1 className={`font-medium text-xl ${montserrat.className}`}>Asset<span className="font-bold">Trak</span></h1></Link>
                 {/* Desktop */}
                 <ul style={{display: session ? "" : "none"}} id="primary-navigation" className="gap-10 text-gray-200 mr-30 hidden md:flex z-1000">
                     <Link className={`${path === "/" ? "font-semibold text-light-500 scale-105" : ""}`} href={'/'}>Home</Link>
