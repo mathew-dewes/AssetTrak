@@ -9,7 +9,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 
-export async function RegisterUser(values: z.infer<typeof registerUserSchema>, assetId: string | null) {
+export async function RegisterUser(values: z.infer<typeof registerUserSchema>, plantNumber: string | null) {
     const validate = registerUserSchema.safeParse(values);
 
     if (!validate.success) {
@@ -43,21 +43,21 @@ export async function RegisterUser(values: z.infer<typeof registerUserSchema>, a
 
 
 
-        if (assetId && userId) {
+        if (plantNumber && userId) {
             await prisma.asset.update({
                 data: {
                     assignee: { connect: { id: userId } },
                     status: "in_service"
 
                 },
-                where: { id: assetId }
+                where: { plantNumber }
             });
 
             await prisma.assignment.create({
                 data: {
                     status: "checkOut",
                     assignee: { connect: { id: userId } },
-                    asset: { connect: { id: assetId } }
+                    asset: { connect: { plantNumber} }
                 },
             })
 

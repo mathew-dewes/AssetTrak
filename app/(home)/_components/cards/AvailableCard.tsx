@@ -24,7 +24,7 @@ if (assets.length === 0) return
           
           return <div className="flex items-center gap-1" key={asset.id}>
             <div className="bg-blue-300 h-3 w-3 rounded-full"/>
-            <p className="uppercase text-sm" key={asset.id}><span className="uppercase font-medium">{asset.make}</span> - {asset.model}</p>
+            <p className="uppercase text-sm truncate" key={asset.id}><span className="uppercase font-medium">{asset.make}</span> - {asset.model}</p>
           </div>
 
         })}

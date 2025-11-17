@@ -3,6 +3,8 @@ import { getAllComments } from "@/lib/db/queries/comments"
 import prisma from "@/lib/prisma";
 import CommentPagination from "./CommentPagination";
 import StatusCircle from "@/components/ui/StatusCircle";
+import ButtonSmall from "@/components/ui/ButtonSmall";
+import Link from "next/link";
 
 
 export default async function CommentListAll({currentPage}:
@@ -55,6 +57,7 @@ export default async function CommentListAll({currentPage}:
                                   <th className="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase">Plant</th>
                                   <th className="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase">User</th>
                                   <th className="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase">Comment</th>
+                                  <th className="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase">ACTION</th>
                               </tr>
                           </thead>
                           <tbody className="bg-white divide-y divide-gray-200 border border-gray-200 shadow-lg">
@@ -70,6 +73,12 @@ export default async function CommentListAll({currentPage}:
                                           </td>
                                           <td className="px-6 py-4 text-sm text-dark-500 max-w-100">
                                              {comment.content}
+              
+                                          </td>
+                                          <td className="px-6 py-4 text-sm text-dark-500 max-w-100">
+                                            <Link href={`/assets/${comment.asset.plantNumber}/comments`}><ButtonSmall text="View"/></Link>
+                                            
+                                       
               
                                           </td>
               

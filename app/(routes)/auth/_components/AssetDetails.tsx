@@ -7,16 +7,17 @@ export default async function AssetDetails({plantNumber}:
     if (!plantNumber) return
      const assetDetails = await getAssetNameAndPlant(plantNumber);
 
+     if (!assetDetails) return
+
+     
+
 
     return (
-        <div className="text-center">
-                <p>You have been redirected to the login page.</p>
-                <p>Please login or register to checkout the asset</p>
-                <div className="mt-5">
-
-                    <h3 className="font-semibold uppercase">asset</h3>
-                    <p>{assetDetails?.plantNumber} - {assetDetails?.make} {assetDetails?.model}</p>
-                </div>
+        <div className="bg-white border rounded border-gray-200 shadow-lg p-3 text-sm text-center sm:w-100 m-auto mt-5">
+        <h3 className="font-semibold uppercase">Selected asset</h3>
+        <p className="mt-1"><b>{assetDetails?.plantNumber}</b> - {assetDetails?.make} {assetDetails?.model}</p>
+        <p className="mt-3">To checkout this asset, please login or register to proceed</p>
+             
 
             </div>
     )

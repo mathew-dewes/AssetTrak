@@ -23,6 +23,15 @@ export default function RegisterForm({businessUnits, plantNumber}:
   useForm<FormFields>({resolver: zodResolver(registerUserSchema)});
           const router = useRouter();
 
+
+          const loginLink = () =>{
+    if (plantNumber){
+      return "/auth/login?asset=" + plantNumber
+    } else {
+      return "/auth/login"
+    }
+  }
+
   const onSubmit = async (values: FormFields)=>{
   const result = await RegisterUser(values, plantNumber);
 
@@ -35,7 +44,7 @@ export default function RegisterForm({businessUnits, plantNumber}:
     
   } else {
     setSuccessMessage("Account created successfully!");
-    router.push("/");
+    router.push("/assets/" + plantNumber);
     router.refresh();
   }
 
@@ -68,9 +77,9 @@ return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mt-10
   </div>
   <div className="mb-5">
   <label className="block mb-2 text-sm font-medium text-gray-900">Select your business unit</label>
-  <select {...register("businessUnit")} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+  <select {...register("businessUnit")} className="bg-gray-50 border uppercase border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
   {businessUnits.map((unit, key)=>{
-    return  <option key={key}>{unit}</option>
+    return  <option  key={key}>{unit}</option>
   })}
   </select>
         {errors.businessUnit && <ErrorMessage message={errors.businessUnit.message}/>}
@@ -93,13 +102,13 @@ return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mt-10
         {errors.password && <ErrorMessage message={errors.password.message}/>}
   </div>
 
-    <p id="helper-text-explanation" className="my-2 text-sm text-gray-500 dark:text-gray-400">Already have have an account? Click on Login to navigate to the login page</p>
+    <p id="helper-text-explanation" className="my-2 text-sm text-gray-500 dark:text-gray-400">Already have have an account? Click on &quot;return to login&quot; to navigate back to the login page</p>
   {serverError && <ErrorMessage message={serverError}/>}
   {successMessage && <p className="mt-2 text-sm text-green-600">{successMessage}</p>}
      <div className="flex gap-5 mt-5">
       <button type="submit" className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full py-2.5 text-center">
         {isSubmitting ? "Registering.." : "Register"}</button>
-      <Link className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center" href={'/auth/login'}>Login</Link>
+      <Link className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center" href={loginLink()}>Return to Login</Link>
 
     </div>
  </form>

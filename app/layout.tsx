@@ -4,6 +4,8 @@ import Navbar from "@/components/navigation/Navbar";
 import { inter } from "./fonts";
 import Footer from "@/components/ui/Footer";
 import BreadCrumbs from "@/components/ui/BreadCrumbs";
+import Features from "@/components/ui/Features";
+
 
 export const metadata: Metadata = {
   title: "AssetTrak",
@@ -28,7 +30,11 @@ export default function RootLayout({
         <main className="mx-3 md:mx-5 xl:mx-10 mt-5 min-h-screen">
     
           {children}
+            <div>
+                <Features />
+                </div>
         </main>
+        
         <Footer/>
 
       </body>

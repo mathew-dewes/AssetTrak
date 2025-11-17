@@ -14,7 +14,7 @@ export default async function page({searchParams}:
         <div>
 {plantNumber && <AssetDetails plantNumber={plantNumber}/>}
        
-            <div className="mt-15">
+            <div className="mt-10">
      <h1 className="text-center font-bold">Login</h1>
             <LoginForm plantNumber={plantNumber} />
             </div>

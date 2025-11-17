@@ -15,7 +15,7 @@ export default async function page({searchParams}:
             <div>
 
             </div>
-            <div className="mt-5">
+            <div className="mt-10">
   <h1 className="text-center font-bold">Register</h1>
         <RegisterForm businessUnits={businessUnits} plantNumber={plantNumber}/>
             </div>

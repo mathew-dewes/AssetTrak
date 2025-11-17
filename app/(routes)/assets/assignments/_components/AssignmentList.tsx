@@ -58,9 +58,10 @@ export default async function AssignmentList({businessUnit, action, user, date, 
                 {/* Desktop */}
             <thead className="bg-gray-100 border-gray-200 shadow-xl border">
                 <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase">Date</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase">Time</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase">Date / time</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase">ACTION</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase">asset</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase">plant</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase">Assignee</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase">Business unit</th>
                 </tr>
@@ -78,12 +79,23 @@ export default async function AssignmentList({businessUnit, action, user, date, 
                     return (
                         <tr key={assignment.id} className="hover:bg-gray-50">
 
-                            <td className="px-6 py-4 text-sm text-dark-500">{assignment.createdAt.toLocaleDateString("en-NZ")}</td>
-                            <td className="px-6 py-4 h-20 text-sm text-dark-500 font-medium">{nzTime}</td>
-
-                            <td className="px-6 py-4 text-sm text-dark-500 uppercase">{assignment.status}</td>
                             <td className="px-6 py-4 text-sm text-dark-500">
-                                {assignment.assignee && <Avatar name={assignment.assignee.name} />}
+                                <div>
+                                    <p className="mb-1 font-semibold">{assignment.createdAt.toLocaleDateString("en-NZ")}</p>
+                                    <p>{nzTime}</p>
+                              
+                                    </div></td>
+                                    
+                            <td className="px-6 py-4 text-sm text-dark-500 uppercase">{assignment.status}</td>
+                            <td className="px-6 py-4 h-20 text-sm text-dark-500 font-medium">{assignment.asset?.make} {assignment.asset?.model}</td>
+                            <td className="px-6 py-4 h-20 text-sm text-dark-500 font-medium">{assignment.asset?.plantNumber}</td>
+
+
+                            <td className="px-6 py-4 text-sm text-dark-500">
+                                <div>
+                                                {assignment.assignee && <Avatar name={assignment.assignee.name} />}
+                                </div>
+                    
 
                             </td>
                             <td className="px-6 py-4 text-sm text-dark-500">

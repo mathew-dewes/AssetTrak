@@ -6,7 +6,7 @@ export function proxy(request: NextRequest) {
 const sessionCookie = getSessionCookie(request);
 
 if (!sessionCookie){
-  return NextResponse.redirect(new URL('/welcome', request.url))
+  return NextResponse.redirect(new URL('/auth', request.url))
 }
 
 }

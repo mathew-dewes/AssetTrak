@@ -34,7 +34,7 @@ export default async function HomeAssignmentTable() {
                    
                     <div className="flex mt-3 items-center gap-1.5">
                        <StatusCircle status={assignment.asset!.status!}/>
-                    <p><span className="font-semibold">{assignment.asset?.make} {assignment.asset?.model}</span> - {assignment.asset?.plantNumber}</p>
+                    <p><span className="font-semibold uppercase">{assignment.asset?.make} {assignment.asset?.model}</span> - {assignment.asset?.plantNumber}</p>
                     </div>
 
                
@@ -72,7 +72,7 @@ export default async function HomeAssignmentTable() {
                                        
                                         </div>
                                 </td>
-                                    <td className="px-6 py-4 h-20 text-sm text-dark-500"><span className="font-semibold">{assignment.asset?.make} {assignment.asset?.model}</span> - {assignment.asset?.plantNumber}</td>
+                                    <td className="px-6 py-4 h-20 text-sm text-dark-500"><span className="font-semibold uppercase">{assignment.asset?.make} {assignment.asset?.model}</span> - {assignment.asset?.plantNumber}</td>
                         
 
                                     <td className="px-6 py-4 text-sm text-dark-500 uppercase">{assignment.status}</td>
