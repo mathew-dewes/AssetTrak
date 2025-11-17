@@ -7,8 +7,10 @@ const assetTypes = Object.values(AssetType)
 
 export default async function AvailableAssets(){
 
-  const assetsByType = await getAvaiableAssetsByType();
-  const assetCount = await getAssetCountByStatus("available")
+    const [assetsByType, assetCount] = await Promise.all([
+        getAvaiableAssetsByType(), getAssetCountByStatus("available")
+    ])
+
   
     return(
     <div className="mt-3 p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">

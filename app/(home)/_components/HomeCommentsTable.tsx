@@ -7,8 +7,10 @@ import Link from "next/link";
 
 export default async function HomeCommentsTable(){
 
-    const comments = await getRecentComments();
-    const commentCount = await prisma.assignment.count();
+    const [comments, commentCount] = await Promise.all([
+        getRecentComments(), prisma.assignment.count()])
+
+
 
     if (!comments) return
 

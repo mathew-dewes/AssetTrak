@@ -1,6 +1,7 @@
 "use client";
 
 import ErrorMessage from "@/components/ui/ErrorMessage";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { RegisterUser } from "@/lib/auth/autheniticate";
 import { registerUserSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,8 +19,9 @@ export default function RegisterForm({businessUnits, plantNumber}:
   
   const [serverError, setServerError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
   
-  const {register, handleSubmit, formState:{errors, isSubmitting}, reset} = 
+  const {register, handleSubmit, formState:{errors}, reset} = 
   useForm<FormFields>({resolver: zodResolver(registerUserSchema)});
           const router = useRouter();
 
@@ -33,9 +35,11 @@ export default function RegisterForm({businessUnits, plantNumber}:
   }
 
   const onSubmit = async (values: FormFields)=>{
+  setIsLoading(true)
   const result = await RegisterUser(values, plantNumber);
 
   if (result.status === "error"){
+      setIsLoading(false)
     setServerError(result.message);
     console.log(result.message);
         reset({
@@ -43,15 +47,16 @@ export default function RegisterForm({businessUnits, plantNumber}:
       });
     
   } else {
+
     setSuccessMessage("Account created successfully!");
-    router.push("/assets/" + plantNumber);
+    router.push("/");
     router.refresh();
   }
 
   }
 
   
-return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mt-10">
+return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mt-10 px-3">
   <div className="mb-5">
     <label  className="block mb-2 text-sm font-medium text-gray-900">First name</label>
     <input {...register("firstName")} 
@@ -106,8 +111,8 @@ return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mt-10
   {serverError && <ErrorMessage message={serverError}/>}
   {successMessage && <p className="mt-2 text-sm text-green-600">{successMessage}</p>}
      <div className="flex gap-5 mt-5">
-      <button type="submit" className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full py-2.5 text-center">
-        {isSubmitting ? "Registering.." : "Register"}</button>
+     <button type="submit" className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full py-2.5 text-center">
+        {isLoading ? <LoadingSpinner size={20} text="Registering..."/> : "Register"}</button>
       <Link className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center" href={loginLink()}>Return to Login</Link>
 
     </div>

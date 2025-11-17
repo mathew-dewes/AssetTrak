@@ -27,11 +27,12 @@ export default function DeleteCommentButton({id}:
     }
 
     return  <div className="flex items-center gap-1 mt-6">
-    <Trash2/>
+        {!loading && <Trash2 size={18}/>}
+
     <button 
     onClick={handleDelete} 
     disabled={loading}
     className={` ${error ? "text-red-400" : "text-violet-400"} cursor-pointer`}>
-        {!error ? loading ? <div className="ml-0.5"><LoadingSpinner size={20} text="Removing"/></div> : "Remove" : error}</button>
+        {!error ? loading ? <div className="ml-0.5"><LoadingSpinner size={20} text="Deleting"/></div> : "Delete" : error}</button>
             </div>
 }

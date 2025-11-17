@@ -11,8 +11,12 @@ export default async function CommentListAll({currentPage}:
     {currentPage: number}
 ){
 
-    const comments = await getAllComments(currentPage);
-    const commentCount = await prisma.comment.count();
+    const [comments, commentCount] = await Promise.all([
+        getAllComments(currentPage),
+        prisma.comment.count()
+
+    ])
+
     const totalPages = Math.ceil(commentCount / 6);
     
     if (!comments) return

@@ -28,13 +28,13 @@ export default function UserAssetCard({ asset }: {
         <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border">
             <h2 className="uppercase">{asset.make} - <span className="font-normal text-gray-600">{asset.model}</span> </h2>
 
-            <p>Plant: {asset.plantNumber}</p>
+            <p><b>Plant:</b> {asset.plantNumber}</p>
             <div className="flex lg:gap-10 my-2 flex-col lg:flex-row">
-                <p>Category: {formatCasing(asset.category)}</p>
-                <p>Type: {formatCasing(asset.assetType)}</p>
+                <p><b>Category:</b> {formatCasing(asset.category)}</p>
+                <p><b>Type:</b> {formatCasing(asset.assetType)}</p>
             </div>
-            <p>Aisle: {asset.aisleLocation}</p>
-            <p>Serial number: {asset.serialNumber}</p>
+            <p><b>Aisle:</b> {asset.aisleLocation}</p>
+            <p><b>Serial number:</b> {asset.serialNumber}</p>
 
             <div className="mt-3">
                 <Link href={'/assets/' + asset.plantNumber}><Button text="View asset" /></Link>

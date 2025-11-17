@@ -1,11 +1,21 @@
 import { BusinessUnit } from "@/app/generated/prisma/enums";
 import RegisterForm from "./_components/RegisterForm";
 import AssetDetails from "../_components/AssetDetails";
+import { getSession } from "@/lib/auth/autheniticate";
+import { redirect } from "next/navigation";
 const businessUnits = Object.values(BusinessUnit)
 
 export default async function page({searchParams}:
     {searchParams: Promise<{asset: string | null}>}
 ){
+
+    
+          const session = await getSession();
+        
+          if (session){
+            redirect('/')
+          }
+        
         const params = await searchParams;
     const plantNumber = (params.asset);
 

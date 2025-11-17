@@ -19,7 +19,9 @@ export default async function SingleAsset({ plantNumber }:
 
     const [asset, userId] = await Promise.all([
         getAsset(plantNumber), getUserId()
-    ])
+    ]);
+
+    
     if (!asset || !userId) return
     const [admin, users] = await Promise.all([isUserAdmin(userId), getUserNames()])
     return (
@@ -34,25 +36,18 @@ export default async function SingleAsset({ plantNumber }:
                 </div>
             }
             <StatusDisplay status={asset.status} />
-            <p>Plant: {asset.plantNumber}</p>
+            <p><b>Plant:</b> {asset.plantNumber}</p>
             <div className="flex md:gap-10 my-2 flex-col md:flex-row">
-                <p>Category: {asset.category}</p>
-                <p>Type: {asset.assetType}</p>
+                <p><b>Category:</b> {asset.category}</p>
+                <p><b>Type:</b> {asset.assetType}</p>
 
             </div>
             <div className="flex md:gap-10 my-2 flex-col md:flex-row">
-                <p>Serial number: {asset.serialNumber}</p>
-                <p>Aisle: {asset.aisleLocation}</p>
+                <p><b>Serial number:</b> {asset.serialNumber}</p>
+                <p><b>Aisle:</b> {asset.aisleLocation}</p>
 
             </div>
-            <div className="flex flex-col md:flex-row md:gap-10">
-                <div>
-                    <p>Aisle: {asset.aisleLocation}</p>
-                    <p>Serial number: {asset.serialNumber}</p>
-                </div>
-
-
-            </div>
+      
 
             <div className="mt-2">
 

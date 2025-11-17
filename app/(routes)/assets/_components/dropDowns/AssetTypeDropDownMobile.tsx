@@ -1,6 +1,7 @@
 "use client"
 
 import { AssetType } from "@/app/generated/prisma/enums";
+import { formatCasing } from "@/lib/helper";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -37,7 +38,7 @@ type="button">Type <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="h
         return  <li key={key} onClick={()=>updateParam(item.type)}>
        <div className={`block px-4 py-2 hover:bg-gray-100 ${item.count === 0 ? "pointer-events-none" : "cursor-pointer"}`}>
            
-                    <p>{item.type} ({item.count})</p>
+                    <p>{formatCasing(item.type)} ({item.count})</p>
       
                
         </div>

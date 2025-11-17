@@ -1,10 +1,18 @@
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import AssetDetails from "../auth/_components/AssetDetails";
+import { getSession } from "@/lib/auth/autheniticate";
+import { redirect } from "next/navigation";
 
 export default async function page({searchParams}:
     {searchParams: Promise<{asset: string | null}>}
 ){
+
+  const session = await getSession();
+
+  if (session){
+    redirect('/')
+  }
 
     const params = await searchParams;
     const plantNumber = (params.asset);

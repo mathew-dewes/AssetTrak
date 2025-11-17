@@ -1,6 +1,7 @@
 "use client"
 
 import { Status } from "@/app/generated/prisma/enums";
+import { formatCasing } from "@/lib/helper";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -62,7 +63,7 @@ type="button">Status <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns=
         <div className={`block px-4 py-2 hover:bg-gray-100 ${item.count === 0 ? "pointer-events-none" : "cursor-pointer"}`}>
                <div className="my-1 flex items-center gap-2">
                     <div className={`${statusColors(item.status)} w-3 h-3 rounded-full`}/>
-                    <p>{item.status} ({item.count})</p>
+                    <p>{formatCasing(item.status)} ({item.count})</p>
       
                 </div>
         </div>

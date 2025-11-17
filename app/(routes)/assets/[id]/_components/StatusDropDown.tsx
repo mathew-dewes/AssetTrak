@@ -4,6 +4,7 @@ import { Status } from "@/app/generated/prisma/enums"
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { changeAssetStatus } from "@/lib/db/mutations/asset";
+import { formatCasing } from "@/lib/helper";
 import { statusChangerSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -55,7 +56,7 @@ export default function StatusDropDown({ plantNumber, initialStatus }:
                 handleSubmit(onSubmit)()
             }} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
                 {statuses.map((status, key) => {
-                    return <option key={key}>{status}</option>
+                    return <option value={status} key={key}>{formatCasing(status)}</option>
                 }
 
                 )}

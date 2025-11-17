@@ -7,10 +7,12 @@ import SkeletonLarge from "@/components/ui/SkeletonLarge";
 import AssetAssignmentList from "./_components/AssetAssignmentList";
 import CommentCount from "../_components/CommentCount";
 import { getAssetCommentCount } from "@/lib/db/queries/comments";
+import { authProtection } from "@/lib/auth/autheniticate";
 export default async function page({ params }: {
     params: Promise<{ id: string }>
 }) {
     const { id: plantNumber } = await params;
+      await authProtection();
     const commentCount = await getAssetCommentCount(plantNumber)
 
 

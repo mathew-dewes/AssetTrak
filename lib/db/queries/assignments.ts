@@ -90,17 +90,25 @@ export async function getRecentAssignments() {
     });
 }
 
-export async function getAssetAssignments(plantNumber: string) {
+export async function getRecentAssetAssignments(plantNumber: string) {
     return await prisma.assignment.findMany({
         where: {
             asset: {
                 plantNumber
             }
         },
-        select: {
-            id: true,
+         select: {
             createdAt: true,
             status: true,
+            id: true,
+            asset:{
+                select:{
+                    plantNumber: true,
+                    make: true,
+                    model: true,
+                    status: true
+                }
+            },
             assignee: {
                 select: {
                     name: true,
@@ -123,17 +131,24 @@ export async function getAssetAssignmentsAll(plantNumber: string, page: number) 
                 plantNumber
             }
         },
-        select: {
-            id: true,
+         select: {
             createdAt: true,
             status: true,
+            id: true,
+            asset:{
+                select:{
+                    plantNumber: true,
+                    make: true,
+                    model: true,
+                    status: true
+                }
+            },
             assignee: {
                 select: {
                     name: true,
                     businessUnit: true
                 }
-            },
-
+            }
         },
 
         orderBy: {

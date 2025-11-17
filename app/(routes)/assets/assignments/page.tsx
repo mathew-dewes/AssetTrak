@@ -3,10 +3,12 @@ import AssignmentList from "./_components/AssignmentList";
 import LoadingAssignments from "./_components/LoadingAssignment";
 import AssignmentFilters from "./_components/AssignmentFilters";
 import { AssignmentStatus, BusinessUnit } from "@/app/generated/prisma/enums";
+import { authProtection } from "@/lib/auth/autheniticate";
 
 export default async function page({ searchParams }:
     { searchParams: Promise<{ page?: string, bu?: BusinessUnit, action?: AssignmentStatus, user? : string, date?: Date }> }
 ){
+      await authProtection();
 
         const params = await searchParams;
         const {bu, action, user, date} = await searchParams;

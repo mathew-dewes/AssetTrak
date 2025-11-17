@@ -1,6 +1,7 @@
 "use client"
 
 import { Category } from "@/app/generated/prisma/enums";
+import { formatCasing } from "@/lib/helper";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -37,7 +38,7 @@ type="button">Category <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmln
         return  <li key={key} onClick={()=>updateParam(item.category)}>
        <div className={`block px-4 py-2 hover:bg-gray-100 ${item.count === 0 ? "pointer-events-none" : "cursor-pointer"}`}>
            
-                    <p>{item.category} ({item.count})</p>
+                    <p>{formatCasing(item.category)} ({item.count})</p>
       
                
         </div>

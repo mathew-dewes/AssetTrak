@@ -136,7 +136,8 @@ export async function getAsset(plantNumber: string){
     return await prisma.asset.findUnique({
   where: {plantNumber},
   include:{
-    assignee: true
+    assignee: true,
+
   }
     });
 }
@@ -316,6 +317,26 @@ export async function getAssetOverviewByStatus(status: Status){
       assetType: true,
       status: true
 
+    }, take: 5
+  });
+}
+
+export async function getRecentInServiceAssets(){
+  return await prisma.asset.findMany({
+    where: {
+      status: "in_service"
+    },
+    select: {
+      id: true,
+      plantNumber: true,
+      make: true,
+      model: true,
+      assetType: true,
+      assignee: {
+        select: {
+          name: true
+        }
+      }
     }, take: 5
   });
 }

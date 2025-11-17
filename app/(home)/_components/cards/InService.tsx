@@ -1,30 +1,15 @@
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
 import ButtonSmall from "@/components/ui/ButtonSmall";
-import prisma from "@/lib/prisma";
+import { getRecentInServiceAssets } from "@/lib/db/queries/assets";
+import { formatCasing } from "@/lib/helper";
 import Link from "next/link";
 
 export default async function InService({ assetCount }:
   { assetCount: number }
 ) {
 
-  const assets = await prisma.asset.findMany({
-    where: {
-      status: "in_service"
-    },
-    select: {
-      id: true,
-      plantNumber: true,
-      make: true,
-      model: true,
-      assetType: true,
-      assignee: {
-        select: {
-          name: true
-        }
-      }
-    }, take: 5
-  });
+  const assets = await getRecentInServiceAssets()
 
 
   if (assets.length === 0) return
@@ -46,7 +31,7 @@ export default async function InService({ assetCount }:
               {assets.map((asset) => {
                 return (
                   <div key={asset.id} className="bg-white border rounded border-gray-200 shadow-lg p-3" >
-                    <p><b>{asset.plantNumber}</b> - {asset.make} - {asset.model} ({asset.assetType})</p>
+                    <p><b>{asset.plantNumber}</b> - {asset.make} - {asset.model} ({formatCasing(asset.assetType)})</p>
                     {asset.assignee &&
                       <div className="flex items-center gap-1 mt-1">
                         <p>Assignee:</p>

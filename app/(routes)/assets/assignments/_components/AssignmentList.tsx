@@ -11,8 +11,14 @@ import StatusCircle from "@/components/ui/StatusCircle";
 export default async function AssignmentList({businessUnit, action, user, date, currentPage}:
     {businessUnit: BusinessUnit | null, action: AssignmentStatus | null, user:string | null, date: Date | null , currentPage: number}
 ) {
-    const assignments = await getAssignments(businessUnit, action, user, date, currentPage)
-    const assignmentCount = await getFilteredAssignmentCount(businessUnit, action, user, date,)
+
+
+    const [assignments, assignmentCount ] = await Promise.all(
+        [
+            getAssignments(businessUnit, action, user, date, currentPage), 
+            getFilteredAssignmentCount(businessUnit, action, user, date,), 
+            getFilteredAssignmentCount(businessUnit, action, user, date,) ])
+
      const totalPages = Math.ceil(assignmentCount / 6);
 
 

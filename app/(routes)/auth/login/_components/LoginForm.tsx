@@ -19,9 +19,11 @@ export default function LoginForm({plantNumber}:
   {plantNumber: string | null}
 ) {
   const [serverError, setServerError] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
 
 
-  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormFields>({ resolver: zodResolver(loginUserSchema) })
+
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormFields>({ resolver: zodResolver(loginUserSchema) })
   const router = useRouter();
   
   const registerLink = () =>{
@@ -33,10 +35,12 @@ export default function LoginForm({plantNumber}:
   }
 
   const onSubmit = async (values: FormFields) => {
+    setIsLoading(true)
     setServerError("");
     const result = await loginInUser(values, plantNumber)
     if (result.status === "error") {
       setServerError(result.message);
+      setIsLoading(false)
       reset({
         password:""
       });
@@ -46,13 +50,13 @@ export default function LoginForm({plantNumber}:
       router.push("/assets/" + plantNumber);
       router.refresh()
     } else {
-            router.push("/");
+      router.push("/");
       router.refresh()
     }
 
   }
 
-  return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mt-10">
+  return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mt-10 px-3">
     <div className="mb-5">
       <label className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
       <input
@@ -77,7 +81,7 @@ export default function LoginForm({plantNumber}:
     {serverError && <ErrorMessage message={serverError} />}
     <div className="flex gap-5 mt-5">
       <button type="submit" className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full py-2.5 text-center">
-        {isSubmitting ? <LoadingSpinner size={20} text="Logging in"/> : "Login"}</button>
+        {isLoading ? <LoadingSpinner size={20} text="Logging in"/> : "Login"}</button>
       <Link 
       className="text-white bg-violet-500 hover:bg-violet-600 focus:ring-4 focus:outline-none cursor-pointer focus:ring-violet-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center" 
       href={registerLink()}>Register</Link>
