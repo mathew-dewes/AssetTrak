@@ -1,4 +1,5 @@
-import { BusinessUnit, Status } from "@/app/generated/prisma/enums";
+
+import { BusinessUnit, Status } from "@/app/generated/prisma";
 import z from "zod";
 
 const businessUnits = Object.values(BusinessUnit);

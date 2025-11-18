@@ -1,4 +1,5 @@
-import { AssetType, Category, Status } from "@/app/generated/prisma/enums";
+import { AssetType, Category, Status } from "@/app/generated/prisma";
+
 
 export type Asset = {
     id: string;

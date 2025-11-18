@@ -1,8 +1,9 @@
-import { BusinessUnit } from "@/app/generated/prisma/enums";
+
 import RegisterForm from "./_components/RegisterForm";
 import AssetDetails from "../_components/AssetDetails";
 import { getSession } from "@/lib/auth/autheniticate";
 import { redirect } from "next/navigation";
+import { BusinessUnit } from "@/app/generated/prisma";
 const businessUnits = Object.values(BusinessUnit)
 
 export default async function page({searchParams}:

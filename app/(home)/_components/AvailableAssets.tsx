@@ -1,4 +1,5 @@
-import { AssetType } from "@/app/generated/prisma/enums"
+
+import { AssetType } from "@/app/generated/prisma"
 import AvailableCard from "./cards/AvailableCard"
 import { getAssetCountByStatus, getAvaiableAssetsByType } from "@/lib/db/queries/assets"
 const assetTypes = Object.values(AssetType)

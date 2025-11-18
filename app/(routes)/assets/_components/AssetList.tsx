@@ -1,8 +1,9 @@
 
-import {AssetType, Category, Status } from "@/app/generated/prisma/enums";
+
 import AssetCard from "./AssetCard"
 import { assetCount, getAssets } from "@/lib/db/queries/assets";
 import AssetPagination from "./AssetPagination";
+import { AssetType, Category, Status } from "@/app/generated/prisma";
 
 
 export default async function AssetList({status, category, query, user, type, currentPage}:

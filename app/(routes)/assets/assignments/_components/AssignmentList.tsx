@@ -2,9 +2,10 @@ import Avatar from "@/components/ui/Avatar";
 import { getAssignments, getFilteredAssignmentCount } from "@/lib/db/queries/assignments";
 
 import AssignmentPagination from "./AssignmentPagination";
-import { AssignmentStatus, BusinessUnit } from "@/app/generated/prisma/enums";
+
 import { convertTime } from "@/lib/helper";
 import StatusCircle from "@/components/ui/StatusCircle";
+import { AssignmentStatus, BusinessUnit } from "@/app/generated/prisma";
 
 
 

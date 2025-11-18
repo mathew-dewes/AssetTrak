@@ -1,6 +1,7 @@
 "use server";
 
-import { AssignmentStatus, BusinessUnit } from "@/app/generated/prisma/enums";
+
+import { AssignmentStatus, BusinessUnit } from "@/app/generated/prisma";
 import { getUserId } from "@/lib/auth/autheniticate";
 import prisma from "@/lib/prisma";
 

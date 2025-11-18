@@ -1,4 +1,5 @@
-import { Status } from "@/app/generated/prisma/enums";
+import { Status } from "@/app/generated/prisma";
+
 
 export function formatCasing(value: string): string {
   return value

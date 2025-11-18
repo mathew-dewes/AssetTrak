@@ -1,6 +1,5 @@
 "use server";
 
-import { AssignmentStatus } from "@/app/generated/prisma/enums";
 import { getUserId } from "@/lib/auth/autheniticate";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
@@ -8,6 +7,7 @@ import { delay } from "../utils";
 import z from "zod";
 import { changeAssigneeSchema } from "@/lib/validation";
 import { APIError } from "better-auth/api";
+import { AssignmentStatus } from "@/app/generated/prisma";
 
 
 export async function updateAssignment(plantNumber: string, status: AssignmentStatus) {

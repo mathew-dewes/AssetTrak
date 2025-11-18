@@ -1,6 +1,7 @@
 "use client"
 
-import { BusinessUnit } from "@/app/generated/prisma/enums";
+
+import { BusinessUnit } from "@/app/generated/prisma";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

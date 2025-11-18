@@ -9,7 +9,8 @@ import z from "zod";
 import { statusChangerSchema } from "@/lib/validation";
 import { APIError } from "better-auth/api";
 import { updateAssignment } from "./assignment";
-import { Status } from "@/app/generated/prisma/enums";
+import { Status } from "@/app/generated/prisma";
+
 
 
 export async function checkoutAsset(plantNumber: string){

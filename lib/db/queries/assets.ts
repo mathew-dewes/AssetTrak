@@ -1,8 +1,9 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { AssetType, Category, Status } from "@/app/generated/prisma/enums";
+
 import { getUserId } from "@/lib/auth/autheniticate";
+import { AssetType, Category, Status } from "@/app/generated/prisma";
 
 export async function getAssets(status: Status | null, category: Category | null, query: string | null, user: string |  null, type: AssetType | null, page: number){
         const pageSize = 6

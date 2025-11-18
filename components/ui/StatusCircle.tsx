@@ -1,4 +1,5 @@
-import { Status } from "@/app/generated/prisma/enums";
+import { Status } from "@/app/generated/prisma";
+
 
 export default function StatusCircle({
     status} : {status: Status}){

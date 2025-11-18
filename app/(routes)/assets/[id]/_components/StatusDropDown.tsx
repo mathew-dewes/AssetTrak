@@ -1,6 +1,7 @@
 "use client"
 
-import { Status } from "@/app/generated/prisma/enums"
+
+import { Status } from "@/app/generated/prisma";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { changeAssetStatus } from "@/lib/db/mutations/asset";

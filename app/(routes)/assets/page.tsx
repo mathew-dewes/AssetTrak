@@ -4,7 +4,8 @@ import AssetFilters from "./_components/AssetFilters";
 import SearchBar from "./_components/SearchBar";
 import { Suspense } from "react";
 import AssetsLoadingSkeleton from "./_components/AssetsLoadingSkeleton";
-import { AssetType, Category, Status } from "@/app/generated/prisma/enums";
+import { AssetType, Category, Status } from "@/app/generated/prisma";
+
 
 
 export default async function page({ searchParams }:

@@ -1,6 +1,7 @@
 "use client"
 
-import { Status } from "@/app/generated/prisma/enums"
+
+import { Status } from "@/app/generated/prisma";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { markAllAvaiable } from "@/lib/db/mutations/asset";
 import { useState } from "react";

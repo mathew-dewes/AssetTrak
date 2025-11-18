@@ -1,4 +1,5 @@
-import { AssetType } from "@/app/generated/prisma/enums";
+
+import { AssetType } from "@/app/generated/prisma";
 import ButtonSmall from "@/components/ui/ButtonSmall";
 import { formatCasing } from "@/lib/helper";
 import Link from "next/link";

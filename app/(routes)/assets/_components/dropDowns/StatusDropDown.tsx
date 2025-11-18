@@ -1,6 +1,7 @@
 "use client"
 
-import { Status } from "@/app/generated/prisma/enums";
+
+import { Status } from "@/app/generated/prisma";
 import { formatCasing } from "@/lib/helper";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
