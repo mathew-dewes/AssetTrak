@@ -35,7 +35,7 @@ export default async function page({searchParams}:
         <div>
 <div className="mt-20 max-w-200 mx-auto text-center">
 
-        <h1 className="text-2xl font-bold">Welcome to Asset Trak</h1>
+        <h1 className="text-2xl font-bold">AssetTrak</h1>
         <p className="text-sm mt-1">Track, manage, and maintain your assets with confidence</p>
       </div>
               {plantNumber && <AssetDetails plantNumber={plantNumber}/>}

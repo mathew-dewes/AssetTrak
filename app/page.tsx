@@ -40,13 +40,11 @@ export default async function page() {
 
 <div className="flex flex-col xl:flex-row gap-5 md:mt-10">
         <div className="mt-5 w-full">
-          <p className="font-semibold">Recent Assignments:</p>
           <Suspense fallback={<LoadingRecentAssignments />}>
             <HomeAssignmentTable />
           </Suspense>
         </div>
         <div className="mt-5 w-full">
-          <p className="font-semibold">Recent Comments:</p>
           <Suspense fallback={<LoadingRecentComments />}>
             <HomeCommentsTable />
           </Suspense>

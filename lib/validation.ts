@@ -11,12 +11,17 @@ export const registerUserSchema = z.object({
     email: z.email(),
     businessUnit: z.enum(businessUnits, "Business unit must be a valid"),
     password: z.string().min(6, "Password must be 6 or more characters"),
+    confirmPassword: z.string().min(6, "Please repeat your password")
+  }).refine((data) => data.password === data.confirmPassword, 
+{
+  message: "Passwords do not match",
+  path:["confirmPassword"]
 
-});
+})
 
 export const loginUserSchema = z.object({
     email: z.email(),
-    password: z.string().min(2, "Password must be 8 or more characters"),
+    password: z.string().min(2, "Password must be 6 or more characters"),
 
 });
 

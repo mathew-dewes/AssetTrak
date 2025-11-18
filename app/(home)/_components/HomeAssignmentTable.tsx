@@ -12,11 +12,12 @@ export default async function HomeAssignmentTable() {
         getRecentAssignments(), prisma.assignment.count()
     ])
 
-    if (!assignments) return
+    if (!assignments || assignmentCount === 0) return
 
 
     return (
         <div className="w-full">
+                    <p className="font-semibold">Recent Assignments:</p>
             <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border mt-3 flex flex-col gap-5 md:hidden">
                 {assignments.map((assignment)=>{
                     return <div key={assignment.id} className="bg-white border rounded border-gray-200 shadow-lg p-3 text-sm">
@@ -33,7 +34,9 @@ export default async function HomeAssignmentTable() {
                    
                     <div className="flex mt-3 items-center gap-1.5">
                        <StatusCircle status={assignment.asset!.status!}/>
-                    <p><span className="font-semibold uppercase">{assignment.asset?.make} {assignment.asset?.model}</span> - {assignment.asset?.plantNumber}</p>
+                       <Link href={'/assets/' + assignment.asset?.plantNumber}>
+                       <p><span className="font-semibold uppercase">{assignment.asset?.make} {assignment.asset?.model}</span> - {assignment.asset?.plantNumber}</p></Link>
+               
                     </div>
 
                
@@ -71,7 +74,11 @@ export default async function HomeAssignmentTable() {
                                        
                                         </div>
                                 </td>
-                                    <td className="px-6 py-4 h-20 text-sm text-dark-500"><span className="font-semibold uppercase">{assignment.asset?.make} {assignment.asset?.model}</span> - {assignment.asset?.plantNumber}</td>
+                                    <td className="px-6 py-4 h-20 text-sm text-dark-500">
+                                        <Link href={'/assets/' + assignment.asset?.plantNumber}>
+                                        <p className="hover:text-violet-500"><span className="font-semibold uppercase">{assignment.asset?.make} {assignment.asset?.model}</span> - {assignment.asset?.plantNumber}</p>
+                                   </Link>
+                                     </td>
                         
 
                                     <td className="px-6 py-4 text-sm text-dark-500 uppercase">{assignment.status}</td>

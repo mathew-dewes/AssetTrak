@@ -2,6 +2,7 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 import MarkAllAvaiableButton from "../MarkAllAvaiableButton";
 import { getAssetOverviewByStatus } from "@/lib/db/queries/assets";
+import { formatCasing } from "@/lib/helper";
 
 export default async function Maintenance({assetCount}:
   {assetCount: number}
@@ -29,7 +30,7 @@ export default async function Maintenance({assetCount}:
             {assets.map((asset)=>{
               return (
                  <div key={asset.id} className="bg-white border rounded border-gray-200 shadow-lg p-2" >
-            <p><b>{asset.plantNumber}</b> - {asset.make} - {asset.model} ({asset.assetType})</p>
+            <p><b>{asset.plantNumber}</b> - {asset.make} - {asset.model} ({formatCasing(asset.assetType)})</p>
           </div>
               )
             })}

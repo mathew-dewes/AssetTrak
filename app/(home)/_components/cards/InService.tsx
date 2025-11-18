@@ -31,7 +31,7 @@ export default async function InService({ assetCount }:
               {assets.map((asset) => {
                 return (
                   <div key={asset.id} className="bg-white border rounded border-gray-200 shadow-lg p-3" >
-                    <p><b>{asset.plantNumber}</b> - {asset.make} - {asset.model} ({formatCasing(asset.assetType)})</p>
+                    <p className="uppercase"><b>{asset.plantNumber}</b> - {asset.make} - {asset.model} ({formatCasing(asset.assetType)})</p>
                     {asset.assignee &&
                       <div className="flex items-center gap-1 mt-1">
                         <p>Assignee:</p>

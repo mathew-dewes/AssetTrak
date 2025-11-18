@@ -11,9 +11,9 @@ export default function Features(){
     return (
            <div className="mt-20">
        <h2 className="text-center">Features</h2>
-      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 mt-5">
+      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5  md:gap-10 2xl:gap-25 mt-5">
 
-             <div className="bg-white border rounded border-gray-200 shadow-lg p-5 text-sm  m-auto mt-2 flex flex-col gap-2 items-center w-full h-full">
+             <div className="bg-white border rounded border-gray-200 shadow-lg px-5 py-8 text-sm  m-auto mt-2 flex flex-col gap-2 items-center w-full h-full">
               <div className="flex items-center gap-1.5">
                 <NotebookPen/>
          <p className="font-bold">Asset Tracking</p>
@@ -24,7 +24,7 @@ export default function Features(){
              
 
             </div>
-             <div className="bg-white border rounded border-gray-200 shadow-lg p-5 text-sm  m-auto mt-2 flex flex-col gap-2 items-center w-full h-full">
+             <div className="bg-white border rounded border-gray-200 shadow-lg px-5 py-8 text-sm  m-auto mt-2 flex flex-col gap-2 items-center w-full h-full">
               <div className="flex items-center gap-1.5">
                 <Lock/>
      <p className="font-bold mt-1">Authenitication</p>
@@ -36,7 +36,7 @@ export default function Features(){
              
 
             </div>
-             <div className="bg-white border rounded border-gray-200 shadow-lg p-5 text-sm  m-auto mt-2 flex flex-col gap-2 items-center w-full h-full">
+             <div className="bg-white border rounded border-gray-200 shadow-lg px-5 py-8 text-sm  m-auto mt-2 flex flex-col gap-2 items-center w-full h-full">
               <div className="flex items-center gap-1.5">
                 <MessageCircleMore/>
             <p className="font-bold">Business interaction</p>
@@ -52,16 +52,28 @@ export default function Features(){
         
       </div>
 
-      <div className="md:mt-25 mt-15">
-        <h1 className="text-center md:text-left">Inspiration</h1>
+      <div className="md:mt-25 mt-20">
+
        <div className="m-auto mt-5 flex flex-col md:flex-row gap-5 md:gap-20 justify-between">
-        <div className="max-w-150 h-fit sm:min-w-[300px] aspect-square relative">
+        <div>
+      <div className="max-w-150 h-fit sm:min-w-[300px] aspect-square relative">
     <Image className="rounded shadow-2xl" src={'/beach.JPG'}  fill alt="Hello"/>
         </div>
+          <div className="mt-3">
+            <div className="flex items-center gap-2 justify-center md:justify-start">
+                <Github/>
+                 <a target="_blank" className="text-sm text-violet-500 font-semibold" href="https://github.com/mathew-dewes/AssetTrak">github.com/mathew-dewes/AssetTrak</a>
+            </div>
+
+          </div>
+        </div>
+  
+        
    
        <div>
        <div>
-    <p>Through working for a mobile company as an equipment specialist, I was responsible for managing asset tracking for the wider business. With my passion for web development, I wanted to develop an app that could assist and solve the many issues I faced on a daily basis. These issues included, manually having to write what asset a staff member needed and double checking the inventory to ensure the asset they requested was available. The app I have developed solves these issues by:</p>
+    <h1 className="text-center md:text-left">Inspiration</h1>
+    <p className="mt-1">Through working for a mobile company as an equipment specialist, I was responsible for managing asset tracking for the wider business. With my passion for web development, I wanted to develop an app that could assist and solve the many issues I faced on a daily basis. These issues included, manually having to write what asset a staff member needed and double checking the inventory to ensure the asset they requested was available. The app I have developed solves these issues by:</p>
           <ul className="flex flex-col gap-2 mt-5 w-fit">
             <li className="border bg-white rounded border-gray-200 shadow-lg p-5 text-sm flex items-center gap-2">
               <div className="h-2 aspect-square bg-gray-800 rounded-full self-start mt-1.5"/>
@@ -78,13 +90,7 @@ export default function Features(){
           </ul>
        </div>
       
-          <div className="mt-10">
-            <div className="flex items-center gap-2">
-                <Github/>
-                 <a target="_blank" className="text-sm text-violet-500 font-semibold" href="https://github.com/mathew-dewes/AssetTrak">github.com/mathew-dewes/AssetTrak</a>
-            </div>
-
-          </div>
+      
        </div>
    
         </div>

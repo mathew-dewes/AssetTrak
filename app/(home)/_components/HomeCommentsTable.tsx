@@ -8,16 +8,17 @@ import Link from "next/link";
 export default async function HomeCommentsTable(){
 
     const [comments, commentCount] = await Promise.all([
-        getRecentComments(), prisma.assignment.count()])
+        getRecentComments(), prisma.comment.count()])
 
 
 
-    if (!comments) return
+    if (commentCount === 0) return
 
     
     return (
     
         <div className="w-full">
+                    <p className="font-semibold">Recent Comments:</p>
                   <div className="p-5 rounded bg-gray-100 border-gray-200 shadow-xl border mt-3 flex flex-col gap-5 md:hidden">
                                  {/* Mobile */}
                             {comments.map((comment)=>{
@@ -27,7 +28,8 @@ export default async function HomeCommentsTable(){
 
                                     <div className="flex items-center mt-2 gap-1.5">
                                       <StatusCircle status={comment.asset.status}/>
-    <p><b>{comment.asset.make} {comment.asset.model}</b> - {comment.asset.plantNumber}</p>
+                                      <Link href={'/assets/' + comment.asset.plantNumber}><p><b>{comment.asset.make} {comment.asset.model}</b> - {comment.asset.plantNumber}</p></Link>
+
                                     </div>
                             
                         
@@ -63,7 +65,11 @@ export default async function HomeCommentsTable(){
                                 return (
                     <tr key={comment.id} className="hover:bg-gray-50">
                                           <td className="px-6 py-4 h-20 text-sm text-dark-500 font-medium">{comment.createdAt.toLocaleDateString("en-NZ")}</td>
-                                          <td className="px-6 py-4 h-20 text-sm text-dark-500 font-medium">{comment.asset.plantNumber}</td>
+                                          <td className="px-6 py-4 h-20 text-sm text-dark-500 font-medium">
+                                            <Link href={'/assets/' + comment.asset.plantNumber}>
+                                            <p className="hover:font-semibold hover:text-violet-500">{comment.asset.plantNumber}</p>
+                                     </Link>
+                                        </td>
               
                                           <td className="px-6 py-4 text-sm text-dark-500">
                                            <Avatar name={comment.user.name} />

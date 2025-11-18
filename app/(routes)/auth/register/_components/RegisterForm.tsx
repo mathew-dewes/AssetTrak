@@ -95,16 +95,16 @@ return <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto mt-10
     <input {...register("password")}
     type="password" 
     placeholder="6 or characters required"
-    className={`input-base ${errors.firstName ? "input-error" : "input-normal"}`}  />
+    className={`input-base ${errors.password ? "input-error" : "input-normal"}`}  />
           {errors.password && <ErrorMessage message={errors.password.message}/>}
   </div>
   <div className="mb-5">
     <label className="block mb-2 text-sm font-medium text-gray-900 ">Repeat password</label>
-    <input {...register("password")}  
+    <input {...register("confirmPassword")}  
     type="password"
     placeholder="Password must match"
-    className={`input-base ${errors.firstName ? "input-error" : "input-normal"}`}/>
-        {errors.password && <ErrorMessage message={errors.password.message}/>}
+    className={`input-base ${errors.confirmPassword ? "input-error" : "input-normal"}`}/>
+        {errors.confirmPassword && <ErrorMessage message={errors.confirmPassword.message}/>}
   </div>
 
     <p id="helper-text-explanation" className="my-2 text-sm text-gray-500 dark:text-gray-400">Already have have an account? Click on &quot;return to login&quot; to navigate back to the login page</p>

@@ -22,7 +22,7 @@ export default function NavbarClient({session}: {
       async function handleSignOut() {
           await logoutOutUser();
           closeMenu()
-          router.push("/auth/login")
+          router.push("/auth")
   
    
         }
@@ -30,10 +30,10 @@ export default function NavbarClient({session}: {
               <nav className="h-20 bg-primary-500 text-light-500 flex items-center px-10 justify-between">
                 <Link href={'/'}><h1 className={`font-medium text-xl ${montserrat.className}`}>Asset<span className="font-bold">Trak</span></h1></Link>
                 <ul style={{display: session ? "" : "none"}} id="primary-navigation" className="gap-10 text-gray-200 mr-30 hidden md:flex z-1000">
-                    <Link className={`hover:scale-105 hover:text-light-500 hover:font-semibold transition-all duration-200 ease-in ${path === "/" ? "font-semibold text-light-500 scale-105" : ""}`} href={'/'}>Home</Link>
-                    <Link className={`hover:scale-105 hover:text-light-500 hover:font-semibold transition-all duration-400 ease-in  ${path.startsWith("/assets") ? "font-semibold text-light-500 scale-105" : ""}`} href={'/assets'}>Assets</Link>
-                    <Link className={`hover:scale-105 hover:text-light-500 hover:font-semibold transition-all duration-400 ease-in ${path.startsWith("/profile") ? "font-semibold text-light-500 scale-105" : ""}`} href={'/profile'}>Profile</Link>
-                    <button className="hover:scale-105 hover:text-light-500 hover:font-semibold transition-all duration-400 ease-in cursor-pointer" onClick={handleSignOut}>Logout</button>
+                    <Link className={`hover:text-light-500 hover:font-medium ${path === "/" ? "font-semibold text-light-500" : ""}`} href={'/'}>Home</Link>
+                    <Link className={` hover:text-light-500 hover:font-medium  ${path.startsWith("/assets") ? "font-semibold text-light-500" : ""}`} href={'/assets'}>Assets</Link>
+                    <Link className={` hover:text-light-500 hover:font-medium ${path.startsWith("/profile") ? "font-semibold text-light-500" : ""}`} href={'/profile'}>Profile</Link>
+                    <button className=" hover:text-light-500 hover:font-medium cursor-pointer" onClick={handleSignOut}>Logout</button>
 
                 </ul>
                 <button
