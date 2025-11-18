@@ -3,7 +3,6 @@
 import { getUserId } from "@/lib/auth/autheniticate";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { delay } from "../utils";
 import z from "zod";
 import { changeAssigneeSchema } from "@/lib/validation";
 import { APIError } from "better-auth/api";
@@ -26,7 +25,6 @@ export async function updateAssignment(plantNumber: string, status: AssignmentSt
 }
 
 export async function removeAssignment(plantNumber: string) {
-    await delay(500)
     const userId = await getUserId();
     if (!plantNumber) return;
 
@@ -62,7 +60,6 @@ export async function removeAssignment(plantNumber: string) {
 }
 
 export async function assignUser(values: z.infer<typeof changeAssigneeSchema>, plantNumber: string){
-    await delay(500)
 const validate = changeAssigneeSchema.safeParse(values);
 
  if (!validate.success) {

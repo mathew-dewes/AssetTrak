@@ -1,7 +1,6 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { delay } from "../utils";
 import { getUserId } from "@/lib/auth/autheniticate";
 import { revalidatePath } from "next/cache";
 
@@ -14,7 +13,6 @@ import { Status } from "@/app/generated/prisma";
 
 
 export async function checkoutAsset(plantNumber: string){
-           await delay(500)
               const userId = await getUserId();
         if (!userId) return;
 
@@ -42,7 +40,6 @@ await updateAssignment(plantNumber ,"checkOut")
 }
 
 export async function checkinAsset(plantNumber: string){
-           await delay(500)
               const userId = await getUserId();
         if (!userId) return;
 
@@ -69,7 +66,6 @@ export async function checkinAsset(plantNumber: string){
 }
 
 export async function changeAssetStatus(values: z.infer<typeof statusChangerSchema>, plantNumber: string){
-    await delay(1000)
     const validate = statusChangerSchema.safeParse(values);
     if (!validate.success) {
         return {
