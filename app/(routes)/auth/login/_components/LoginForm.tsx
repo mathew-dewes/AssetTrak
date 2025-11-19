@@ -23,7 +23,12 @@ export default function LoginForm({plantNumber}:
 
 
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormFields>({ resolver: zodResolver(loginUserSchema) })
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormFields>({ resolver: zodResolver(loginUserSchema),
+    defaultValues:{
+      email:"assettrak@admin.com",
+      password:"123456"
+    }
+   })
   const router = useRouter();
   
   const registerLink = () =>{
